@@ -99,6 +99,7 @@
 			    <ClCompile>
 			      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -109,6 +110,7 @@
 			    <ClCompile>
 			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
@@ -119,6 +121,7 @@
 			    <ClCompile>
 			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			      <ExceptionHandling>Sync</ExceptionHandling>
 					</ClCompile>
 			    <Link>
 			      <AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
