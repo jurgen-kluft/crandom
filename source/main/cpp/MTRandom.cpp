@@ -1,6 +1,6 @@
 // xmtrandom.cpp - Mersenne Twister random number generator
 #include "xbase\x_target.h"
-#include "xrandom\xmtrandom.h"
+#include "xrandom\mtrandom.h"
 
 namespace xcore
 {
