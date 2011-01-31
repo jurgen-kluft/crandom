@@ -15,8 +15,8 @@ namespace xcore
 	@group		xrandom
 	@desc		Mersenne Twister random number generator
 	@note		The period is 2^19937-1, and 623-dimensional equi-distribution property is assured.
-	Note that this means, by default, that there is negligible serial correlation between 
-	successive values in the output sequence. 
+				Note that this means, by default, that there is negligible serial correlation between 
+				successive values in the output sequence. 
 	**/
 	class xmtrandom
 	{
@@ -29,32 +29,34 @@ namespace xcore
 			LMASK		= 0x7fffffff												// Least significant r bits
 		};
 
-		static inline u32	MixBits(u32 u, u32 v)									{ return (u & UMASK) | (v & LMASK); }
-		static inline u32	Twist(u32 u, u32 v)										{ return (MixBits(u,v) >> 1) ^ ((v&1) ? MATRIX_A : 0); }
+		inline u32			MixBits(u32 u, u32 v)									{ return (u & UMASK) | (v & LMASK); }
+		inline u32			Twist(u32 u, u32 v)										{ return (MixBits(u,v) >> 1) ^ ((v&1) ? MATRIX_A : 0); }
 
-		static inline f32	ToFloat(u32 inUInt)										{ u32 fakeFloat = (inUInt>>(32-23)) | 0x3f800000; return ((*(f32 *)&fakeFloat)-1.0f); }
+		inline f32			ToFloat(u32 inUInt)										{ u32 fakeFloat = (inUInt>>(32-23)) | 0x3f800000; return ((*(f32 *)&fakeFloat)-1.0f); }
 
 	public:
-		static void			Seed(u32 inSeed = 19650218);
-		static void			Seed(u32 const* inSeed, s32 inLength);
+							xmtrandom();
 
-		static void			Release();												///< Reset to initial state
+		void				Seed(u32 inSeed = 19650218);
+		void				Seed(u32 const* inSeed, s32 inLength);
 
-		static u32			Rand(s32 inBits = 32);
-		static s32			RandSign(s32 inBits = 31);
-		static f32			RandF()													{ return (ToFloat(Rand())); }		///< Return f32 in range [0.0 ... 1.0]
-		static f32			RandFSign()												{ return ((RandF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
-		static xbool		RandBool()												{ return (Rand(1)==0); }			///< Return true or false
+		void				Release();												///< Reset to initial state
+
+		u32					Rand(s32 inBits = 32);
+		s32					RandSign(s32 inBits = 31);
+		f32					RandF()													{ return (ToFloat(Rand())); }		///< Return f32 in range [0.0 ... 1.0]
+		f32					RandFSign()												{ return ((RandF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
+		xbool				RandBool()												{ return (Rand(1)==0); }			///< Return true or false
 
 	private:
-		static u32			Twiddle(u32, u32);
-		static void			GenerateNewState();
+		u32					Twiddle(u32, u32);
+		void				GenerateNewState();
 
 
-		static u32*			sState;
-		static u32*			sNextState;
-		static s32			sLeft;
-		static xbool		sInitialized;
+		u32*				mState;
+		u32*				mNextState;
+		s32					mLeft;
+		xbool				mInitialized;
 	};
 
 

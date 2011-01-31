@@ -1,10 +1,26 @@
 // Random.cpp - Core Random number generators implementation - 
 #include "xbase\x_target.h"
 #include "xbase\x_memory_std.h"
+#include "xbase\x_allocator.h"
+
 #include "xrandom\Random.h"
 
 namespace xcore
 {
+	namespace xrandom_allocation
+	{
+		x_iallocator*	gAllocator = NULL;
+	}
+
+	void			xrandom_set_heap_allocator(x_iallocator* allocator)
+	{
+		xrandom_allocation::gAllocator = allocator;
+	}
+	x_iallocator*	xrandom_get_heap_allocator()
+	{
+		return xrandom_allocation::gAllocator;
+	}
+
 
 	//---------------------------------------------------------------------------------------------------------------------
 	//	Global random functions
@@ -55,8 +71,12 @@ namespace xcore
 	//
 	xrnd&	xrnd::operator=(const xrnd& inRHS)
 	{
+		if (this == &inRHS)
+			return *this;
+
 		x_memcopy(mArray, inRHS.mArray, sizeof(mArray));
-		mIndex = inRHS.mIndex; return *this;
+		mIndex = inRHS.mIndex; 
+		return *this;
 	}
 
 }

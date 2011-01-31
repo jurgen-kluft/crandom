@@ -1,5 +1,9 @@
 // xnoise.cpp - Perlin Noise implementation - 
 #include "xbase\x_target.h"
+#include "xbase\x_types.h"
+#include "xbase\x_allocator.h"
+
+#include "xrandom\xrandom.h"
 #include "xrandom\random.h"
 #include "xrandom\perlin.h"
 
@@ -8,7 +12,6 @@ namespace xcore
 	//---------------------------------------------------------------------------------------------------------------------
 	//	Perlin noise
 	//---------------------------------------------------------------------------------------------------------------------
-
 
 	//
 	// Dimensions of Perlin noise
@@ -31,7 +34,7 @@ namespace xcore
 	struct PerlinNoiseTables
 	{
 		///@name Construction/Destruction
-		PerlinNoiseTables();
+		void				init();
 
 		s32					mRefCount;												///< Reference count
 		s32					mP[B + B + 2];											///< Permutations
@@ -46,9 +49,10 @@ namespace xcore
 	//
 	// Initialize perlin noise
 	//
-	PerlinNoiseTables::PerlinNoiseTables()
-		: mRefCount(0)
+	void PerlinNoiseTables::init()
 	{
+		mRefCount = 0;
+
 		xrnd rnd;
 
 		s32 i;
@@ -96,7 +100,10 @@ namespace xcore
 	{
 		// Make sure we have perlin noise tables
 		if (sPT == NULL)
-			sPT = new PerlinNoiseTables;
+		{
+			sPT = (PerlinNoiseTables*)xrandom_get_heap_allocator()->allocate(sizeof(PerlinNoiseTables), X_ALIGNMENT_DEFAULT);
+			sPT->init();
+		}
 
 		sPT->mRefCount++;
 	}
@@ -114,7 +121,7 @@ namespace xcore
 		sPT->mRefCount--;
 		if (sPT->mRefCount == 0)
 		{
-			delete sPT;
+			xrandom_get_heap_allocator()->deallocate(sPT);
 			sPT = NULL;
 		}
 	}
