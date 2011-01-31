@@ -1,149 +1,380 @@
 <Package Name="xrandom" Group="com.virtuos.tnt">
-  <Versions>
-    <Version>1.0.0</Version>
-  </Versions>
+	<Versions>
+		<Version>1.0.0</Version>
+	</Versions>
 
-  <DirectoryStructure>
-    <Item Folder="docs\manuals"/>
-    <Item Folder="docs\references"/>
-    <Item Folder="source\main\cpp"/>
-    <Item Folder="source\main\include\xrandom"/>
-    <Item Folder="source\main\include\xrandom\private"/>
-    <Item Folder="source\main\resources"/>
-    <Item Folder="source\test\cpp"/>
-    <Item Folder="source\test\include\xrandom"/>
-    <Item Folder="source\test\include\xrandom\private"/>
-    <Item Folder="source\test\resources"/>
-    <Item Folder="target"/>
-    <Item Folder="tools"/>
-  </DirectoryStructure>
-  
-  <Content>
-		<Item Src="pom.*" Dst="" />  
-    <Item Src="source\main\cpp\**\*.cpp" Dst="source\main\cpp\" />
-    <Item Src="source\main\include\**\*.h" Dst="source\main\include\" />
-    <Item Src="source\main\resources\**\*.*" Dst="source\main\resources\" />
-    <Item Src="libs\**\*.*" Dst="libs\" />
-    <Item Src="docs\**\*.*" Dst="docs\" />
-    <Item Src="tools\**\*.*" Dst="Tools\" />
-    <Item Src="target\xrandom\outdir\xrandom_*\xrandom_*_${Platform}.lib" Dst="libs\" />
-  </Content>
-  
-  <Dependency Package="xbase">
-    <Group>com.virtuos.tnt</Group>
-    <Version>[1.0,)</Version>
-    <Type>Package</Type>
-  </Dependency>
+	<Variables>
+		<Name>xrandom</Name>
+		<Language>C++</Language>
+		<GUID_Main>d6a58802-85d7-48ff-8cc8-4a3d583cfd85</GUID_Main>
+		<GUID_UnitTest>3aafd024-82fc-4506-9b6e-07d769d550a6</GUID_UnitTest>
+	</Variables>
 
-  <Project Name="xrandom" Group="Main" Language="C++" Location="source\main\cpp" Scope="Public">
-    <ProjectFile>
+	<DirectoryStructure>
+		<Item Folder="docs\manuals"/>
+		<Item Folder="docs\references"/>
+		<Item Folder="source\main\cpp"/>
+		<Item Folder="source\main\include\xrandom"/>
+		<Item Folder="source\main\include\xrandom\private"/>
+		<Item Folder="source\main\resources"/>
+		<Item Folder="source\test\cpp"/>
+		<Item Folder="source\test\include\xrandom"/>
+		<Item Folder="source\test\include\xrandom\private"/>
+		<Item Folder="source\test\resources"/>
+		<Item Folder="target"/>
+		<Item Folder="tools"/>
+	</DirectoryStructure>
+
+	<Content>
+		<Item Src="pom.xml" Dst="" Required="True" />
+		<Item Src="pom.props" Dst="" Required="True" />
+		<Item Src="pom.targets" Dst="" Required="True" />
+		<Item Src="source\main\cpp\**\*.cpp" Dst="source\main\cpp\" />
+		<Item Src="source\main\include\**\*.h" Dst="source\main\include\" />
+		<Item Src="source\main\resources\**\*.*" Dst="source\main\resources\" />
+		<Item Src="libs\**\*.*" Dst="libs\" />
+		<Item Src="docs\**\*.*" Dst="docs\" />
+		<Item Src="tools\**\*.*" Dst="Tools\" />
+		<Item Src="target\${Name}\outdir\${Name}_DevDebug_${Platform}\${Name}_DevDebug_${Platform}.lib" Dst="libs\" Required="True"/>
+		<Item Src="target\${Name}\outdir\${Name}_DevRelease_${Platform}\${Name}_DevRelease_${Platform}.lib" Dst="libs\" Required="True"/>
+		<Item Src="target\${Name}\outdir\${Name}_DevFinal_${Platform}\${Name}_DevFinal_${Platform}.lib" Dst="libs\" Required="True"/>
+		<Item Src="target\${Name}\outdir\${Name}_TestDebug_${Platform}\${Name}_TestDebug_${Platform}.lib" Dst="libs\" Required="True"/>
+		<Item Src="target\${Name}\outdir\${Name}_TestRelease_${Platform}\${Name}_TestRelease_${Platform}.lib" Dst="libs\" Required="True"/>
+	</Content>
+
+	<Dependency Package="xbase">
+		<Group>com.virtuos.tnt</Group>
+		<Version>[1.0,)</Version>
+		<Type>Package</Type>
+	</Dependency>
+
+	<Dependency Package="xunittest">
+		<Group>com.virtuos.tnt</Group>
+		<Version>[1.0,)</Version>
+		<Type>Package</Type>
+	</Dependency>
+
+	<Project Name="xrandom" Language="C++" Location="source\main\cpp" Scope="Public" DependsOn="xbase:xbase">
+		<ProjectFile>
 			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-			  <PropertyGroup Label="Globals">
-			    <ProjectGuid>{d6a58802-85d7-48ff-8cc8-4a3d583cfd85}</ProjectGuid>
-			  </PropertyGroup>
-			  <ImportGroup Label="TargetDirs">
-		  	  <Import Project="$(SolutionDir)target\xrandom\xrandom.$(Platform).props" Condition="exists('$(SolutionDir)target\xrandom\xrandom.$(Platform).props')" Label="xrandom_TargetDir" />
-			  </ImportGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<PropertyGroup Label="Globals">
+					<ProjectGuid>{${GUID_Main}}</ProjectGuid>
+				</PropertyGroup>
+				<ImportGroup Label="TargetDirs">
+					<Import Project="$(SolutionDir)target\xrandom\xrandom.$(Platform).props" Condition="exists('$(SolutionDir)target\xrandom\xrandom.$(Platform).props')" Label="xrandom_TargetDir" />
+				</ImportGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
-			      <AdditionalDependencies>#xrandom_DevDebug_Win32.lib</AdditionalDependencies>
-			    </Link>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevDebug_Win32.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
-			      <AdditionalDependencies>#xrandom_DevRelease_Win32.lib</AdditionalDependencies>
-			    </Link>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevRelease_Win32.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
-			      <AdditionalDependencies>#xrandom_DevFinal_Win32.lib</AdditionalDependencies>
-			    </Link>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevFinal_Win32.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
-			      <AdditionalDependencies>#xrandom_TestDebug_Win32.lib</AdditionalDependencies>
-			    </Link>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestDebug_Win32.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
-			      <AdditionalDependencies>#xrandom_TestRelease_Win32.lib</AdditionalDependencies>
-			    </Link>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestRelease_Win32.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemGroup>
-			    <ClCompile Include="source\main\cpp\**\*.cpp" />
-			  </ItemGroup>
-			  <ItemGroup>
-			    <ClInclude Include="source\main\include\xrandom\**\*.h" />
-			  </ItemGroup>
-			</Project>				
-    </ProjectFile>
-  </Project>
-  <Project Name="xrandom_test" Group="UnitTest" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xrandom">
-    <ProjectFile>
-			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-			  <PropertyGroup Label="Globals">
-			    <ProjectGuid>{3aafd024-82fc-4506-9b6e-07d769d550a6}</ProjectGuid>
-			  </PropertyGroup>
-			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'" Label="Configuration">
-			    <ConfigurationType>Application</ConfigurationType>
-			  </PropertyGroup>
-			  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'" Label="Configuration">
-			    <ConfigurationType>Application</ConfigurationType>
-			  </PropertyGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
-			    </Link>					
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevDebug_PS3.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
-			    <ClCompile>
-			      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			      <AdditionalIncludeDirectories>$(SolutionDir)source\test\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 					</ClCompile>
-			    <Link>
-			      <AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
-			      <AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
-			    </Link>					
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevRelease_PS3.lib</AdditionalDependencies>
+					</Link>
 				</ItemDefinitionGroup>
-			  <ItemGroup>
-			    <ClCompile Include="source\test\cpp\**\*.cpp" />
-			  </ItemGroup>
-			  <ItemGroup>
-			    <ClInclude Include="source\test\include\**\*.h" />
-			  </ItemGroup>				
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevFinal_PS3.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestDebug_PS3.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestRelease_PS3.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevDebug_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevRelease_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevFinal_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestDebug_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestRelease_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevDebug|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevDebug_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevRelease|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevRelease_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DevFinal|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_DevFinal_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestDebug_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>#$(xrandom_TargetDir)source\main\include;@$(SolutionDir)source\main\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>#$(xrandom_TargetDir)libs</AdditionalLibraryDirectories>
+						<AdditionalDependencies>#xrandom_TestRelease_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>								
+				<ItemGroup>
+					<ClCompile Include="source\main\cpp\**\*.cpp" />
+				</ItemGroup>
+				<ItemGroup>
+					<ClInclude Include="source\main\include\xrandom\**\*.h" />
+				</ItemGroup>
 			</Project>
-    </ProjectFile>
-  </Project>
+		</ProjectFile>
+	</Project>
+	<Project Name="xrandom_test" Language="C++" Location="source\test\cpp" Scope="Private" DependsOn="xrandom:xrandom;xunittest:xunittest">
+		<ProjectFile>
+			<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+				<PropertyGroup Label="Globals">
+					<ProjectGuid>{${GUID_UnitTest}</ProjectGuid>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+				    <TargetExt>.self</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+				    <TargetExt>.self</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'" Label="Configuration">
+					<ConfigurationType>Application</ConfigurationType>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
+				<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
+				    <TargetExt>.elf</TargetExt>
+				</PropertyGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_$(Platform).lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_PS3.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_PS3.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_Xbox 360.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
+					<ClCompile>
+						<AdditionalIncludeDirectories>$(SolutionDir)source\test\include</AdditionalIncludeDirectories>
+					</ClCompile>
+					<Link>
+						<AdditionalLibraryDirectories>$(SolutionDir)target\xrandom\outdir\xrandom_$(Configuration)_$(Platform)\</AdditionalLibraryDirectories>
+						<AdditionalDependencies>xrandom_$(Configuration)_WII.lib</AdditionalDependencies>
+					</Link>
+				</ItemDefinitionGroup>					
+				<ItemGroup>
+					<ClCompile Include="source\test\cpp\**\*.cpp" />
+				</ItemGroup>
+				<ItemGroup>
+					<ClInclude Include="source\test\include\**\*.h" />
+				</ItemGroup>
+			</Project>
+		</ProjectFile>
+	</Project>
 </Package>
 
 
