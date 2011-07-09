@@ -59,20 +59,20 @@ namespace xcore
 		for (i=0; i<B; i++) 
 		{
 			mP[i]		= i;
-			mG1[i]		= rnd.RandFSign();
-			mG2[i][0]	= rnd.RandF();
-			mG2[i][1]	= rnd.RandF();
-			mG3[i][0]	= rnd.RandF();
-			mG3[i][1]	= rnd.RandF();
-			mG3[i][2]	= rnd.RandF();
+			mG1[i]		= rnd.randFSign();
+			mG2[i][0]	= rnd.randF();
+			mG2[i][1]	= rnd.randF();
+			mG3[i][0]	= rnd.randF();
+			mG3[i][1]	= rnd.randF();
+			mG3[i][2]	= rnd.randF();
 		}
 
 		// Reorder permutations
 		while (--i)
 		{
 			s32 t = mP[i];
-			mP[i] = mP[rnd.Rand(B_BITS)];
-			mP[rnd.Rand(B_BITS)] = t;
+			mP[i] = mP[rnd.rand(B_BITS)];
+			mP[rnd.rand(B_BITS)] = t;
 		}
 
 		for (i=0; i<B+2; i++) 

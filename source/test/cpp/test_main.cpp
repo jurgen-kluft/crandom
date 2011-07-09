@@ -9,6 +9,7 @@
 using namespace xcore;
 
 UNITTEST_SUITE_LIST(xRandomUnitTest);
+UNITTEST_SUITE_DECLARE(xRandomUnitTest, perlin);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, xmtrandom);
 
@@ -31,19 +32,13 @@ namespace xcore
 			return "xrandom unittest test heap allocator";
 		}
 
-		void*		allocate(s32 size, s32 alignment)
+		void*		allocate(u32 size, u32 alignment)
 		{
 			++mNumAllocations;
 			return mAllocator->allocate(size, alignment);
 		}
 
-		void*		callocate(s32 n_elems, s32 elem_size)
-		{
-			++mNumAllocations;
-			return mAllocator->callocate(n_elems, elem_size);
-		}
-
-		void*		reallocate(void* mem, s32 size, s32 alignment)
+		void*		reallocate(void* mem, u32 size, u32 alignment)
 		{
 			return mAllocator->reallocate(mem, size, alignment);
 		}

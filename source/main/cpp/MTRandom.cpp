@@ -17,7 +17,7 @@ namespace xcore
 
 	}
 
-	void		xmtrandom::Seed(u32 inSeed)
+	void		xmtrandom::seed(u32 inSeed)
 	{
 		if (mState==NULL)
 			mState = (u32*)xrandom_get_heap_allocator()->allocate(xmtrandom::N * sizeof(u32), X_ALIGNMENT_DEFAULT);
@@ -34,9 +34,9 @@ namespace xcore
 
 
 
-	void	xmtrandom::Seed(u32 const* inSeedArray, s32 inLength)
+	void	xmtrandom::seed(u32 const* inSeedArray, s32 inLength)
 	{
-		Seed();
+		seed();
 
 		s32 i=1;
 		s32 j=0;
@@ -76,11 +76,10 @@ namespace xcore
 		mInitialized = true;
 	}
 
-
 	/**
-	@brief	Resets the generator to it's initial state
+	@brief	Releases all memory and resets the generator to it's initial state
 	**/
-	void	xmtrandom::Release()
+	void	xmtrandom::release()
 	{
 		if (mState != NULL)
 		{
@@ -92,46 +91,57 @@ namespace xcore
 		mInitialized = false;
 	}
 
+	/**
+	@brief	Generates a random number on [0,0xffffffff]-interval
+	**/
+	u32	xmtrandom::rand(s32 inBits)
+	{
+		if (--mLeft == 0)
+			generateNewState();
+
+		u32 x = *mNextState++;
+		return (s32)(x>>(32-inBits));
+	}
+
 
 	/**
 	@brief	Generates a random number on [0,0x7fffffff]-interval
 	**/
-	u32	xmtrandom::Rand(s32 inBits)
+	s32		xmtrandom::randSign(s32 inBits)
 	{
 		if (--mLeft == 0)
-			GenerateNewState();
+			generateNewState();
 
 		u32 x = *mNextState++;
-		x ^= (x >> 11);
-		x ^= (x << 7) & (u32)0x9d2c5680;
-		x ^= (x << 15) & (u32)0xefc60000;
-		x ^= (x >> 18);
 		return (s32)(x>>(32-inBits));
 	}
-
 
 	/**
 	@brief	Generates a random number on [0,0xffffffff]-interval
 	**/
-	s32		xmtrandom::RandSign(s32 inBits)
+	u32	xmtrandom::rand()
 	{
 		if (--mLeft == 0)
-			GenerateNewState();
-
-		u32 x = *mNextState++;
-		x ^= (x >> 11);
-		x ^= (x << 7) & (u32)0x9D2C5680;
-		x ^= (x << 15) & (u32)0xEFC60000;
-		x ^= (x >> 18);
-		return (s32)(x>>(32-inBits));
+			generateNewState();
+		return *mNextState++;
 	}
 
 
-	void	xmtrandom::GenerateNewState()
+	/**
+	@brief	Generates a random number on [0,0x7fffffff]-interval
+	**/
+	s32		xmtrandom::randSign()
+	{
+		if (--mLeft == 0)
+			generateNewState();
+		return (s32)(*mNextState++ >> 1);
+	}
+
+	void	xmtrandom::generateNewState()
 	{
 		// If Seed() has not been called, a default initial seed is used
 		if (!mInitialized)
-			Seed();
+			seed();
 
 		mLeft = N;
 		mNextState = mState;
@@ -140,12 +150,12 @@ namespace xcore
 
 		s32 j;
 		for (j=N-M+1; --j; statePtr++) 
-			*statePtr = statePtr[M] ^ Twist(statePtr[0], statePtr[1]);
+			*statePtr = statePtr[M] ^ twist(statePtr[0], statePtr[1]);
 
 		for (j=M; --j; statePtr++) 
-			*statePtr = statePtr[M-N] ^ Twist(statePtr[0], statePtr[1]);
+			*statePtr = statePtr[M-N] ^ twist(statePtr[0], statePtr[1]);
 
-		*statePtr = statePtr[M-N] ^ Twist(statePtr[0], mState[0]);
+		*statePtr = statePtr[M-N] ^ twist(statePtr[0], mState[0]);
 	}
 
 }
