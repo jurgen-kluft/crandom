@@ -3,9 +3,9 @@
 #include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
 
-#include "xrandom\xrandom.h"
-#include "xrandom\random.h"
-#include "xrandom\perlin.h"
+#include "xrandom\x_random.h"
+#include "xrandom\x_perlin.h"
+#include "xrandom\private\x_random_good.h"
 
 namespace xcore
 {
@@ -36,14 +36,12 @@ namespace xcore
 		///@name Construction/Destruction
 		void				init();
 
-		s32					mRefCount;												///< Reference count
-		s32					mP[B + B + 2];											///< Permutations
-		f32					mG1[B + B + 2];											///< Gradiants
+		s32					mRefCount;						///< Reference count
+		s32					mP[B + B + 2];					///< Permutations
+		f32					mG1[B + B + 2];					///< Gradiants
 		f32					mG2[B + B + 2][2];
 		f32					mG3[B + B + 2][3];
 	};
-	PerlinNoiseTables*		sPT = NULL;
-
 
 
 	//
@@ -53,7 +51,7 @@ namespace xcore
 	{
 		mRefCount = 0;
 
-		xrnd rnd;
+		xrnd_good rnd;
 
 		s32 i;
 		for (i=0; i<B; i++) 
@@ -96,16 +94,15 @@ namespace xcore
 	coming into existence, the shared Perlin noise lookup tables are constructed.
 
 	**/
+	static PerlinNoiseTables sPT;
 	xnoise::xnoise()
 	{
 		// Make sure we have perlin noise tables
-		if (sPT == NULL)
+		if (sPT.mRefCount == 0)
 		{
-			sPT = (PerlinNoiseTables*)xrandom_get_heap_allocator()->allocate(sizeof(PerlinNoiseTables), X_ALIGNMENT_DEFAULT);
-			sPT->init();
+			sPT.init();
+			sPT.mRefCount++;
 		}
-
-		sPT->mRefCount++;
 	}
 
 
@@ -118,20 +115,14 @@ namespace xcore
 	**/
 	xnoise::~xnoise()
 	{
-		sPT->mRefCount--;
-		if (sPT->mRefCount == 0)
-		{
-			xrandom_get_heap_allocator()->deallocate(sPT);
-			sPT = NULL;
-		}
+		sPT.mRefCount--;
 	}
 
 
-
 	// Helpers
-#define SMOOTH_STEP(t) ( t * t * (3.0f - 2.0f * t) )
-#define INLINE_LERP(t, a, b) ( a + t * (b - a) )
-#define INLINE_SETUP(vec, b0, b1, r0, r1)\
+	#define SMOOTH_STEP(t) ( t * t * (3.0f - 2.0f * t) )
+	#define INLINE_LERP(t, a, b) ( a + t * (b - a) )
+	#define INLINE_SETUP(vec, b0, b1, r0, r1)\
 	t = vec + (f32)N;\
 	b0 = ((s32)t) & BM;\
 	b1 = (b0+1) & BM;\
@@ -152,8 +143,8 @@ namespace xcore
 
 		sx = SMOOTH_STEP(rx0);
 
-		u = rx0 * sPT->mG1[ sPT->mP[ bx0 ] ];
-		v = rx1 * sPT->mG1[ sPT->mP[ bx1 ] ];
+		u = rx0 * sPT.mG1[ sPT.mP[ bx0 ] ];
+		v = rx1 * sPT.mG1[ sPT.mP[ bx1 ] ];
 
 		return INLINE_LERP(sx, u, v);
 	}	//Noise1D
@@ -173,25 +164,25 @@ namespace xcore
 		INLINE_SETUP(inX, bx0,bx1, rx0,rx1);
 		INLINE_SETUP(inY, by0,by1, ry0,ry1);
 
-		i = sPT->mP[ bx0 ];
-		j = sPT->mP[ bx1 ];
+		i = sPT.mP[ bx0 ];
+		j = sPT.mP[ bx1 ];
 
-		b00 = sPT->mP[ i + by0 ];
-		b10 = sPT->mP[ j + by0 ];
-		b01 = sPT->mP[ i + by1 ];
-		b11 = sPT->mP[ j + by1 ];
+		b00 = sPT.mP[ i + by0 ];
+		b10 = sPT.mP[ j + by0 ];
+		b01 = sPT.mP[ i + by1 ];
+		b11 = sPT.mP[ j + by1 ];
 
 		sx = SMOOTH_STEP(rx0);
 		sy = SMOOTH_STEP(ry0);
 
 #define AT_2(rx,ry) ( rx * q[0] + ry * q[1] )
 
-		q = &sPT->mG2[ b00 ][0]; u = AT_2(rx0,ry0);
-		q = &sPT->mG2[ b10 ][0]; v = AT_2(rx1,ry0);
+		q = &sPT.mG2[ b00 ][0]; u = AT_2(rx0,ry0);
+		q = &sPT.mG2[ b10 ][0]; v = AT_2(rx1,ry0);
 		a = INLINE_LERP(sx, u, v);
 
-		q = &sPT->mG2[ b01 ][0]; u = AT_2(rx0,ry1);
-		q = &sPT->mG2[ b11 ][0]; v = AT_2(rx1,ry1);
+		q = &sPT.mG2[ b01 ][0]; u = AT_2(rx0,ry1);
+		q = &sPT.mG2[ b11 ][0]; v = AT_2(rx1,ry1);
 		b = INLINE_LERP(sx, u, v);
 
 #undef AT_2
@@ -215,13 +206,13 @@ namespace xcore
 		INLINE_SETUP(inY, by0,by1, ry0,ry1);
 		INLINE_SETUP(inZ, bz0,bz1, rz0,rz1);
 
-		i = sPT->mP[ bx0 ];
-		j = sPT->mP[ bx1 ];
+		i = sPT.mP[ bx0 ];
+		j = sPT.mP[ bx1 ];
 
-		b00 = sPT->mP[ i + by0 ];
-		b10 = sPT->mP[ j + by0 ];
-		b01 = sPT->mP[ i + by1 ];
-		b11 = sPT->mP[ j + by1 ];
+		b00 = sPT.mP[ i + by0 ];
+		b10 = sPT.mP[ j + by0 ];
+		b01 = sPT.mP[ i + by1 ];
+		b11 = sPT.mP[ j + by1 ];
 
 		t  = SMOOTH_STEP(rx0);
 		sy = SMOOTH_STEP(ry0);
@@ -229,22 +220,22 @@ namespace xcore
 
 #define AT_3(rx, ry, rz) ( rx*q[0] + ry*q[1] + rz*q[3] )
 
-		q = sPT->mG3[b00 + bz0]; u = AT_3(rx0, ry0, rz0);
-		q = sPT->mG3[b10 + bz0]; v = AT_3(rx1, ry0, rz0);
+		q = sPT.mG3[b00 + bz0]; u = AT_3(rx0, ry0, rz0);
+		q = sPT.mG3[b10 + bz0]; v = AT_3(rx1, ry0, rz0);
 		a = INLINE_LERP(t, u, v);
 
-		q = sPT->mG3[b01 + bz0]; u = AT_3(rx0, ry1, rz0);
-		q = sPT->mG3[b11 + bz0]; v = AT_3(rx1, ry1, rz0);
+		q = sPT.mG3[b01 + bz0]; u = AT_3(rx0, ry1, rz0);
+		q = sPT.mG3[b11 + bz0]; v = AT_3(rx1, ry1, rz0);
 		b = INLINE_LERP(t, u, v);
 
 		c = INLINE_LERP(sy, a, b);
 
-		q = sPT->mG3[b00 + bz1]; u = AT_3(rx0, ry0, rz1);
-		q = sPT->mG3[b10 + bz1]; v = AT_3(rx1, ry0, rz1);
+		q = sPT.mG3[b00 + bz1]; u = AT_3(rx0, ry0, rz1);
+		q = sPT.mG3[b10 + bz1]; v = AT_3(rx1, ry0, rz1);
 		a = INLINE_LERP(t, u, v);
 
-		q = sPT->mG3[b01 + bz1]; u = AT_3(rx0, ry1, rz1);
-		q = sPT->mG3[b11 + bz1]; v = AT_3(rx1, ry1, rz1);
+		q = sPT.mG3[b01 + bz1]; u = AT_3(rx0, ry1, rz1);
+		q = sPT.mG3[b11 + bz1]; v = AT_3(rx1, ry1, rz1);
 		b = INLINE_LERP(t, u, v);
 
 		d = INLINE_LERP(sy, a, b);

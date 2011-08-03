@@ -10,8 +10,9 @@ using namespace xcore;
 
 UNITTEST_SUITE_LIST(xRandomUnitTest);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, perlin);
-UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom);
-UNITTEST_SUITE_DECLARE(xRandomUnitTest, xmtrandom);
+UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_quick);
+UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_good);
+UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_mt);
 
 namespace xcore
 {
@@ -86,18 +87,10 @@ bool gRunUnitTest(UnitTest::TestReporter& reporter)
 	UnitTestAllocator unittestAllocator( systemAllocator );
 	UnitTest::SetAllocator(&unittestAllocator);
 
-	TestHeapAllocator testHeapAllocator(systemAllocator);
-	xcore::xrandom_set_heap_allocator(&testHeapAllocator);
-
 	int r = UNITTEST_SUITE_RUN(reporter, xRandomUnitTest);
 	if (unittestAllocator.mNumAllocations!=0)
 	{
 		reporter.reportFailure(__FILE__, __LINE__, "xunittest", "memory leaks detected!");
-		r = -1;
-	}
-	if (testHeapAllocator.mNumAllocations!=0)
-	{
-		reporter.reportFailure(__FILE__, __LINE__, "xrandom", "memory leaks detected!");
 		r = -1;
 	}
 

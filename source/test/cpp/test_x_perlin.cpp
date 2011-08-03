@@ -1,5 +1,5 @@
 #include "xbase\x_types.h"
-#include "xrandom\perlin.h"
+#include "xrandom\x_perlin.h"
 
 #include "xunittest\xunittest.h"
 
@@ -21,7 +21,6 @@ UNITTEST_SUITE_BEGIN(perlin)
 			{
 				f32 rf2=sxnoise.noise1D((f32)i+rfT);
 				f32 rf3=sxnoise.noise1D((f32)i+rfT);
-				CHECK_NOT_EQUAL(rf,rf2);
 				CHECK_EQUAL(rf2,rf3);
 				CHECK_NOT_EQUAL(rf2,0);
 				CHECK_EQUAL((rf2>-1.0)&&(rf2<1.0),true);

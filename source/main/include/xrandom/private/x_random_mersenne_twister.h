@@ -8,9 +8,15 @@
 
 // Includes
 #include "xbase\x_types.h"
+#include "xbase\x_allocator.h"
+
+#include "xrandom\x_irandom.h"
 
 namespace xcore
 {
+	// Forward declares
+	class x_iallocator;
+
 	/**
 	@group		xrandom
 	@desc		Mersenne Twister random number generator
@@ -18,7 +24,7 @@ namespace xcore
 				Note that this means, by default, that there is negligible serial correlation between 
 				successive values in the output sequence. 
 	**/
-	class xmtrandom
+	class xrnd_mt : public xirnd
 	{
 		enum EPeriodParameters
 		{
@@ -35,26 +41,28 @@ namespace xcore
 		inline f32			toFloat(u32 inUInt)										{ u32 fakeFloat = (inUInt>>(32-23)) | 0x3f800000; return ((*(f32 *)&fakeFloat)-1.0f); }
 
 	public:
-							xmtrandom();
+							xrnd_mt(x_iallocator* alloc=NULL);
 
 		void				seed(u32 inSeed = 19650218);
 		void				seed(u32 const* inSeed, s32 inLength);
 
-		void				release();												///< Release all memory and reset
+		virtual void		init(s32 inSeed);
+		virtual void		release();
 
-		u32					rand(s32 inBits);
-		s32					randSign(s32 inBits);
-		u32					rand();
-		s32					randSign();
-		f32					randF()													{ return (toFloat(rand())); }		///< Return f32 in range [0.0 ... 1.0]
-		f32					randFSign()												{ return ((randF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
-		xbool				randBool()												{ return (rand(1)==0); }			///< Return true or false
+		virtual u32			rand(s32 inBits=0);
+		virtual s32			randSign(s32 inBits=0);
+		virtual f32			randF()													{ return (toFloat(rand())); }		///< Return f32 in range [0.0 ... 1.0]
+		virtual f32			randFSign()												{ return ((randF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
+		virtual xbool		randBool()												{ return (rand(1)==0); }			///< Return true or false
+
+		XCORE_CLASS_PLACEMENT_NEW_DELETE
 
 	private:
 		u32					twiddle(u32, u32);
 		void				generateNewState();
 
-
+		x_iallocator*		mAllocator;
+		u32					mStateData[N];
 		u32*				mState;
 		u32*				mNextState;
 		s32					mLeft;

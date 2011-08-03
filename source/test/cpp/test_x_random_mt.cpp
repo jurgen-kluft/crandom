@@ -1,20 +1,21 @@
 #include "xbase\x_types.h"
-#include "xrandom\mtrandom.h"
+#include "xrandom\x_random.h"
+#include "xrandom\private\x_random_mersenne_twister.h"
 
 #include "xunittest\xunittest.h"
 
 using namespace xcore;
 
-UNITTEST_SUITE_BEGIN(xmtrandom)
+UNITTEST_SUITE_BEGIN(xrandom_mt)
 {
-	UNITTEST_FIXTURE(xmtrandom)
+	UNITTEST_FIXTURE(main)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xmtrandom_Seed1)
+		UNITTEST_TEST(seed1)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			sMtRnd.seed();	
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
 			sMtRnd.seed(12345679);
@@ -27,9 +28,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_Seed2)
+		UNITTEST_TEST(seed2)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 ru[3]={1,0};
 			sMtRnd.seed(ru,0);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
@@ -42,9 +43,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_Release)
+		UNITTEST_TEST(release)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			s32 rs,rs2,rs3=0;
 			u32 ru[]={1,2,3};
 			sMtRnd.release();
@@ -75,9 +76,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			CHECK_NOT_EQUAL(rs,rs2);          //when inLength big than 31,Realse() can't work right.			
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_Rand)
+		UNITTEST_TEST(rand)
 		{
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 number[3]={1,2,3},ru;
 			sMtRnd.seed();
 			ru=sMtRnd.rand(33);
@@ -97,9 +98,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			}
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_RandSign)
+		UNITTEST_TEST(randSign)
 		{
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			s32 ru;
 			sMtRnd.seed();
@@ -125,9 +126,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			CHECK_EQUAL(zzz==1&&zzz2==1,true);
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_RandF)
+		UNITTEST_TEST(randF)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			f32 rf;
 			sMtRnd.seed();
@@ -145,9 +146,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			}
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_RandFSign)
+		UNITTEST_TEST(randFSign)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			f32 rf;
 			sMtRnd.seed();
@@ -169,9 +170,9 @@ UNITTEST_SUITE_BEGIN(xmtrandom)
 			CHECK_EQUAL(zzz==1&&zzz2==1,true);
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(xmtrandom_RandBool)
+		UNITTEST_TEST(randBool)
         {
-			xmtrandom	sMtRnd;
+			xrnd_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			bool rbool;
 			sMtRnd.seed();

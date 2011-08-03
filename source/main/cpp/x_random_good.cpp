@@ -1,32 +1,31 @@
-// Random.cpp - Core Random number generators implementation - 
+// x_random_good.cpp - Core Random number generators, good
 #include "xbase\x_target.h"
 #include "xbase\x_memory_std.h"
 #include "xbase\x_allocator.h"
 
-#include "xrandom\Random.h"
+#include "xrandom\private\x_random_good.h"
 
 namespace xcore
 {
-	namespace xrandom_allocation
-	{
-		x_iallocator*	gAllocator = NULL;
-	}
-
-	void			xrandom_set_heap_allocator(x_iallocator* allocator)
-	{
-		xrandom_allocation::gAllocator = allocator;
-	}
-	x_iallocator*	xrandom_get_heap_allocator()
-	{
-		return xrandom_allocation::gAllocator;
-	}
-
 
 	//---------------------------------------------------------------------------------------------------------------------
 	//	Good random
 	//---------------------------------------------------------------------------------------------------------------------
+	xrnd_good::xrnd_good(x_iallocator* alloc) 
+		: mIndex(0)
+		, mAllocator(alloc)
+	{
+	}
 
-
+	void		xrnd_good::release()
+	{
+		this->~xrnd_good(); 
+		if (mAllocator!=NULL) 
+		{
+			mAllocator->deallocate(this); 
+			mAllocator = NULL;
+		}
+	}
 
 	// All 256 byte values shuffled
 	static u8 sChaos[256]={
@@ -49,27 +48,13 @@ namespace xcore
 	//
 	// Initialize random table with seed <inSeed>
 	//
-	void xrnd::init(s32 inSeed)
+	void xrnd_good::init(s32 inSeed)
 	{
 		// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
 			mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
 
 		mIndex = (u8)inSeed;														// Start index
-	}
-
-
-	//
-	// Copy from another random number generator
-	//
-	xrnd&	xrnd::operator=(const xrnd& inRHS)
-	{
-		if (this == &inRHS)
-			return *this;
-
-		x_memcopy(mArray, inRHS.mArray, sizeof(mArray));
-		mIndex = inRHS.mIndex; 
-		return *this;
 	}
 
 }

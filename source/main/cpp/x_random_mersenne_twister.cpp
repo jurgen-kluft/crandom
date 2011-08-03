@@ -1,15 +1,15 @@
-// xmtrandom.cpp - Mersenne Twister random number generator
+// xrnd_mt.cpp - Mersenne Twister random number generator
 #include "xbase\x_target.h"
 #include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
 
-#include "xrandom\xrandom.h"
-#include "xrandom\mtrandom.h"
+#include "xrandom\private\x_random_mersenne_twister.h"
 
 namespace xcore
 {
-	xmtrandom::xmtrandom()
-		: mState(NULL)
+	xrnd_mt::xrnd_mt(x_iallocator* allocator)
+		: mAllocator(allocator)
+		, mState(NULL)
 		, mNextState(NULL)
 		, mLeft(0)
 		, mInitialized(false)
@@ -17,10 +17,10 @@ namespace xcore
 
 	}
 
-	void		xmtrandom::seed(u32 inSeed)
+	void		xrnd_mt::seed(u32 inSeed)
 	{
 		if (mState==NULL)
-			mState = (u32*)xrandom_get_heap_allocator()->allocate(xmtrandom::N * sizeof(u32), X_ALIGNMENT_DEFAULT);
+			mState = mStateData;
 
 		mState[0]= inSeed & (u32)0xffffffff;
 		for (s32 j=1; j<N; j++)
@@ -34,7 +34,7 @@ namespace xcore
 
 
 
-	void	xmtrandom::seed(u32 const* inSeedArray, s32 inLength)
+	void	xrnd_mt::seed(u32 const* inSeedArray, s32 inLength)
 	{
 		seed();
 
@@ -79,22 +79,37 @@ namespace xcore
 	/**
 	@brief	Releases all memory and resets the generator to it's initial state
 	**/
-	void	xmtrandom::release()
+	void	xrnd_mt::init(s32 inSeed)
 	{
-		if (mState != NULL)
-		{
-			xrandom_get_heap_allocator()->deallocate(mState);
-			mState = NULL;
-		}
+		mState = NULL;
 		mNextState = NULL;
 		mLeft = 0;
 		mInitialized = false;
+		seed(inSeed);
+	}
+
+	/**
+	@brief	Releases all memory and resets the generator to it's initial state
+	**/
+	void	xrnd_mt::release()
+	{
+		mState = NULL;
+		mNextState = NULL;
+		mLeft = 0;
+		mInitialized = false;
+
+		this->~xrnd_mt(); 
+		if (mAllocator!=NULL) 
+		{
+			mAllocator->deallocate(this); 
+			mAllocator = NULL;
+		}
 	}
 
 	/**
 	@brief	Generates a random number on [0,0xffffffff]-interval
 	**/
-	u32	xmtrandom::rand(s32 inBits)
+	u32	xrnd_mt::rand(s32 inBits)
 	{
 		if (--mLeft == 0)
 			generateNewState();
@@ -107,7 +122,7 @@ namespace xcore
 	/**
 	@brief	Generates a random number on [0,0x7fffffff]-interval
 	**/
-	s32		xmtrandom::randSign(s32 inBits)
+	s32		xrnd_mt::randSign(s32 inBits)
 	{
 		if (--mLeft == 0)
 			generateNewState();
@@ -116,28 +131,8 @@ namespace xcore
 		return (s32)(x>>(32-inBits));
 	}
 
-	/**
-	@brief	Generates a random number on [0,0xffffffff]-interval
-	**/
-	u32	xmtrandom::rand()
-	{
-		if (--mLeft == 0)
-			generateNewState();
-		return *mNextState++;
-	}
 
-
-	/**
-	@brief	Generates a random number on [0,0x7fffffff]-interval
-	**/
-	s32		xmtrandom::randSign()
-	{
-		if (--mLeft == 0)
-			generateNewState();
-		return (s32)(*mNextState++ >> 1);
-	}
-
-	void	xmtrandom::generateNewState()
+	void	xrnd_mt::generateNewState()
 	{
 		// If Seed() has not been called, a default initial seed is used
 		if (!mInitialized)
