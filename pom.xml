@@ -434,16 +434,16 @@
 						<AdditionalDependencies>xrandom_$(Configuration)_WII.lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|WII'">
 					<ClCompile>
 						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
-						<AdditionalDependencies>xrandom_$(Configuration)_N3DS.lib</AdditionalDependencies>
+						<AdditionalDependencies>xrandom_$(Configuration)_WII.lib</AdditionalDependencies>
 					</Link>
 				</ItemDefinitionGroup>					
-				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
+				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|N3DS'">
 					<ClCompile>
 						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
