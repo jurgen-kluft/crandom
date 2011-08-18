@@ -373,7 +373,7 @@
 				</PropertyGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -382,7 +382,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Win32'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -391,7 +391,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|PS3'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -400,7 +400,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|PS3'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -409,7 +409,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Xbox 360'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -418,7 +418,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|Xbox 360'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -427,7 +427,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -436,7 +436,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -445,7 +445,7 @@
 				</ItemDefinitionGroup>					
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|WII'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
@@ -454,7 +454,7 @@
 				</ItemDefinitionGroup>
 				<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestRelease|N3DS'">
 					<ClCompile>
-						<AdditionalIncludeDirectories>$(${Name}_RootDir)\source\test\include</AdditionalIncludeDirectories>
+						<AdditionalIncludeDirectories>$(xrandom_RootDir)\source\test\include</AdditionalIncludeDirectories>
 					</ClCompile>
 					<Link>
 						<AdditionalLibraryDirectories>$(xrandom_LibraryDir)</AdditionalLibraryDirectories>
