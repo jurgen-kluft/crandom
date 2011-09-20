@@ -16,11 +16,10 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_Init)
 		{
 			xrnd_good sGoodRnd;
-
 			xrnd sRnd;
-			u32 ru;
 			sRnd.init(&sGoodRnd);
-			ru=sRnd.rand();
+
+			u32 ru = sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 			sRnd.init(&sGoodRnd, 132465);
 			ru=sRnd.rand();
@@ -38,11 +37,10 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_Rand)
 		{
 			xrnd_good sGoodRnd;
-
-			xrnd  sRnd;
-			u32 ru;
+			xrnd sRnd;
 			sRnd.init(&sGoodRnd);
-			ru=sRnd.rand();
+
+			u32 ru = sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 			ru=sRnd.rand(10);
 			CHECK_NOT_EQUAL(ru,sRnd.rand(10));
@@ -50,21 +48,27 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			CHECK_NOT_EQUAL(ru,sRnd.rand(1112310));
 			ru=sRnd.rand(-110);
 			CHECK_NOT_EQUAL(ru,sRnd.rand(-110));
+			
+			u32 history[50];
 			for(s32 i=0;i<50;i++)
 			{
-				ru=sRnd.rand();
-				CHECK_EQUAL((ru>=0),true);
-				if(ru%3!=0) CHECK_NOT_EQUAL(ru/3*3,ru);
+				ru = sRnd.rand();
+				for (s32 j=0; j<i; ++j)
+					CHECK_NOT_EQUAL(ru, history[j]);
+				history[i] = ru;
+
+				if (ru%3!=0) 
+					CHECK_NOT_EQUAL(ru/3*3,ru);
 			}
 		}
+
 		UNITTEST_TEST(xrnd_RandSign)
 		{
 			xrnd_good sGoodRnd;
-
-			xrnd  sRnd;
-			s32 rs;
+			xrnd sRnd;
 			sRnd.init(&sGoodRnd);
-			rs=sRnd.randSign();
+			
+			s32 rs = sRnd.randSign();
 			CHECK_NOT_EQUAL(rs,sRnd.randSign());
 			rs=sRnd.randSign(10);
 			CHECK_NOT_EQUAL(rs,sRnd.randSign(10));
@@ -76,19 +80,23 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			for(s32 i=0;i<50;i++)
 			{
 				rs=sRnd.rand();
-				if(rs>0) zzz=1;
+				
+				if (rs>0) zzz=1;
 				else zzz2=1;
-				if(rs%3!=0) CHECK_NOT_EQUAL(rs/3*3,rs);
+				
+				if (rs%3!=0)
+					CHECK_NOT_EQUAL(rs/3*3,rs);
 			}
-			CHECK_EQUAL(zzz==1&&zzz2==1,true);
+			CHECK_EQUAL(zzz==1 && zzz2==1, true);
 		}
+
 		UNITTEST_TEST(xrnd_RandF)
 		{
 			xrnd_good sGoodRnd;
-
-			xrnd  sRnd;
-			f32 rfloat;
+			xrnd sRnd;
 			sRnd.init(&sGoodRnd);
+
+			f32 rfloat;
 			rfloat=sRnd.randF();
 			CHECK_NOT_EQUAL(rfloat,sRnd.randF());
 			for(s32 i=0;i<50;i++)
@@ -102,11 +110,11 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
 			xrnd_good sGoodRnd;
+			xrnd sRnd;
+			sRnd.init(&sGoodRnd);
 
-			xrnd  sRnd;
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
-			sRnd.init(&sGoodRnd);
 			rfloat=sRnd.randFSign();
 			CHECK_NOT_EQUAL(rfloat,sRnd.randFSign());
 			for(s32 i=0;i<50;i++)
