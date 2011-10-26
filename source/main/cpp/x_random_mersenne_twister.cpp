@@ -2,8 +2,10 @@
 #include "xbase\x_target.h"
 #include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
+#include "xbase\x_debug.h"
 
 #include "xrandom\private\x_random_mersenne_twister.h"
+
 
 namespace xcore
 {
@@ -109,20 +111,23 @@ namespace xcore
 	/**
 	@brief	Generates a random number on [0,0xffffffff]-interval
 	**/
-	u32	xrnd_mt::rand(s32 inBits)
+	u32	xrnd_mt::rand(u32 inBits)
 	{
+
+		ASSERT( inBits <= 32 );
+
 		if (--mLeft == 0)
 			generateNewState();
 
 		u32 x = *mNextState++;
-		return (s32)(x>>(32-inBits));
+		return (x>>(32-inBits));
 	}
 
 
 	/**
 	@brief	Generates a random number on [0,0x7fffffff]-interval
 	**/
-	s32		xrnd_mt::randSign(s32 inBits)
+	s32		xrnd_mt::randSign(u32 inBits)
 	{
 		if (--mLeft == 0)
 			generateNewState();

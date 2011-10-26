@@ -31,20 +31,29 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 		UNITTEST_TEST(seed2)
         {
 			xrnd_mt sMtRnd;
-			u32 ru[3]={1,0};
-			sMtRnd.seed(ru,0);
+			u32 ru[3]={1,0, 999};
+			sMtRnd.seed(ru,3);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
-			//sMtRnd.seed(ru,123.0f);            //warning
+
+			ru[0] = 92394;
+			sMtRnd.seed(ru,3);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
-			sMtRnd.seed(ru,'a');
+			
+
+			ru[1] = 82348;
+			sMtRnd.seed(ru,3);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
-			//sMtRnd.seed(ru,132465789);          //when inLength is too big,Seed() can not working.
-			sMtRnd.seed(ru,-123456798);
+			
+			ru[2] = 123775;
+			sMtRnd.seed(ru,3);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
 			sMtRnd.release();
 		}
 		UNITTEST_TEST(release)
         {
+
+			// fix several buffer overflows here.. -- setting inLenght to random values far greater than the size of ru[]
+
 			xrnd_mt sMtRnd;
 			s32 rs,rs2,rs3=0;
 			u32 ru[]={1,2,3};
@@ -60,72 +69,32 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 			rs3=sMtRnd.rand();
 			CHECK_NOT_EQUAL(rs,rs3);
 			sMtRnd.release();
-			sMtRnd.seed(ru,31);
+			sMtRnd.seed(ru,3);
 			rs=sMtRnd.rand();
 			sMtRnd.release();
-			sMtRnd.seed(ru,31);
+			
+			ru[0] = 55; // try actually changing the seed
+			
+			
+			sMtRnd.seed(ru,3);
 			rs2=sMtRnd.rand();
 			CHECK_NOT_EQUAL(rs,rs2);
 			sMtRnd.release();
-			sMtRnd.seed(ru,32);
+
+
+			sMtRnd.seed(ru,3);
 			//sMtRnd.seed(ru,132456);          //when inLength is too big ,there are debug wrong.
 			rs=sMtRnd.rand();
 			sMtRnd.release();
-			sMtRnd.seed(ru,32);
+			
+			ru[1] = 23489; // try again
+
+			sMtRnd.seed(ru,3);
 			rs2=sMtRnd.rand();
 			CHECK_NOT_EQUAL(rs,rs2);          //when inLength big than 31,Realse() can't work right.			
 			sMtRnd.release();
 		}
-		UNITTEST_TEST(rand)
-		{
-			xrnd_mt sMtRnd;
-			u32 number[3]={1,2,3},ru;
-			sMtRnd.seed();
-			ru=sMtRnd.rand(33);
-			CHECK_EQUAL(ru==1||ru==0,true);//when inBits is big than 33 ,Rand() can not work right.
-			ru=sMtRnd.rand((s32)'x');
-			CHECK_NOT_EQUAL(ru==1||ru==0,true);//when inBits is big than 32 ,Rand() can not work right.
-			ru=sMtRnd.rand((s32)11.02f);
-			CHECK_NOT_EQUAL(ru,sMtRnd.rand((s32)11.02f));
-			ru=sMtRnd.rand(-123456);
-			CHECK_NOT_EQUAL(ru,sMtRnd.rand(-123456));//when inBIt is small than 0,Rand() still working.
-			sMtRnd.seed(number,10);
-			ru=sMtRnd.rand(10);
-			CHECK_NOT_EQUAL(ru,sMtRnd.rand(11));
-			for(s32 i=0;i<50;i++)
-			{
-				CHECK_EQUAL((sMtRnd.rand(i)>=0),true);
-			}
-			sMtRnd.release();
-		}
-		UNITTEST_TEST(randSign)
-		{
-			xrnd_mt sMtRnd;
-			u32 number[3]={1,2,3};
-			s32 ru;
-			sMtRnd.seed();
-			ru=sMtRnd.randSign(50);
-			CHECK_EQUAL(ru==1||ru==0,false);//when inBits is big than 31 ,RandSign() still working.
-			ru=sMtRnd.randSign((s32)'x');
-			CHECK_EQUAL(ru==1||ru==0,false);//when inBits is big than 31 ,RandSign() still working.
-			ru=sMtRnd.randSign((s32)11.02f);
-			CHECK_NOT_EQUAL(ru,sMtRnd.randSign((s32)11.02f));
-			ru=sMtRnd.randSign(-123456);
-			CHECK_NOT_EQUAL(ru,sMtRnd.randSign(-123456));//when inBIt is small than 0,RandSign() still working.
-			sMtRnd.seed(number,10);
-			ru=sMtRnd.randSign(10);			
-			CHECK_NOT_EQUAL(ru,sMtRnd.randSign(10));
-			u32 zzz=0,zzz2=0;
-			for(s32 i=0;i<50;i++)
-			{
-				ru=sMtRnd.randSign(i);
-				if(ru>0) zzz=1;
-				else zzz2=1;
-				if(ru%3!=0) CHECK_EQUAL(ru==(s32)((ru/3)*3),false);
-			}
-			CHECK_EQUAL(zzz==1&&zzz2==1,true);
-			sMtRnd.release();
-		}
+
 		UNITTEST_TEST(randF)
         {
 			xrnd_mt sMtRnd;
@@ -134,7 +103,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 			sMtRnd.seed();
 			rf=sMtRnd.randF();
 			CHECK_NOT_EQUAL(rf,sMtRnd.randF());
-			sMtRnd.seed(number,15);
+			sMtRnd.seed(number,3);
 			rf=sMtRnd.randF();
 			CHECK_NOT_EQUAL(rf,sMtRnd.randF());			
 			for(s32 i=0;i<50;i++)
@@ -154,7 +123,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 			sMtRnd.seed();
 			rf=sMtRnd.randFSign();
 			CHECK_NOT_EQUAL(rf,sMtRnd.randFSign());
-			sMtRnd.seed(number,15);
+			sMtRnd.seed(number,3);
 			rf=sMtRnd.randFSign();
 			CHECK_NOT_EQUAL(rf,sMtRnd.randFSign());
 			u32 zzz=0,zzz2=0;
@@ -178,7 +147,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 			sMtRnd.seed();
 			rbool=sMtRnd.randBool();
 			CHECK_EQUAL(rbool==0||rbool==1,true);
-			sMtRnd.seed(number,15);
+			sMtRnd.seed(number,3);
 			rbool=sMtRnd.randBool();
 			CHECK_EQUAL(rbool==0||rbool==1,true);
 			for(s32 i=0;i<50;i++)
