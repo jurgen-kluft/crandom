@@ -49,8 +49,8 @@ namespace xcore
 		virtual void		init(s32 inSeed);
 		virtual void		release();
 
-		virtual u32			rand(s32 inBits=0);
-		virtual s32			randSign(s32 inBits=0);
+		virtual u32			rand(u32 inBits=32);
+		virtual s32			randSign(u32 inBits=31);
 		virtual f32			randF()													{ return (toFloat(rand())); }		///< Return f32 in range [0.0 ... 1.0]
 		virtual f32			randFSign()												{ return ((randF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
 		virtual xbool		randBool()												{ return (rand(1)==0); }			///< Return true or false

@@ -8,6 +8,7 @@
 
 #include "xbase\x_types.h"
 #include "xrandom\x_irandom.h"
+#include "xbase\x_debug.h"
 
 namespace xcore
 {
@@ -28,8 +29,8 @@ namespace xcore
 		void				init(xirnd* inGenerator, s32 inSeed = 0)	{ mGenerator=inGenerator; mGenerator->init(inSeed); }
 		void				release()									{ mGenerator->release(); mGenerator=NULL; }
 
-		inline u32			rand(s32 inBits = 32)						{ return mGenerator->rand(inBits); }
-		inline s32			randSign(s32 inBits = 31)					{ return mGenerator->randSign(inBits); }
+		inline u32			rand(u32 inBits = 32)						{ ASSERT (inBits <= 32); return mGenerator->rand(inBits); }
+		inline s32			randSign(u32 inBits = 31)					{ ASSERT (inBits <= 31); return mGenerator->randSign(inBits); }
 		inline f32			randF()										{ return mGenerator->randF(); }
 		inline f32			randFSign()									{ return mGenerator->randFSign(); }
 		inline xbool		randBool()									{ return mGenerator->randBool(); }
