@@ -46,10 +46,9 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 			ru=sRnd.rand(10);
 			CHECK_NOT_EQUAL(ru,sRnd.rand(10));
-			ru=sRnd.rand(1112310);
-			CHECK_NOT_EQUAL(ru,sRnd.rand(1112310));
-			ru=sRnd.rand(-110);
-			CHECK_NOT_EQUAL(ru,sRnd.rand(-110));
+			ru=sRnd.rand(31);
+			CHECK_NOT_EQUAL(ru,sRnd.rand(31));
+
 			for(s32 i=0;i<50;i++)
 			{
 				ru=sRnd.rand();
@@ -68,10 +67,8 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 			CHECK_NOT_EQUAL(rs,sRnd.randSign());
 			rs=sRnd.randSign(10);
 			CHECK_NOT_EQUAL(rs,sRnd.randSign(10));
-			rs=sRnd.rand(1112310);
-			CHECK_NOT_EQUAL(rs,sRnd.randSign(1112310));
-			rs=sRnd.randSign(-110);
-			CHECK_NOT_EQUAL(rs,sRnd.randSign(-110));
+			rs=sRnd.rand(31);
+			CHECK_NOT_EQUAL(rs,sRnd.randSign(31));
 			u32 zzz=0,zzz2=0;
 			for(s32 i=0;i<50;i++)
 			{
