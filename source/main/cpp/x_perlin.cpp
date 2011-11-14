@@ -1,4 +1,9 @@
-// xnoise.cpp - Perlin Noise implementation - 
+/**
+* @file x_perlin.cpp
+*
+* Perlin Noise implementation
+*/
+
 #include "xbase\x_target.h"
 #include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
@@ -13,9 +18,9 @@ namespace xcore
 	//	Perlin noise
 	//---------------------------------------------------------------------------------------------------------------------
 
-	//
-	// Dimensions of Perlin noise
-	//
+	/**
+	 * Dimensions of Perlin noise
+	 */
 	enum EPerlinDimensions
 	{
 		B_BITS	= 8,
@@ -28,9 +33,9 @@ namespace xcore
 
 
 
-	//
-	// Perlin noise lookup tables
-	//
+	/**
+	 * Perlin noise lookup tables
+	 */
 	struct PerlinNoiseTables
 	{
 		///@name Construction/Destruction
@@ -44,9 +49,9 @@ namespace xcore
 	};
 
 
-	//
-	// Initialize perlin noise
-	//
+	/*
+	 * Initialize perlin noise
+	 */
 	void PerlinNoiseTables::init()
 	{
 		mRefCount = 0;
@@ -88,12 +93,12 @@ namespace xcore
 
 
 	/**
-	@brief	Construct perlin noise
-
-	Construct the Perlin noise generator. If this is the first Perlin noise object
-	coming into existence, the shared Perlin noise lookup tables are constructed.
-
-	**/
+	 *  @brief	Construct perlin noise
+	 *
+	 *  Construct the Perlin noise generator. If this is the first Perlin noise object
+	 *  coming into existence, the shared Perlin noise lookup tables are constructed.
+	 *
+	 */
 	static PerlinNoiseTables sPT;
 	xnoise::xnoise()
 	{
@@ -108,11 +113,11 @@ namespace xcore
 
 
 	/**
-	@brief	Destruct perlin noise
-
-	Destructs the Perlin noise generator. If this is the last Perlin noise object
-	coming into existence, the shared Perlin noise lookup tables are destructed.
-	**/
+	 * @brief	Destruct perlin noise
+	 *
+	 * Destructs the Perlin noise generator. If this is the last Perlin noise object
+	 * coming into existence, the shared Perlin noise lookup tables are destructed.
+	 */
 	xnoise::~xnoise()
 	{
 		sPT.mRefCount--;
@@ -131,9 +136,9 @@ namespace xcore
 
 
 
-	//
-	// Return noise on 1D line <inT>
-	//
+	/**
+	 * Return noise on 1D line <inT>
+	 */
 	f32 xnoise::noise1D(f32 inT)
 	{
 		s32 bx0, bx1;
@@ -151,9 +156,9 @@ namespace xcore
 
 
 
-	//
-	// Return noise in 2-space at <inVector>
-	//
+	/**
+	 * Return noise in 2-space at <inVector>
+	 */
 	f32 xnoise::noise2D(f32 inX, f32 inY)
 	{
 		s32 bx0, bx1, by0, by1, b00, b10, b01, b11;
@@ -192,9 +197,9 @@ namespace xcore
 
 
 
-	//
-	// Return noise in 3-space at <inVector>
-	//
+	/**
+	 * Return noise in 3-space at <inVector>
+	 */
 	f32 xnoise::noise3D(f32 inX, f32 inY, f32 inZ)
 	{
 		s32 bx0, bx1, by0, by1, bz0, bz1, b00, b10, b01, b11;
@@ -255,9 +260,9 @@ namespace xcore
 
 
 
-	//
-	// Evaluate turbulence at <inPos>
-	//
+	/**
+	 * Evaluate turbulence at <inPos>
+	 */
 	f32 xturbnoise::evaluate(f32 inPos)
 	{
 		f32 value;
@@ -280,9 +285,9 @@ namespace xcore
 	//	xpnoise
 	//---------------------------------------------------------------------------------------------------------------------
 
-	//
-	// Evaluate harmonic noise
-	//
+	/**
+	 * Evaluate harmonic noise
+	 */
 	f32 xpnoise::evaluate(f32 inPos)
 	{
 		f32 value		= 0.0f;

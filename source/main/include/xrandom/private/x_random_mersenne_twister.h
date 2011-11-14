@@ -1,4 +1,9 @@
-// xmtrandom.h - Mersenne Twister random number generator - 
+/**
+* @file x_random_mersenne_twister.h
+*
+* Mersenne Twister random number generator
+*/
+
 #ifndef __XRANDOM_MT_RANDOM_H__
 #define __XRANDOM_MT_RANDOM_H__
 #include "xbase\x_target.h"
@@ -18,21 +23,21 @@ namespace xcore
 	class x_iallocator;
 
 	/**
-	@group		xrandom
-	@desc		Mersenne Twister random number generator
-	@note		The period is 2^19937-1, and 623-dimensional equi-distribution property is assured.
-				Note that this means, by default, that there is negligible serial correlation between 
-				successive values in the output sequence. 
-	**/
+	 * @group		xrandom
+ 	 * @desc		Mersenne Twister random number generator
+	 * @note		The period is 2^19937-1, and 623-dimensional equi-distribution property is assured.
+	 *			Note that this means, by default, that there is negligible serial correlation between 
+	 *			successive values in the output sequence. 
+	 */
 	class xrnd_mt : public xirnd
 	{
 		enum EPeriodParameters
 		{
 			N			= 624,
 			M			= 397,
-			MATRIX_A	= 0x9908b0df,												// Constant vector a
-			UMASK		= 0x80000000,												// Most significant w-r bits
-			LMASK		= 0x7fffffff												// Least significant r bits
+			MATRIX_A	= 0x9908b0df,												///< Constant vector a
+			UMASK		= 0x80000000,												///< Most significant w-r bits
+			LMASK		= 0x7fffffff												///< Least significant r bits
 		};
 
 		inline u32			mixBits(u32 u, u32 v)									{ return (u & UMASK) | (v & LMASK); }

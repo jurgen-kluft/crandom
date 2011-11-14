@@ -1,4 +1,9 @@
-// Random.h - Core Random number generators - 
+/**
+* @file x_random_good.h
+*
+* Core Random number generators
+*/
+
 #ifndef __XRANDOM_RANDOM_GOOD_H__
 #define __XRANDOM_RANDOM_GOOD_H__
 #include "xbase\x_target.h"
@@ -17,14 +22,14 @@ namespace xcore
 	// Forward declares
 	class x_iallocator;
 
-	//---------------------------------------------------------------------------------------------------------------------
-	//	Random number generators (one very good, one very fast)
-	//---------------------------------------------------------------------------------------------------------------------
+	/**
+	 *	Random number generators (one very good, one very fast)
+	 */
 
 	/**
-	@group		xrandom
-	@brief		Good random value generator
-	**/
+	 * @group		xrandom
+	 * @brief		Good random value generator
+	 */
 	class xrnd_good : public xirnd
 	{
 	private:
