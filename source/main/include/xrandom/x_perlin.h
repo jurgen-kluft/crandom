@@ -1,3 +1,9 @@
+/**
+* @file x_perlin.h
+*
+* Core Perlin noise
+*/
+
 // xnoise.h - Core Perlin noise - 
 #ifndef __XRANDOM_PERLIN_H__
 #define __XRANDOM_PERLIN_H__
@@ -11,9 +17,9 @@
 namespace xcore
 {
 	/**
-	@group		xrandom
-	@brief		Perlin noise
-	**/
+	 * @group		xrandom
+	 * @brief		Perlin noise
+	 */
 	class xnoise
 	{
 	public:
@@ -30,10 +36,10 @@ namespace xcore
 
 
 	/**
-	@group		xrandom
-	@brief		Turbulence using Perlin noise
-				Ken Perlin's turbulence function using Perlin noise
-	**/
+	 * @group		xrandom
+	 * @brief		Turbulence using Perlin noise
+	 *			Ken Perlin's turbulence function using Perlin noise
+	 */
 	class xturbnoise
 	{
 	public:
@@ -53,11 +59,11 @@ namespace xcore
 	};
 
 	/**
-	@group		xrandom
-	@brief		Persistence Noise
-				Harmonic noise as used by http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
-				Looks a lot like the other two...
-	**/
+	 * @group		xrandom
+	 * @brief		Persistence Noise
+	 *			Harmonic noise as used by http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
+	 *			Looks a lot like the other two...
+	 */
 	class xpnoise
 	{
 	public:

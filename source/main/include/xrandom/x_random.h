@@ -1,3 +1,9 @@
+/**
+* @file x_random.h
+*
+* Core Random number generators
+*/
+
 // Random.h - Core Random number generators - 
 #ifndef __XRANDOM_RANDOM_H__
 #define __XRANDOM_RANDOM_H__
@@ -16,9 +22,9 @@ namespace xcore
 	class x_iallocator;
 
 	/**
-	@group		xrandom
-	@brief		Random number generator
-	**/
+	 * @group		xrandom
+	 * @brief		Random number generator
+	 */
 	class xrnd
 	{
 	public:

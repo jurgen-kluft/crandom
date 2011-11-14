@@ -1,4 +1,9 @@
-// Random.cpp - Core Random number generators implementation - 
+/**
+* @file x_random.cpp
+*
+* Core Random number generators implementation
+*/
+
 #include "xbase\x_target.h"
 #include "xbase\x_memory_std.h"
 #include "xbase\x_allocator.h"

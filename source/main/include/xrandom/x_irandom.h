@@ -1,4 +1,9 @@
-// Random.h - Core Random number generator interface - 
+/**
+* @file x_irandom.h
+*
+* Core Random number generator interface
+*/
+
 #ifndef __XRANDOM_IRANDOM_H__
 #define __XRANDOM_IRANDOM_H__
 #include "xbase\x_target.h"
@@ -11,8 +16,8 @@
 namespace xcore
 {
 	/**
-	@group		xrandom
-	@brief		Random number generator interface
+	 * @group		xrandom
+	 * @brief		Random number generator interface
 	**/
 	class xirnd
 	{

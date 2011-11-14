@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" href="$classxcore_1_1xirnd.html" title="Random number generator interface." alt="" coords="5,56,96,83"/>
+<area shape="rect" href="$classxcore_1_1xrnd__good.html" title="Good random value generator." alt="" coords="145,5,268,32"/>
+<area shape="rect" href="$classxcore_1_1xrnd__mt.html" title="xcore::xrnd_mt" alt="" coords="152,56,261,83"/>
+<area shape="rect" href="$classxcore_1_1xrnd__quick.html" title="Quick and dirty random generator." alt="" coords="144,107,269,133"/>
+</map>

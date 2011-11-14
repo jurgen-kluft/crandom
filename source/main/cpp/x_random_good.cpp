@@ -1,4 +1,9 @@
-// x_random_good.cpp - Core Random number generators, good
+/**
+* @file x_random_good.cpp
+*
+* Core Random number generators, good
+*/
+
 #include "xbase\x_target.h"
 #include "xbase\x_memory_std.h"
 #include "xbase\x_allocator.h"
@@ -8,9 +13,9 @@
 namespace xcore
 {
 
-	//---------------------------------------------------------------------------------------------------------------------
-	//	Good random
-	//---------------------------------------------------------------------------------------------------------------------
+	/**
+	 *	Good random
+	 */
 	xrnd_good::xrnd_good(x_iallocator* alloc) 
 		: mIndex(0)
 		, mAllocator(alloc)
@@ -27,7 +32,7 @@ namespace xcore
 		}
 	}
 
-	// All 256 byte values shuffled
+	/// All 256 byte values shuffled
 	static u8 sChaos[256]={
 		198,126,129,107, 75,251,226,251, 84,246,189,223,124, 28,225,135,  1,191, 49,
 		222, 86,114, 15, 71,103,102,135, 89,170,136, 60, 89,234, 86, 19,123,210,133,

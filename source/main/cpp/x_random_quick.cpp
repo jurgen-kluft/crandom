@@ -1,4 +1,9 @@
-// x_random_quick.cpp - Core Random number generators, quick
+/**
+* @file x_random_quick.cpp
+*
+* Core Random number generators, quick
+*/
+
 #include "xbase\x_target.h"
 #include "xbase\x_memory_std.h"
 #include "xbase\x_allocator.h"
@@ -8,9 +13,9 @@
 namespace xcore
 {
 
-	//---------------------------------------------------------------------------------------------------------------------
-	//	Quick random
-	//---------------------------------------------------------------------------------------------------------------------
+	/**
+	 *	Quick random
+	 */
 	xrnd_quick::xrnd_quick(x_iallocator* alloc) 
 		: mSeed(0xdeadbeef)
 		, mAllocator(alloc)

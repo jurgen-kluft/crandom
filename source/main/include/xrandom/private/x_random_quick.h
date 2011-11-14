@@ -1,4 +1,9 @@
-// Random.h - Core Random number generators - 
+/**
+* @file x_random_quick.h
+*
+* Core Random number generators
+*/
+
 #ifndef __XRANDOM_RANDOM_QUICK_H__
 #define __XRANDOM_RANDOM_QUICK_H__
 #include "xbase\x_target.h"
@@ -17,9 +22,9 @@ namespace xcore
 	class x_iallocator;
 
 	/**
-	@group		xrandom
-	@brief		Quick and dirty random generator
-	**/
+	 * @group		xrandom
+	 * @brief		Quick and dirty random generator
+	 */
 	class xrnd_quick : public xirnd
 	{
 	private:

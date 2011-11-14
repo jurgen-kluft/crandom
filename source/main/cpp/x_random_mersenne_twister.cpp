@@ -1,4 +1,9 @@
-// xrnd_mt.cpp - Mersenne Twister random number generator
+/**
+* @file x_random_mersenne_twister.cpp
+*
+* Mersenne Twister random number generator
+*/
+
 #include "xbase\x_target.h"
 #include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
@@ -79,8 +84,8 @@ namespace xcore
 	}
 
 	/**
-	@brief	Releases all memory and resets the generator to it's initial state
-	**/
+	 * @brief	Releases all memory and resets the generator to it's initial state
+	 */
 	void	xrnd_mt::init(s32 inSeed)
 	{
 		mState = NULL;
@@ -91,8 +96,8 @@ namespace xcore
 	}
 
 	/**
-	@brief	Releases all memory and resets the generator to it's initial state
-	**/
+	 * @brief	Releases all memory and resets the generator to it's initial state
+	 */
 	void	xrnd_mt::release()
 	{
 		mState = NULL;
@@ -109,8 +114,8 @@ namespace xcore
 	}
 
 	/**
-	@brief	Generates a random number on [0,0xffffffff]-interval
-	**/
+	 * @brief	Generates a random number on [0,0xffffffff]-interval
+	 */
 	u32	xrnd_mt::rand(u32 inBits)
 	{
 
@@ -125,8 +130,8 @@ namespace xcore
 
 
 	/**
-	@brief	Generates a random number on [0,0x7fffffff]-interval
-	**/
+	 * @brief	Generates a random number on [0,0x7fffffff]-interval
+	 */
 	s32		xrnd_mt::randSign(u32 inBits)
 	{
 		if (--mLeft == 0)
