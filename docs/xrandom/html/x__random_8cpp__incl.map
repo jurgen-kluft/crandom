@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$x__random_8h.html" title="xrandom\\x_random.h" alt="" coords="97,80,244,107"/>
-<area shape="rect" href="$x__random__good_8h.html" title="xrandom\\private\\x_random_good.h" alt="" coords="900,80,1127,107"/>
-<area shape="rect" href="$x__random__mersenne__twister_8h.html" title="xrandom\\private\\x_random_mersenne_twister.h" alt="" coords="268,80,572,107"/>
-<area shape="rect" href="$x__random__quick_8h.html" title="xrandom\\private\\x_random_quick.h" alt="" coords="596,80,825,107"/>
-<area shape="rect" href="$x__irandom_8h.html" title="xrandom\\x_irandom.h" alt="" coords="473,155,623,181"/>
-</map>
