@@ -12,9 +12,8 @@
 #pragma once
 #endif
 
-#include "xbase\x_types.h"
-#include "xrandom\x_irandom.h"
 #include "xbase\x_debug.h"
+#include "xrandom\x_irandom.h"
 
 namespace xcore
 {
@@ -40,6 +39,19 @@ namespace xcore
 		inline f32			randF()										{ return mGenerator->randF(); }
 		inline f32			randFSign()									{ return mGenerator->randFSign(); }
 		inline xbool		randBool()									{ return mGenerator->randBool(); }
+
+		inline void			randBuffer(xbyte* dst, u32 num_bytes)
+		{
+			u32 rnd;
+			for (u32 i=0; i<num_bytes; ++i)
+			{
+				if ((i&3) == 0)
+					 rnd = rand();
+
+				*dst++ = (rnd&0xff);
+				rnd = rnd >> 8;
+			}
+		}
 
 	private:
 							xrnd(const xrnd& inOther)					{ }
