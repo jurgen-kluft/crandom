@@ -105,9 +105,9 @@ namespace xcore
 		mLeft = 0;
 		mInitialized = false;
 
-		this->~xrnd_mt(); 
 		if (mAllocator!=NULL) 
 		{
+			this->~xrnd_mt(); 
 			mAllocator->deallocate(this); 
 			mAllocator = NULL;
 		}
@@ -118,7 +118,6 @@ namespace xcore
 	 */
 	u32	xrnd_mt::rand(u32 inBits)
 	{
-
 		ASSERT( inBits <= 32 );
 
 		if (--mLeft == 0)

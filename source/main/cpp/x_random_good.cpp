@@ -12,10 +12,17 @@
 
 namespace xcore
 {
-
 	/**
 	 *	Good random
 	 */
+
+	static inline f32	uint2float(u32 inUInt)
+	{
+		u32 fake_float = (inUInt>>(32-23)) | 0x3f800000;
+		return ((*(f32 *)&fake_float)-1.0f); 
+	}
+
+
 	xrnd_good::xrnd_good(x_iallocator* alloc) 
 		: mIndex(0)
 		, mAllocator(alloc)
@@ -24,9 +31,9 @@ namespace xcore
 
 	void		xrnd_good::release()
 	{
-		this->~xrnd_good(); 
 		if (mAllocator!=NULL) 
 		{
+			this->~xrnd_good(); 
 			mAllocator->deallocate(this); 
 			mAllocator = NULL;
 		}
@@ -60,6 +67,39 @@ namespace xcore
 			mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
 
 		mIndex = (u8)inSeed;														// Start index
+	}
+	
+	u32 xrnd_good::rand(u32 inBits)
+	{ 
+		ASSERT(inBits <= 32);
+
+		u32 r1 = (mIndex+4*53) & 0xFF; 
+		u32 r2 = (mIndex+4) & 0xFF;
+		u32 r  = *((u32*)(mArray+r1)); 
+		*((u32*)(mArray+r2)) ^= r; 
+		mIndex = r2; 
+		return (r >> (32-inBits)); 
+	}
+
+	s32			xrnd_good::randSign(u32 inBits)
+	{
+		ASSERT(inBits <= 31); 
+		return (rand(inBits+1)-(1 << inBits)); 
+	}	
+
+	f32			xrnd_good::randF()
+	{
+		return (uint2float(rand())); 
+	}
+
+	f32			xrnd_good::randFSign()
+	{
+		return ((randF()-0.5f)*2.0f); 
+	}
+
+	xbool		xrnd_good::randBool()
+	{
+		return (rand(1)==0);
 	}
 
 }
