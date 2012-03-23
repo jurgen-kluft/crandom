@@ -9,9 +9,9 @@
 #include "xbase\x_allocator.h"
 
 #include "xrandom\x_random.h"
-#include "xrandom\private\x_random_good.h"
-#include "xrandom\private\x_random_mersenne_twister.h"
-#include "xrandom\private\x_random_quick.h"
+#include "xrandom\x_random_good.h"
+#include "xrandom\x_random_mersenne_twister.h"
+#include "xrandom\x_random_quick.h"
 
 namespace xcore
 {

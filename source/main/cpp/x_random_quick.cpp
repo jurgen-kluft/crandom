@@ -8,7 +8,7 @@
 #include "xbase\x_memory_std.h"
 #include "xbase\x_allocator.h"
 
-#include "xrandom\private\x_random_quick.h"
+#include "xrandom\x_random_quick.h"
 
 namespace xcore
 {

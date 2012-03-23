@@ -10,7 +10,7 @@
 
 #include "xrandom\x_random.h"
 #include "xrandom\x_perlin.h"
-#include "xrandom\private\x_random_good.h"
+#include "xrandom\x_random_good.h"
 
 namespace xcore
 {
