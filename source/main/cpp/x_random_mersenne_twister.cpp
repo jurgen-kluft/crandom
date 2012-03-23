@@ -9,7 +9,7 @@
 #include "xbase\x_allocator.h"
 #include "xbase\x_debug.h"
 
-#include "xrandom\private\x_random_mersenne_twister.h"
+#include "xrandom\x_random_mersenne_twister.h"
 
 
 namespace xcore
