@@ -11,8 +11,6 @@
 #pragma once
 #endif
 
-#include "xbase\x_types.h"
-
 namespace xcore
 {
 	/**
