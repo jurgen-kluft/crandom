@@ -12,7 +12,6 @@
 #endif
 
 // Includes
-#include "xbase\x_types.h"
 #include "xbase\x_allocator.h"
 
 #include "xrandom\x_irandom.h"

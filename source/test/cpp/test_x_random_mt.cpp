@@ -1,4 +1,3 @@
-#include "xbase\x_types.h"
 #include "xrandom\x_random.h"
 #include "xrandom\x_random_mersenne_twister.h"
 
