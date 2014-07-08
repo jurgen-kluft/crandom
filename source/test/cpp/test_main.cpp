@@ -68,7 +68,7 @@ public:
 		mAllocator = allocator;
 	}
 
-	void*	Allocate(int size)
+	void*	Allocate(size_t size)
 	{
 		++mNumAllocations;
 		return mAllocator->allocate(size, 4);
