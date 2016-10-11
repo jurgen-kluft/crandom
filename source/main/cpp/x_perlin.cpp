@@ -55,7 +55,7 @@ namespace xcore
 	{
 		mRefCount = 0;
 
-		xrnd_good rnd;
+		xrng_good rnd;
 
 		s32 i;
 		for (i=0; i<B; i++) 

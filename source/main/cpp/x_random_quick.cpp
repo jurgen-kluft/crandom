@@ -28,18 +28,18 @@ namespace xcore
 	}
 
 
-	xrnd_quick::xrnd_quick(x_iallocator* alloc) 
+	xrng_quick::xrng_quick(x_iallocator* alloc) 
 		: mSeed(0xdeadbeef)
 		, mAllocator(alloc)
 	{
 	}
 
-	void		xrnd_quick::init(s32 inSeed)
+	void		xrng_quick::init(s32 inSeed)
 	{
 		mSeed = inSeed; 
 	}
 
-	u32			xrnd_quick::rand(u32 inBits)
+	u32			xrng_quick::rand(u32 inBits)
 	{
 		ASSERT(inBits <= 32);
 		u32 rVal = mSeed>>(32-(inBits)); 
@@ -47,34 +47,34 @@ namespace xcore
 		return rVal; 
 	}
 
-	s32			xrnd_quick::randSign(u32 inBits)
+	s32			xrng_quick::randSign(u32 inBits)
 	{ 
 		ASSERT(inBits <= 31); 
 		return (rand(inBits+1) - (1 << inBits)); 
 	}
 
-	f32			xrnd_quick::randF()
+	f32			xrng_quick::randF()
 	{ 
 		f32 r = uint2float(mSeed); 
 		gen32(mSeed);
 		return r; 
 	}
 
-	f32			xrnd_quick::randFSign()
+	f32			xrng_quick::randFSign()
 	{
 		return ((randF()-0.5f)*2.0f);
 	}
 
-	bool		xrnd_quick::randBool()
+	bool		xrng_quick::randBool()
 	{
 		return (rand(1)==0);
 	} 
 
-	void		xrnd_quick::release()
+	void		xrng_quick::release()
 	{
 		if (mAllocator!=NULL) 
 		{
-			this->~xrnd_quick(); 
+			this->~xrng_quick(); 
 			mAllocator->deallocate(this); 
 			mAllocator = NULL;
 		}

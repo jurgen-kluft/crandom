@@ -1,11 +1,11 @@
 #include "xrandom\x_random.h"
-#include "xrandom\x_random_quick.h"
+#include "xrandom\x_random_sitmo.h"
 
 #include "xunittest\xunittest.h"
 
 using namespace xcore;
 
-UNITTEST_SUITE_BEGIN(xrandom_quick)
+UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 {
     UNITTEST_FIXTURE(main)
     {
@@ -14,33 +14,33 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 
 			random sRnd;
 			u32 ru;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sQuickRnd, 132465);
+			sRnd.init(&sRng, 132465);
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sQuickRnd, -1325);
+			sRnd.init(&sRng, -1325);
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 			//sRnd.Init(1.0f);//warning
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sQuickRnd, 'a');
+			sRnd.init(&sRng, 'a');
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 
 			random  sRnd;
 			u32 ru;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 			ru=sRnd.rand();
 			CHECK_NOT_EQUAL(ru,sRnd.rand());
 			ru=sRnd.rand(10);
@@ -57,11 +57,11 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 		}
 		UNITTEST_TEST(xrnd_RandSign)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 
 			random  sRnd;
 			s32 rs;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 			rs=sRnd.randSign();
 			CHECK_NOT_EQUAL(rs,sRnd.randSign());
 			rs=sRnd.randSign(10);
@@ -80,9 +80,9 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 		}
 		UNITTEST_TEST(xrnd_RandF)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 			random  sRnd;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 
 			f32 rfloat;
 			rfloat=sRnd.randF();
@@ -97,9 +97,9 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 		}
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 			random  sRnd;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
@@ -118,10 +118,10 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 		}
 		UNITTEST_TEST(xrnd_randBool)
 		{
-			xrng_quick sQuickRnd;
+			xrng_sitmo sRng;
 
 			random  sRnd;
-			sRnd.init(&sQuickRnd);
+			sRnd.init(&sRng);
 
 			u32 rbool=0;
 			u32 ru=0,ru2=0;

@@ -14,7 +14,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 
 		UNITTEST_TEST(seed1)
         {
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			sMtRnd.seed();	
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
 			sMtRnd.seed(12345679);
@@ -29,7 +29,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 		}
 		UNITTEST_TEST(seed2)
         {
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			u32 ru[3]={1,0, 999};
 			sMtRnd.seed(ru,3);
 			CHECK_NOT_EQUAL(sMtRnd.rand(),sMtRnd.rand());
@@ -53,7 +53,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 
 			// fix several buffer overflows here.. -- setting inLenght to random values far greater than the size of ru[]
 
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			s32 rs,rs2,rs3=0;
 			u32 ru[]={1,2,3};
 			sMtRnd.release();
@@ -96,7 +96,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 
 		UNITTEST_TEST(randF)
         {
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			f32 rf;
 			sMtRnd.seed();
@@ -116,7 +116,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 		}
 		UNITTEST_TEST(randFSign)
         {
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			f32 rf;
 			sMtRnd.seed();
@@ -140,7 +140,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 		}
 		UNITTEST_TEST(randBool)
         {
-			xrnd_mt sMtRnd;
+			xrng_mt sMtRnd;
 			u32 number[3]={1,2,3};
 			bool rbool;
 			sMtRnd.seed();

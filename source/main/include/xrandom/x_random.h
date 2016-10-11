@@ -24,14 +24,14 @@ namespace xcore
 	 * @group		xrandom
 	 * @brief		Random number generator
 	 */
-	class xrnd
+	class random
 	{
 	public:
 		///@name Construction/Destruction
-							xrnd() : mGenerator(NULL)					{  }
+							random() : mGenerator(NULL)					{  }
 
 		///@name Random functions
-		void				init(xirnd* inGenerator, s32 inSeed = 0)	{ mGenerator=inGenerator; mGenerator->init(inSeed); }
+		void				init(xrandom* inGenerator, s32 inSeed = 0)	{ mGenerator=inGenerator; mGenerator->init(inSeed); }
 		void				release()									{ mGenerator->release(); mGenerator=NULL; }
 
 		inline u32			rand(u32 inBits = 32)						{ ASSERT (inBits <= 32); return mGenerator->rand(inBits); }
@@ -54,12 +54,13 @@ namespace xcore
 		}
 
 	private:
-							xrnd(const xrnd& inOther)					{ }
-		xirnd*				mGenerator;
+							random(const random& inOther)					{ }
+		xrandom*			mGenerator;
 	};
 
-	extern xirnd*			gCreateRandomGeneratorGood(x_iallocator* allocator);
-	extern xirnd*			gCreateRandomGeneratorQuick(x_iallocator* allocator);
-	extern xirnd*			gCreateRandomGeneratorMersenneTwister(x_iallocator* allocator);
+	extern xrandom*			gCreate_RNG_Good(x_iallocator* allocator);
+	extern xrandom*			gCreate_RNG_Quick(x_iallocator* allocator);
+	extern xrandom*			gCreate_RNG_MT(x_iallocator* allocator);
+	extern xrandom*			gCreate_RNG_Sitmo(x_iallocator* allocator);
 }
 #endif

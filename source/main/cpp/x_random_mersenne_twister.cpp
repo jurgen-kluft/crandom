@@ -13,7 +13,7 @@
 
 namespace xcore
 {
-	xrnd_mt::xrnd_mt(x_iallocator* allocator)
+	xrng_mt::xrng_mt(x_iallocator* allocator)
 		: mAllocator(allocator)
 		, mState(NULL)
 		, mNextState(NULL)
@@ -23,7 +23,7 @@ namespace xcore
 
 	}
 
-	void		xrnd_mt::seed(u32 inSeed)
+	void		xrng_mt::seed(u32 inSeed)
 	{
 		if (mState==NULL)
 			mState = mStateData;
@@ -40,7 +40,7 @@ namespace xcore
 
 
 
-	void	xrnd_mt::seed(u32 const* inSeedArray, s32 inLength)
+	void	xrng_mt::seed(u32 const* inSeedArray, s32 inLength)
 	{
 		seed();
 
@@ -85,7 +85,7 @@ namespace xcore
 	/**
 	 * @brief	Releases all memory and resets the generator to it's initial state
 	 */
-	void	xrnd_mt::init(s32 inSeed)
+	void	xrng_mt::init(s32 inSeed)
 	{
 		mState = NULL;
 		mNextState = NULL;
@@ -97,7 +97,7 @@ namespace xcore
 	/**
 	 * @brief	Releases all memory and resets the generator to it's initial state
 	 */
-	void	xrnd_mt::release()
+	void	xrng_mt::release()
 	{
 		mState = NULL;
 		mNextState = NULL;
@@ -106,7 +106,7 @@ namespace xcore
 
 		if (mAllocator!=NULL) 
 		{
-			this->~xrnd_mt(); 
+			this->~xrng_mt(); 
 			mAllocator->deallocate(this); 
 			mAllocator = NULL;
 		}
@@ -115,7 +115,7 @@ namespace xcore
 	/**
 	 * @brief	Generates a random number on [0,0xffffffff]-interval
 	 */
-	u32	xrnd_mt::rand(u32 inBits)
+	u32	xrng_mt::rand(u32 inBits)
 	{
 		ASSERT( inBits <= 32 );
 
@@ -130,7 +130,7 @@ namespace xcore
 	/**
 	 * @brief	Generates a random number on [0,0x7fffffff]-interval
 	 */
-	s32		xrnd_mt::randSign(u32 inBits)
+	s32		xrng_mt::randSign(u32 inBits)
 	{
 		if (--mLeft == 0)
 			generateNewState();
@@ -140,7 +140,7 @@ namespace xcore
 	}
 
 
-	void	xrnd_mt::generateNewState()
+	void	xrng_mt::generateNewState()
 	{
 		// If Seed() has not been called, a default initial seed is used
 		if (!mInitialized)

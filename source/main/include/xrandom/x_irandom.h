@@ -17,10 +17,10 @@ namespace xcore
 	 * @group		xrandom
 	 * @brief		Random number generator interface
 	**/
-	class xirnd
+	class xrandom
 	{
 	public:
-		virtual				~xirnd() {}
+		virtual				~xrandom() {}
 
 		///@name Random functions
 		virtual void		init(s32 inSeed = 0) = 0;

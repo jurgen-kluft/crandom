@@ -14,8 +14,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrnd_good sGoodRnd;
-			xrnd sRnd;
+			xrng_good sGoodRnd;
+			random sRnd;
 			sRnd.init(&sGoodRnd);
 
 			u32 ru = sRnd.rand();
@@ -35,8 +35,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrnd_good sGoodRnd;
-			xrnd sRnd;
+			xrng_good sGoodRnd;
+			random sRnd;
 			sRnd.init(&sGoodRnd);
 
 			u32 ru = sRnd.rand();
@@ -61,8 +61,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_RandSign)
 		{
-			xrnd_good sGoodRnd;
-			xrnd sRnd;
+			xrng_good sGoodRnd;
+			random sRnd;
 			sRnd.init(&sGoodRnd);
 			
 			s32 rs = sRnd.randSign();
@@ -88,8 +88,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_RandF)
 		{
-			xrnd_good sGoodRnd;
-			xrnd sRnd;
+			xrng_good sGoodRnd;
+			random sRnd;
 			sRnd.init(&sGoodRnd);
 
 			f32 rfloat;
@@ -105,8 +105,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
-			xrnd_good sGoodRnd;
-			xrnd sRnd;
+			xrng_good sGoodRnd;
+			random sRnd;
 			sRnd.init(&sGoodRnd);
 
 			f32 rfloat;
@@ -126,8 +126,8 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_randBool)
 		{
-			xrnd_good sGoodRnd;
-			xrnd  sRnd;
+			xrng_good sGoodRnd;
+			random  sRnd;
 			sRnd.init(&sGoodRnd);
 
 			u32 rbool=0;

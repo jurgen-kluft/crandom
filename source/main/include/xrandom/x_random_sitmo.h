@@ -1,11 +1,11 @@
 /**
-* @file x_random_good.h
+* @file x_random_sitmo.h
 *
 * Core Random number generators
 */
 
-#ifndef __XRANDOM_RANDOM_GOOD_H__
-#define __XRANDOM_RANDOM_GOOD_H__
+#ifndef __XRANDOM_RANDOM_SITMO_H__
+#define __XRANDOM_RANDOM_SITMO_H__
 #include "xbase\x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
@@ -14,36 +14,39 @@
 #include "xbase\x_allocator.h"
 
 #include "xrandom\x_irandom.h"
-#include "xbase\x_endian.h"
 
 namespace xcore
 {
 	// Forward declares
 	class x_iallocator;
 
-	/**
-	 *	Random number generators (one very good, one very fast)
-	 */
+	class xrng_sitmo_state
+	{
+	public:
+		u64 _k[4];			// key
+		u64 _s[4];			// state (counter)
+		u64 _o[4];			// cipher output    4 * 64 bit = 256 bit output
+		u16 _o_counter;		// output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
+	};
 
 	/**
 	 * @group		xrandom
-	 * @brief		Good random value generator
+	 * @brief		Sitmo random number generator (https://www.sitmo.com)
 	 */
-	class xrng_good : public xrandom
+	class xrng_sitmo : public xrandom
 	{
 	private:
 		///@name Implementation
-		u8					mArray[256+sizeof(u32)];								///< Random generator data
-		s32					mIndex;													///< Random index
+		u32					mSeed;													///< Random seed
+		xrng_sitmo_state	mState;
 		x_iallocator*		mAllocator;
 
 	public:
 		///@name Construction/Destruction
-							xrng_good(x_iallocator* alloc=NULL);
+							xrng_sitmo(x_iallocator* alloc=NULL);
 
 		///@name Random functions
-		virtual void		init(s32 inSeed = 0);									///< Init with random seed
-		
+		virtual void		init(s32 inSeed = 0);
 		virtual u32			rand(u32 inBits = 32);
 		virtual s32			randSign(u32 inBits = 31);
 		virtual f32			randF();
@@ -55,6 +58,6 @@ namespace xcore
 		XCORE_CLASS_PLACEMENT_NEW_DELETE
 	};
 
-
 }
-#endif
+
+#endif	// __XRANDOM_RANDOM_SITMO_H__

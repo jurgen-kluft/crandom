@@ -23,17 +23,17 @@ namespace xcore
 	}
 
 
-	xrnd_good::xrnd_good(x_iallocator* alloc) 
+	xrng_good::xrng_good(x_iallocator* alloc) 
 		: mIndex(0)
 		, mAllocator(alloc)
 	{
 	}
 
-	void		xrnd_good::release()
+	void		xrng_good::release()
 	{
 		if (mAllocator!=NULL) 
 		{
-			this->~xrnd_good(); 
+			this->~xrng_good(); 
 			mAllocator->deallocate(this); 
 			mAllocator = NULL;
 		}
@@ -60,7 +60,7 @@ namespace xcore
 	//
 	// Initialize random table with seed <inSeed>
 	//
-	void xrnd_good::init(s32 inSeed)
+	void xrng_good::init(s32 inSeed)
 	{
 		// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
@@ -69,7 +69,7 @@ namespace xcore
 		mIndex = (u8)inSeed;														// Start index
 	}
 	
-	u32 xrnd_good::rand(u32 inBits)
+	u32 xrng_good::rand(u32 inBits)
 	{ 
 		ASSERT(inBits <= 32);
 
@@ -81,23 +81,23 @@ namespace xcore
 		return (r >> (32-inBits)); 
 	}
 
-	s32			xrnd_good::randSign(u32 inBits)
+	s32			xrng_good::randSign(u32 inBits)
 	{
 		ASSERT(inBits <= 31); 
 		return (rand(inBits+1)-(1 << inBits)); 
 	}	
 
-	f32			xrnd_good::randF()
+	f32			xrng_good::randF()
 	{
 		return (uint2float(rand())); 
 	}
 
-	f32			xrnd_good::randFSign()
+	f32			xrng_good::randFSign()
 	{
 		return ((randF()-0.5f)*2.0f); 
 	}
 
-	xbool		xrnd_good::randBool()
+	xbool		xrng_good::randBool()
 	{
 		return (rand(1)==0);
 	}

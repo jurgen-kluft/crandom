@@ -24,7 +24,7 @@ namespace xcore
 	 * @group		xrandom
 	 * @brief		Quick and dirty random generator
 	 */
-	class xrnd_quick : public xirnd
+	class xrng_quick : public xrandom
 	{
 	private:
 		///@name Implementation
@@ -33,7 +33,7 @@ namespace xcore
 
 	public:
 		///@name Construction/Destruction
-							xrnd_quick(x_iallocator* alloc=NULL);
+							xrng_quick(x_iallocator* alloc=NULL);
 
 		///@name Random functions
 		virtual void		init(s32 inSeed = 0);

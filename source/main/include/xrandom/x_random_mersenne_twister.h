@@ -28,7 +28,7 @@ namespace xcore
 	 *			Note that this means, by default, that there is negligible serial correlation between 
 	 *			successive values in the output sequence. 
 	 */
-	class xrnd_mt : public xirnd
+	class xrng_mt : public xrandom
 	{
 		enum EPeriodParameters
 		{
@@ -45,7 +45,7 @@ namespace xcore
 		inline f32			toFloat(u32 inUInt)										{ u32 fakeFloat = (inUInt>>(32-23)) | 0x3f800000; return ((*(f32 *)&fakeFloat)-1.0f); }
 
 	public:
-							xrnd_mt(x_iallocator* alloc=NULL);
+							xrng_mt(x_iallocator* alloc=NULL);
 
 		void				seed(u32 inSeed = 19650218);
 		void				seed(u32 const* inSeed, s32 inLength);

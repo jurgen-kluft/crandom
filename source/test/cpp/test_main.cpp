@@ -1,7 +1,7 @@
 #include "xbase\x_target.h"
 #include "xbase\x_allocator.h"
 
-#include "xrandom\xrandom.h"
+#include "xrandom\x_random.h"
 
 #include "xunittest\xunittest.h"
 
@@ -11,6 +11,7 @@ UNITTEST_SUITE_LIST(xRandomUnitTest);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_quick);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_good);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_mt);
+UNITTEST_SUITE_DECLARE(xRandomUnitTest, xrandom_sitmo);
 UNITTEST_SUITE_DECLARE(xRandomUnitTest, perlin);
 
 
