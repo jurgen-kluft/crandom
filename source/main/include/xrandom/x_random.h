@@ -7,13 +7,13 @@
 // Random.h - Core Random number generators - 
 #ifndef __XRANDOM_RANDOM_H__
 #define __XRANDOM_RANDOM_H__
-#include "xbase\x_target.h"
+#include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
 #endif
 
-#include "xbase\x_debug.h"
-#include "xrandom\x_irandom.h"
+#include "xbase/x_debug.h"
+#include "xrandom/x_irandom.h"
 
 namespace xcore
 {

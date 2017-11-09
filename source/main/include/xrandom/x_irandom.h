@@ -6,7 +6,7 @@
 
 #ifndef __XRANDOM_IRANDOM_H__
 #define __XRANDOM_IRANDOM_H__
-#include "xbase\x_target.h"
+#include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
 #endif

@@ -4,11 +4,11 @@
 * Core Random number generators, quick
 */
 
-#include "xbase\x_target.h"
-#include "xbase\x_memory_std.h"
-#include "xbase\x_allocator.h"
+#include "xbase/x_target.h"
+#include "xbase/x_memory_std.h"
+#include "xbase/x_allocator.h"
 
-#include "xrandom\x_random_sitmo.h"
+#include "xrandom/x_random_sitmo.h"
 
 namespace xcore
 {

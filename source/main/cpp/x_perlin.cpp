@@ -4,12 +4,12 @@
 * Perlin Noise implementation
 */
 
-#include "xbase\x_target.h"
-#include "xbase\x_allocator.h"
+#include "xbase/x_target.h"
+#include "xbase/x_allocator.h"
 
-#include "xrandom\x_random.h"
-#include "xrandom\x_perlin.h"
-#include "xrandom\x_random_good.h"
+#include "xrandom/x_random.h"
+#include "xrandom/x_perlin.h"
+#include "xrandom/x_random_good.h"
 
 namespace xcore
 {
