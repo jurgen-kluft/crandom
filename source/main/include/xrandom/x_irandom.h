@@ -33,5 +33,12 @@ namespace xcore
 		virtual xbool		randBool() = 0;
 	};
 
+	// Static class: random utilities
+	class xrandom_utils
+	{
+	public:
+		static void			randBuffer(xrandom& rnd, xbyte* buffer, u32 len);
+	};
+
 }
 #endif	///< __XRANDOM_IRANDOM_H__

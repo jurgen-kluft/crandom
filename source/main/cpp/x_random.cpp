@@ -43,4 +43,23 @@ namespace xcore
 		xrng_sitmo* rnd = new (mem) xrng_sitmo(allocator);
 		return rnd;
 	}
+
+	void			xrandom_utils::randBuffer(xrandom& rnd, xbyte* buffer, u32 len)
+	{
+		u32 rc = 0;
+		u32 rv = 0;
+		while (len > 0)
+		{
+			if (rc == 0)
+			{
+				rc = 4;
+				rv = rnd.rand();
+			}
+			*buffer++ = rv & 0xFF;
+			rv = rv >> 8;
+			rc -= 1;
+			len -= 1;
+		}
+	}
+
 }
