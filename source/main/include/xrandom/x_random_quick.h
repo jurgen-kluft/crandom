@@ -12,8 +12,7 @@
 #endif
 
 #include "xbase/x_allocator.h"
-
-#include "xrandom/x_irandom.h"
+#include "xrandom/x_rndgen.h"
 
 namespace xcore
 {
@@ -24,7 +23,7 @@ namespace xcore
 	 * @group		xrandom
 	 * @brief		Quick and dirty random generator
 	 */
-	class xrng_quick : public xrandom
+	class xrng_quick : public xrndgen
 	{
 	private:
 		///@name Implementation
@@ -36,12 +35,14 @@ namespace xcore
 							xrng_quick(x_iallocator* alloc=NULL);
 
 		///@name Random functions
-		virtual void		init(s32 inSeed = 0);
-		virtual u32			rand(u32 inBits = 32);
-		virtual s32			randSign(u32 inBits = 31);
-		virtual f32			randF();
-		virtual f32			randFSign();
+		virtual void		reset(s32 inSeed = 0);									///< Init with random seed
+		
+		virtual u32			randU32(u32 inBits = 32);
+		virtual s32			randS32(u32 inBits = 31);
+		virtual f32			randF32();
+		virtual f32			randF32S();
 		virtual xbool		randBool();
+		virtual void		randBuffer(xbuffer& buffer);
 
 		virtual void		release();
 

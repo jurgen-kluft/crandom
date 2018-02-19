@@ -13,8 +13,7 @@
 
 // Includes
 #include "xbase/x_allocator.h"
-
-#include "xrandom/x_irandom.h"
+#include "xrandom/x_rndgen.h"
 
 namespace xcore
 {
@@ -28,7 +27,7 @@ namespace xcore
 	 *			Note that this means, by default, that there is negligible serial correlation between 
 	 *			successive values in the output sequence. 
 	 */
-	class xrng_mt : public xrandom
+	class xrng_mt : public xrndgen
 	{
 		enum EPeriodParameters
 		{
@@ -50,14 +49,16 @@ namespace xcore
 		void				seed(u32 inSeed = 19650218);
 		void				seed(u32 const* inSeed, s32 inLength);
 
-		virtual void		init(s32 inSeed);
-		virtual void		release();
+		virtual void		reset(s32 inSeed = 0);
 
-		virtual u32			rand(u32 inBits=32);
-		virtual s32			randSign(u32 inBits=31);
-		virtual f32			randF()													{ return (toFloat(rand())); }		///< Return f32 in range [0.0 ... 1.0]
-		virtual f32			randFSign()												{ return ((randF()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
-		virtual xbool		randBool()												{ return (rand(1)==0); }			///< Return true or false
+		virtual u32			randU32(u32 inBits=32);
+		virtual s32			randS32(u32 inBits=31);
+		virtual f32			randF32()												{ return (toFloat(randU32())); }		///< Return f32 in range [0.0 ... 1.0]
+		virtual f32			randF32S()												{ return ((randF32()-0.5f)*2.0f); }	///< Return f32 in range [-1.0 ... 1.0]
+		virtual xbool		randBool()												{ return (randU32(1)==0); }			///< Return true or false
+		virtual void		randBuffer(xbuffer& buffer);
+
+		virtual void		release();
 
 		XCORE_CLASS_PLACEMENT_NEW_DELETE
 

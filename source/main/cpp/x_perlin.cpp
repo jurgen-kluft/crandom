@@ -61,20 +61,20 @@ namespace xcore
 		for (i=0; i<B; i++) 
 		{
 			mP[i]		= i;
-			mG1[i]		= rnd.randFSign();
-			mG2[i][0]	= rnd.randF();
-			mG2[i][1]	= rnd.randF();
-			mG3[i][0]	= rnd.randF();
-			mG3[i][1]	= rnd.randF();
-			mG3[i][2]	= rnd.randF();
+			mG1[i]		= rnd.randF32S();
+			mG2[i][0]	= rnd.randF32();
+			mG2[i][1]	= rnd.randF32();
+			mG3[i][0]	= rnd.randF32();
+			mG3[i][1]	= rnd.randF32();
+			mG3[i][2]	= rnd.randF32();
 		}
 
 		// Reorder permutations
 		while (--i)
 		{
 			s32 t = mP[i];
-			mP[i] = mP[rnd.rand(B_BITS)];
-			mP[rnd.rand(B_BITS)] = t;
+			mP[i] = mP[rnd.randU32(B_BITS)];
+			mP[rnd.randU32(B_BITS)] = t;
 		}
 
 		for (i=0; i<B+2; i++) 

@@ -34,12 +34,12 @@ namespace xcore
 	{
 	}
 
-	void		xrng_quick::init(s32 inSeed)
+	void		xrng_quick::reset(s32 inSeed)
 	{
 		mSeed = inSeed; 
 	}
 
-	u32			xrng_quick::rand(u32 inBits)
+	u32			xrng_quick::randU32(u32 inBits)
 	{
 		ASSERT(inBits <= 32);
 		u32 rVal = mSeed>>(32-(inBits)); 
@@ -47,28 +47,41 @@ namespace xcore
 		return rVal; 
 	}
 
-	s32			xrng_quick::randSign(u32 inBits)
+	s32			xrng_quick::randS32(u32 inBits)
 	{ 
 		ASSERT(inBits <= 31); 
-		return (rand(inBits+1) - (1 << inBits)); 
+		return (randU32(inBits+1) - (1 << inBits)); 
 	}
 
-	f32			xrng_quick::randF()
+	f32			xrng_quick::randF32()
 	{ 
 		f32 r = uint2float(mSeed); 
 		gen32(mSeed);
 		return r; 
 	}
 
-	f32			xrng_quick::randFSign()
+	f32			xrng_quick::randF32S()
 	{
-		return ((randF()-0.5f)*2.0f);
+		return ((randF32()-0.5f)*2.0f);
 	}
 
 	bool		xrng_quick::randBool()
 	{
-		return (rand(1)==0);
+		return (randU32(1)==0);
 	} 
+
+	void		xrng_quick::randBuffer(xbuffer& buffer)
+	{
+		u32 rnd;
+		for (u32 i=0; i<buffer.size(); ++i)
+		{
+			if ((i&3) == 0)
+				rnd = randU32();
+
+			buffer[i] = (rnd&0xff);
+			rnd = rnd >> 8;
+		}
+	}
 
 	void		xrng_quick::release()
 	{

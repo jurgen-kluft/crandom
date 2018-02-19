@@ -85,7 +85,7 @@ namespace xcore
 	/**
 	 * @brief	Releases all memory and resets the generator to it's initial state
 	 */
-	void	xrng_mt::init(s32 inSeed)
+	void	xrng_mt::reset(s32 inSeed)
 	{
 		mState = NULL;
 		mNextState = NULL;
@@ -115,7 +115,7 @@ namespace xcore
 	/**
 	 * @brief	Generates a random number on [0,0xffffffff]-interval
 	 */
-	u32	xrng_mt::rand(u32 inBits)
+	u32	xrng_mt::randU32(u32 inBits)
 	{
 		ASSERT( inBits <= 32 );
 
@@ -130,7 +130,7 @@ namespace xcore
 	/**
 	 * @brief	Generates a random number on [0,0x7fffffff]-interval
 	 */
-	s32		xrng_mt::randSign(u32 inBits)
+	s32		xrng_mt::randS32(u32 inBits)
 	{
 		if (--mLeft == 0)
 			generateNewState();
@@ -139,6 +139,18 @@ namespace xcore
 		return (s32)(x>>(32-inBits));
 	}
 
+	void	xrng_mt::randBuffer(xbuffer& buffer)
+	{
+		u32 rnd;
+		for (u32 i=0; i<buffer.size(); ++i)
+		{
+			if ((i&3) == 0)
+				rnd = randU32();
+
+			buffer[i] = (rnd&0xff);
+			rnd = rnd >> 8;
+		}
+	}
 
 	void	xrng_mt::generateNewState()
 	{

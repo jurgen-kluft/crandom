@@ -60,7 +60,7 @@ namespace xcore
 	//
 	// Initialize random table with seed <inSeed>
 	//
-	void xrng_good::init(s32 inSeed)
+	void xrng_good::reset(s32 inSeed)
 	{
 		// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
@@ -69,7 +69,7 @@ namespace xcore
 		mIndex = (u8)inSeed;														// Start index
 	}
 	
-	u32 xrng_good::rand(u32 inBits)
+	u32 xrng_good::randU32(u32 inBits)
 	{ 
 		ASSERT(inBits <= 32);
 
@@ -81,25 +81,38 @@ namespace xcore
 		return (r >> (32-inBits)); 
 	}
 
-	s32			xrng_good::randSign(u32 inBits)
+	s32			xrng_good::randS32(u32 inBits)
 	{
 		ASSERT(inBits <= 31); 
-		return (rand(inBits+1)-(1 << inBits)); 
+		return (randU32(inBits+1)-(1 << inBits)); 
 	}	
 
-	f32			xrng_good::randF()
+	f32			xrng_good::randF32()
 	{
-		return (uint2float(rand())); 
+		return (uint2float(randU32())); 
 	}
 
-	f32			xrng_good::randFSign()
+	f32			xrng_good::randF32S()
 	{
-		return ((randF()-0.5f)*2.0f); 
+		return ((randF32()-0.5f)*2.0f); 
 	}
 
 	xbool		xrng_good::randBool()
 	{
-		return (rand(1)==0);
+		return (randU32(1)==0);
+	}
+
+	void		xrng_good::randBuffer(xbuffer& buffer)
+	{
+		u32 rnd;
+		for (u32 i=0; i<buffer.size(); ++i)
+		{
+			if ((i&3) == 0)
+				rnd = randU32();
+
+			buffer[i] = (rnd&0xff);
+			rnd = rnd >> 8;
+		}
 	}
 
 }

@@ -15,41 +15,39 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_Init)
 		{
 			xrng_good sGoodRnd;
-			random sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom sRnd(&sGoodRnd);
 
-			u32 ru = sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sGoodRnd, 132465);
-			ru=sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sGoodRnd, -1325);
-			ru=sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
+			u32 ru = sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
+			sRnd.reset(132465);
+			ru=sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
+			sRnd.reset(-1325);
+			ru=sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
 			//sRnd.Init(1.0f);//warning
-			ru=sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			sRnd.init(&sGoodRnd, 'a');
-			ru=sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
+			ru=sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
+			sRnd.reset('a');
+			ru=sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
 			xrng_good sGoodRnd;
-			random sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom sRnd(&sGoodRnd);
 
-			u32 ru = sRnd.rand();
-			CHECK_NOT_EQUAL(ru,sRnd.rand());
-			ru=sRnd.rand(10);
-			CHECK_NOT_EQUAL(ru,sRnd.rand(10));
-			ru=sRnd.rand(31);
-			CHECK_NOT_EQUAL(ru,sRnd.rand(31));
+			u32 ru = sRnd.randU32();
+			CHECK_NOT_EQUAL(ru,sRnd.randU32());
+			ru=sRnd.randU32(10);
+			CHECK_NOT_EQUAL(ru,sRnd.randU32(10));
+			ru=sRnd.randU32(31);
+			CHECK_NOT_EQUAL(ru,sRnd.randU32(31));
 			
 			u32 history[50];
 			for(s32 i=0;i<50;i++)
 			{
-				ru = sRnd.rand();
+				ru = sRnd.randU32();
 				for (s32 j=0; j<i; ++j)
 					CHECK_NOT_EQUAL(ru, history[j]);
 				history[i] = ru;
@@ -62,20 +60,19 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_RandSign)
 		{
 			xrng_good sGoodRnd;
-			random sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom sRnd(&sGoodRnd);
 			
-			s32 rs = sRnd.randSign();
-			CHECK_NOT_EQUAL(rs,sRnd.randSign());
-			rs=sRnd.randSign(10);
-			CHECK_NOT_EQUAL(rs,sRnd.randSign(10));
-			rs=sRnd.rand(31);
-			CHECK_NOT_EQUAL(rs,sRnd.randSign(31));
+			s32 rs = sRnd.randS32();
+			CHECK_NOT_EQUAL(rs,sRnd.randS32());
+			rs=sRnd.randS32(10);
+			CHECK_NOT_EQUAL(rs,sRnd.randS32(10));
+			rs=sRnd.randU32(31);
+			CHECK_NOT_EQUAL(rs,sRnd.randS32(31));
 
 			u32 zzz=0,zzz2=0;
 			for(s32 i=0;i<50;i++)
 			{
-				rs=sRnd.rand();
+				rs=sRnd.randU32();
 				
 				if (rs>0) zzz=1;
 				else zzz2=1;
@@ -89,15 +86,14 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_RandF)
 		{
 			xrng_good sGoodRnd;
-			random sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom sRnd(&sGoodRnd);
 
 			f32 rfloat;
-			rfloat=sRnd.randF();
-			CHECK_NOT_EQUAL(rfloat,sRnd.randF());
+			rfloat=sRnd.randF32();
+			CHECK_NOT_EQUAL(rfloat,sRnd.randF32());
 			for(s32 i=0;i<50;i++)
 			{
-				rfloat=sRnd.randF();
+				rfloat=sRnd.randF32();
 				CHECK_EQUAL(rfloat>=0.0,true);
 				CHECK_EQUAL(rfloat<=1.0,true);
 				if((s32)rfloat%3!=0) CHECK_EQUAL(rfloat/3*3,rfloat);
@@ -106,16 +102,15 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
 			xrng_good sGoodRnd;
-			random sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom sRnd(&sGoodRnd);
 
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
-			rfloat=sRnd.randFSign();
-			CHECK_NOT_EQUAL(rfloat,sRnd.randFSign());
+			rfloat=sRnd.randF32S();
+			CHECK_NOT_EQUAL(rfloat,sRnd.randF32S());
 			for(s32 i=0;i<50;i++)
 			{
-				rfloat=sRnd.randFSign();
+				rfloat=sRnd.randF32S();
 				CHECK_EQUAL(rfloat>=-1.0,true);
 				CHECK_EQUAL(rfloat<=1.0,true);
 				if(rfloat>0.0) zzz=1;
@@ -127,8 +122,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		UNITTEST_TEST(xrnd_randBool)
 		{
 			xrng_good sGoodRnd;
-			random  sRnd;
-			sRnd.init(&sGoodRnd);
+			xrandom  sRnd(&sGoodRnd);
 
 			u32 rbool=0;
 			u32 ru=0,ru2=0;

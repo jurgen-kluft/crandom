@@ -94,7 +94,7 @@ namespace xcore
 		}
 
 
-		// Advances e’s state ei to ei+1 = TA(ei) and returns GA(ei).
+		// Advances eï¿½s state ei to ei+1 = TA(ei) and returns GA(ei).
 		u32 gen_u32()
 		{
 			// can we return a value from the current block?
@@ -137,7 +137,7 @@ namespace xcore
 		// misc
 		// -------------------------------------------------
 
-		// Advances e’s state ei to ei+z by any means equivalent to z consecutive calls e().
+		// Advances eï¿½s state ei to ei+z by any means equivalent to z consecutive calls e().
 		void discard(u64 z)
 		{
 			// check if we stay in the current block
@@ -258,14 +258,14 @@ namespace xcore
 	{
 	}
 
-	void		xrng_sitmo::init(s32 inSeed)
+	void		xrng_sitmo::reset(s32 inSeed)
 	{
 		mSeed = inSeed;
 		xrng_sitmo_engine* engine = (xrng_sitmo_engine*)&mState;
 		engine->seed(mSeed);
 	}
 
-	u32			xrng_sitmo::rand(u32 inBits)
+	u32			xrng_sitmo::randU32(u32 inBits)
 	{
 		ASSERT(inBits <= 32);
 		xrng_sitmo_engine* engine = (xrng_sitmo_engine*)&mState;
@@ -274,7 +274,7 @@ namespace xcore
 		return rVal;
 	}
 
-	s32			xrng_sitmo::randSign(u32 inBits)
+	s32			xrng_sitmo::randS32(u32 inBits)
 	{
 		ASSERT(inBits <= 31);
 		xrng_sitmo_engine* engine = (xrng_sitmo_engine*)&mState;
@@ -283,21 +283,34 @@ namespace xcore
 		return (s32)rVal - (s32)(1 << inBits);
 	}
 
-	f32			xrng_sitmo::randF()
+	f32			xrng_sitmo::randF32()
 	{
 		xrng_sitmo_engine* engine = (xrng_sitmo_engine*)&mState;
 		f32 r = engine->gen_f32();
 		return r;
 	}
 
-	f32			xrng_sitmo::randFSign()
+	f32			xrng_sitmo::randF32S()
 	{
-		return ((randF() - 0.5f)*2.0f);
+		return ((randF32() - 0.5f)*2.0f);
 	}
 
 	bool		xrng_sitmo::randBool()
 	{
-		return (rand(1) == 0);
+		return (randU32(1) == 0);
+	}
+
+	void		xrng_sitmo::randBuffer(xbuffer& buffer)
+	{
+		u32 rnd;
+		for (u32 i=0; i<buffer.size(); ++i)
+		{
+			if ((i&3) == 0)
+				rnd = randU32();
+
+			buffer[i] = (rnd&0xff);
+			rnd = rnd >> 8;
+		}
 	}
 
 	void		xrng_sitmo::release()
