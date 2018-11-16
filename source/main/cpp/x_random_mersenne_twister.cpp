@@ -13,36 +13,51 @@
 
 namespace xcore
 {
-	xrng_mt::xrng_mt(x_iallocator* allocator)
-		: mAllocator(allocator)
-		, mState(NULL)
+	enum EPeriodParameters
+	{
+		N			= 624,
+		M			= 397,
+		MATRIX_A	= 0x9908b0df,												///< Constant vector a
+		UMASK		= 0x80000000,												///< Most significant w-r bits
+		LMASK		= 0x7fffffff												///< Least significant r bits
+	};
+
+	inline u32			mixBits(u32 u, u32 v)									{ return (u & UMASK) | (v & LMASK); }
+	inline u32			twist(u32 u, u32 v)										{ return (mixBits(u,v) >> 1) ^ ((v&1) ? MATRIX_A : 0); }
+
+	xrndmt::state::state()
+		: mState(NULL)
 		, mNextState(NULL)
 		, mLeft(0)
 		, mInitialized(false)
-	{
+	{}
 
+	void		state_reset(xrndmt::state& state)
+	{
+		state.mState = NULL;
+		state.mNextState = NULL;
+		state.mLeft = 0;
+		state.mInitialized = false;
 	}
 
-	void		xrng_mt::seed(u32 inSeed)
+	void		state_seed(xrndmt::state& state, u32 inSeed)
 	{
-		if (mState==NULL)
-			mState = mStateData;
+		if (state.mState==NULL)
+			state.mState = state.mStateData;
 
-		mState[0]= inSeed & (u32)0xffffffff;
+		state.mState[0]= inSeed & (u32)0xffffffff;
 		for (s32 j=1; j<N; j++)
 		{
-			mState[j] = ((u32)1812433253 * (mState[j-1] ^ (mState[j-1] >> 30)) + j); 
-			mState[j] &= (u32)0xffffffff;
+			state.mState[j] = ((u32)1812433253 * (state.mState[j-1] ^ (state.mState[j-1] >> 30)) + j); 
+			state.mState[j] &= (u32)0xffffffff;
 		}
-		mLeft = 1;
-		mInitialized = true;
+		state.mLeft = 1;
+		state.mInitialized = true;
 	}
 
-
-
-	void	xrng_mt::seed(u32 const* inSeedArray, s32 inLength)
+	void	state_seed_from_array(xrndmt::state& state, u32 const* inSeedArray, s32 inLength)
 	{
-		seed();
+		state_seed(state);
 
 		s32 i=1;
 		s32 j=0;
@@ -51,14 +66,14 @@ namespace xcore
 
 		for (; k; k--)
 		{
-			mState[i] = (mState[i] ^ ((mState[i-1] ^ (mState[i-1] >> 30)) * (u32)1664525)) + inSeedArray[j] + j;
-			mState[i] &= (u32)0xffffffff;
+			state.mState[i] = (state.mState[i] ^ ((state.mState[i-1] ^ (state.mState[i-1] >> 30)) * (u32)1664525)) + inSeedArray[j] + j;
+			state.mState[i] &= (u32)0xffffffff;
 
 			i++;
 			j++;
 			if (i>=N)
 			{
-				mState[0] = mState[N-1];
+				state.mState[0] = state.mState[N-1];
 				i=1;
 			}
 			if (j>=inLength)
@@ -66,102 +81,32 @@ namespace xcore
 		}
 		for (k=N-1; k; k--)
 		{
-			mState[i] = (mState[i] ^ ((mState[i-1] ^ (mState[i-1] >> 30)) * (u32)1566083941)) - i;
-			mState[i] &= (u32)0xffffffff;
+			state.mState[i] = (state.mState[i] ^ ((state.mState[i-1] ^ (state.mState[i-1] >> 30)) * (u32)1566083941)) - i;
+			state.mState[i] &= (u32)0xffffffff;
 
 			i++;
 			if (i>=N)
 			{
-				mState[0] = mState[N-1];
+				state.mState[0] = state.mState[N-1];
 				i = 1;
 			}
 		}
 
-		mState[0] = 0x80000000;														// MSB is 1; assuring non-zero initial array
-		mLeft = 1;
-		mInitialized = true;
+		state.mState[0] = 0x80000000;														// MSB is 1; assuring non-zero initial array
+		state.mLeft = 1;
+		state.mInitialized = true;
 	}
 
-	/**
-	 * @brief	Releases all memory and resets the generator to it's initial state
-	 */
-	void	xrng_mt::reset(s32 inSeed)
-	{
-		mState = NULL;
-		mNextState = NULL;
-		mLeft = 0;
-		mInitialized = false;
-		seed(inSeed);
-	}
-
-	/**
-	 * @brief	Releases all memory and resets the generator to it's initial state
-	 */
-	void	xrng_mt::release()
-	{
-		mState = NULL;
-		mNextState = NULL;
-		mLeft = 0;
-		mInitialized = false;
-
-		if (mAllocator!=NULL) 
-		{
-			this->~xrng_mt(); 
-			mAllocator->deallocate(this); 
-			mAllocator = NULL;
-		}
-	}
-
-	/**
-	 * @brief	Generates a random number on [0,0xffffffff]-interval
-	 */
-	u32	xrng_mt::randU32(u32 inBits)
-	{
-		ASSERT( inBits <= 32 );
-
-		if (--mLeft == 0)
-			generateNewState();
-
-		u32 x = *mNextState++;
-		return (x>>(32-inBits));
-	}
-
-
-	/**
-	 * @brief	Generates a random number on [0,0x7fffffff]-interval
-	 */
-	s32		xrng_mt::randS32(u32 inBits)
-	{
-		if (--mLeft == 0)
-			generateNewState();
-
-		u32 x = *mNextState++;
-		return (s32)(x>>(32-inBits));
-	}
-
-	void	xrng_mt::randBuffer(xbuffer& buffer)
-	{
-		u32 rnd;
-		for (u32 i=0; i<buffer.size(); ++i)
-		{
-			if ((i&3) == 0)
-				rnd = randU32();
-
-			buffer[i] = (rnd&0xff);
-			rnd = rnd >> 8;
-		}
-	}
-
-	void	xrng_mt::generateNewState()
+	void	state_generate_new(xrndmt::state& state)
 	{
 		// If Seed() has not been called, a default initial seed is used
-		if (!mInitialized)
-			seed();
+		if (!state.mInitialized)
+			state_seed(state);
 
-		mLeft = N;
-		mNextState = mState;
+		state.mLeft = N;
+		state.mNextState = state.mState;
 
-		u32*	statePtr = mState;
+		u32* statePtr = state.mState;
 
 		s32 j;
 		for (j=N-M+1; --j; statePtr++) 
@@ -170,7 +115,58 @@ namespace xcore
 		for (j=M; --j; statePtr++) 
 			*statePtr = statePtr[M-N] ^ twist(statePtr[0], statePtr[1]);
 
-		*statePtr = statePtr[M-N] ^ twist(statePtr[0], mState[0]);
+		*statePtr = statePtr[M-N] ^ twist(statePtr[0], state.mState[0]);
+	}
+
+	u32			state_generate(xrndmt::state& state)
+	{
+		if (--state.mLeft == 0)
+			state_generate_new(state);
+		return *state.mNextState++;
+	}
+
+
+	xrndmt::xrndmt(x_iallocator* allocator)
+		: mAllocator(allocator)
+	{
+		state_reset(mState);
+	}
+
+	void		xrndmt::seed(u32 inSeed)
+	{
+		state_seed(mState, inSeed);
+	}
+
+	/**
+	 * @brief	Releases all memory and resets the generator to it's initial state
+	 */
+	void	xrndmt::reset(s32 inSeed)
+	{
+		state_reset(mState);
+		state_seed(mState, inSeed);
+	}
+
+	/**
+	 * @brief	Releases all memory and resets the generator to it's initial state
+	 */
+	void	xrndmt::release()
+	{
+		mState.reset();
+
+		if (mAllocator!=NULL) 
+		{
+			this->~xrndmt(); 
+			mAllocator->deallocate(this); 
+			mAllocator = NULL;
+		}
+	}
+
+	/**
+	 * @brief	Generates a random number on [0,0xffffffff]-interval
+	 */
+	u32	xrndmt::generate()
+	{
+		return state_generate(mState);
 	}
 
 }

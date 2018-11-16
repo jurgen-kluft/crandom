@@ -1,10 +1,3 @@
-/**
-* @file x_perlin.h
-*
-* Core Perlin noise
-*/
-
-// xnoise.h - Core Perlin noise - 
 #ifndef __XRANDOM_PERLIN_H__
 #define __XRANDOM_PERLIN_H__
 #include "xbase/x_target.h"

@@ -17,42 +17,34 @@
 namespace xcore
 {
 	// Forward declares
-	class x_iallocator;
-
-	class xrng_sitmo_state
-	{
-	public:
-		u64 _k[4];			// key
-		u64 _s[4];			// state (counter)
-		u64 _o[4];			// cipher output    4 * 64 bit = 256 bit output
-		u16 _o_counter;		// output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
-	};
+	class xalloc;
 
 	/**
 	 * @group		xrandom
 	 * @brief		Sitmo random number generator (https://www.sitmo.com)
 	 */
-	class xrng_sitmo : public xrndgen
+	class xrndsitmo : public xrandom
 	{
+	public:
+		struct state
+		{
+			u64 _k[4];			// key
+			u64 _s[4];			// state (counter)
+			u64 _o[4];			// cipher output    4 * 64 bit = 256 bit output
+			u16 _o_counter;		// output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
+		};
+
 	private:
-		///@name Implementation
-		u32					mSeed;													///< Random seed
-		xrng_sitmo_state	mState;
-		x_iallocator*		mAllocator;
+		state		mState;
+		xalloc*		mAllocator;
 
 	public:
 		///@name Construction/Destruction
-							xrng_sitmo(x_iallocator* alloc=NULL);
+							xrndsitmo(x_iallocator* alloc=NULL);
 
 		///@name Random functions
 		virtual void		reset(s32 inSeed = 0);									///< Init with random seed
-		
-		virtual u32			randU32(u32 inBits = 32);
-		virtual s32			randS32(u32 inBits = 31);
-		virtual f32			randF32();
-		virtual f32			randF32S();
-		virtual xbool		randBool();
-		virtual void		randBuffer(xbuffer& buffer);
+		virtual u32			generate();
 
 		virtual void		release();
 

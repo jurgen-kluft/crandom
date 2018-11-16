@@ -1,9 +1,3 @@
-/**
-* @file x_random_quick.h
-*
-* Core Random number generators
-*/
-
 #ifndef __XRANDOM_RANDOM_QUICK_H__
 #define __XRANDOM_RANDOM_QUICK_H__
 #include "xbase/x_target.h"
@@ -12,37 +6,27 @@
 #endif
 
 #include "xbase/x_allocator.h"
-#include "xrandom/x_rndgen.h"
+#include "xbase/x_random.h"
 
 namespace xcore
 {
 	// Forward declares
-	class x_iallocator;
+	class xalloc;
 
-	/**
-	 * @group		xrandom
-	 * @brief		Quick and dirty random generator
-	 */
-	class xrng_quick : public xrndgen
+	class xrndquick : public xrandom
 	{
 	private:
 		///@name Implementation
-		u32					mSeed;													///< Random seed
-		x_iallocator*		mAllocator;
+		u32				mSeed;													///< Random seed
+		xalloc*			mAllocator;
 
 	public:
 		///@name Construction/Destruction
-							xrng_quick(x_iallocator* alloc=NULL);
+							xrndquick(xalloc* alloc=NULL);
 
 		///@name Random functions
 		virtual void		reset(s32 inSeed = 0);									///< Init with random seed
-		
-		virtual u32			randU32(u32 inBits = 32);
-		virtual s32			randS32(u32 inBits = 31);
-		virtual f32			randF32();
-		virtual f32			randF32S();
-		virtual xbool		randBool();
-		virtual void		randBuffer(xbuffer& buffer);
+		virtual u32			generate();
 
 		virtual void		release();
 

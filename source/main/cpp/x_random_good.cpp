@@ -12,33 +12,6 @@
 
 namespace xcore
 {
-	/**
-	 *	Good random
-	 */
-
-	static inline f32	uint2float(u32 inUInt)
-	{
-		u32 fake_float = (inUInt>>(32-23)) | 0x3f800000;
-		return ((*(f32 *)&fake_float)-1.0f); 
-	}
-
-
-	xrng_good::xrng_good(x_iallocator* alloc) 
-		: mIndex(0)
-		, mAllocator(alloc)
-	{
-	}
-
-	void		xrng_good::release()
-	{
-		if (mAllocator!=NULL) 
-		{
-			this->~xrng_good(); 
-			mAllocator->deallocate(this); 
-			mAllocator = NULL;
-		}
-	}
-
 	/// All 256 byte values shuffled
 	static u8 sChaos[256]={
 		198,126,129,107, 75,251,226,251, 84,246,189,223,124, 28,225,135,  1,191, 49,
@@ -57,62 +30,60 @@ namespace xcore
 		68, 82,102,227,156, 51, 37,249, 94
 	};
 
-	//
-	// Initialize random table with seed <inSeed>
-	//
-	void xrng_good::reset(s32 inSeed)
+	xrndgood::state::state()
+		: mIndex(0)
+	{
+
+	}
+
+	void state_reset(xrndgood::state& state, s32 inSeed)
 	{
 		// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
-			mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
+			state.mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
 
-		mIndex = (u8)inSeed;														// Start index
+		state.mIndex = (u8)inSeed;														// Start index
 	}
 	
-	u32 xrng_good::randU32(u32 inBits)
+	u32 state_generate(xrndgood::state& state)
 	{ 
-		ASSERT(inBits <= 32);
-
-		u32 r1 = (mIndex+4*53) & 0xFF; 
-		u32 r2 = (mIndex+4) & 0xFF;
-		u32 r  = *((u32*)(mArray+r1)); 
-		*((u32*)(mArray+r2)) ^= r; 
-		mIndex = r2; 
-		return (r >> (32-inBits)); 
+		u32 r1 = (state.mIndex+4*53) & 0xFF; 
+		u32 r2 = (state.mIndex+4) & 0xFF;
+		u32 r  = *((u32*)(state.mArray+r1)); 
+		*((u32*)(state.mArray+r2)) ^= r; 
+		state.mIndex = r2; 
+		return r; 
 	}
 
-	s32			xrng_good::randS32(u32 inBits)
-	{
-		ASSERT(inBits <= 31); 
-		return (randU32(inBits+1)-(1 << inBits)); 
-	}	
 
-	f32			xrng_good::randF32()
+	xrndgood::xrndgood(xalloc* alloc) 
+		: mAllocator(alloc)
 	{
-		return (uint2float(randU32())); 
 	}
 
-	f32			xrng_good::randF32S()
+	void		xrndgood::release()
 	{
-		return ((randF32()-0.5f)*2.0f); 
-	}
-
-	xbool		xrng_good::randBool()
-	{
-		return (randU32(1)==0);
-	}
-
-	void		xrng_good::randBuffer(xbuffer& buffer)
-	{
-		u32 rnd;
-		for (u32 i=0; i<buffer.size(); ++i)
+		if (mAllocator!=NULL) 
 		{
-			if ((i&3) == 0)
-				rnd = randU32();
-
-			buffer[i] = (rnd&0xff);
-			rnd = rnd >> 8;
+			this->~xrndgood(); 
+			mAllocator->deallocate(this); 
+			mAllocator = NULL;
 		}
 	}
+
+
+	//
+	// Initialize random table with seed <inSeed>
+	//
+	void xrndgood::reset(s32 inSeed)
+	{
+		state_reset(mState, inSeed);
+	}
+	
+	u32 xrndgood::generate()
+	{ 
+		return state_generate(mState);
+	}
+
 
 }
