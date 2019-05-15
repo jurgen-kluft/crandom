@@ -2,7 +2,7 @@
 #include "xbase/x_memory.h"
 #include "xbase/x_allocator.h"
 
-#include "xrandom/x_random_sitmo.h"
+#include "xrandom/x_random.h"
 
 namespace xcore
 {
@@ -200,31 +200,19 @@ namespace xcore
 	#undef MIX2
 
 
-	xrndsitmo::xrndsitmo(x_iallocator* alloc)
-		: mSeed(0xdeadbeef)
-		, mAllocator(alloc)
+	xrnd::xsitmo::xsitmo()
 	{
-		state_seed(mState);
+		state_seed(mState, 0);
 	}
 
-	void		xrndsitmo::reset(s32 inSeed)
+	void		xrnd::xsitmo::reset(s32 inSeed)
 	{
-		state_seed(mState, mSeed);
+		state_seed(mState, inSeed);
 	}
 
-	u32			xrndsitmo::generate()
+	u32			xrnd::xsitmo::generate()
 	{
 		return state_generate(mState);
-	}
-
-	void		xrndsitmo::release()
-	{
-		if (mAllocator != NULL)
-		{
-			this->~xrndsitmo();
-			mAllocator->deallocate(this);
-			mAllocator = NULL;
-		}
 	}
 
 }

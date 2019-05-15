@@ -1,14 +1,8 @@
-/**
-* @file x_random_mersenne_twister.cpp
-*
-* Mersenne Twister random number generator
-*/
-
 #include "xbase/x_target.h"
 #include "xbase/x_allocator.h"
 #include "xbase/x_debug.h"
 
-#include "xrandom/x_random_mersenne_twister.h"
+#include "xrandom/x_random.h"
 
 
 namespace xcore
@@ -25,14 +19,14 @@ namespace xcore
 	inline u32			mixBits(u32 u, u32 v)									{ return (u & UMASK) | (v & LMASK); }
 	inline u32			twist(u32 u, u32 v)										{ return (mixBits(u,v) >> 1) ^ ((v&1) ? MATRIX_A : 0); }
 
-	xrndmt::state::state()
+	xrnd::xmt::state::state()
 		: mState(NULL)
 		, mNextState(NULL)
 		, mLeft(0)
 		, mInitialized(false)
 	{}
 
-	void		state_reset(xrndmt::state& state)
+	void		state_reset(xrnd::xmt::state& state)
 	{
 		state.mState = NULL;
 		state.mNextState = NULL;
@@ -40,7 +34,7 @@ namespace xcore
 		state.mInitialized = false;
 	}
 
-	void		state_seed(xrndmt::state& state, u32 inSeed)
+	void		state_seed(xrnd::xmt::state& state, u32 inSeed)
 	{
 		if (state.mState==NULL)
 			state.mState = state.mStateData;
@@ -55,7 +49,7 @@ namespace xcore
 		state.mInitialized = true;
 	}
 
-	void	state_seed_from_array(xrndmt::state& state, u32 const* inSeedArray, s32 inLength)
+	void	state_seed_from_array(xrnd::xmt::state& state, u32 const* inSeedArray, s32 inLength)
 	{
 		state_seed(state);
 
@@ -97,7 +91,7 @@ namespace xcore
 		state.mInitialized = true;
 	}
 
-	void	state_generate_new(xrndmt::state& state)
+	void	state_generate_new(xrnd::xmt::state& state)
 	{
 		// If Seed() has not been called, a default initial seed is used
 		if (!state.mInitialized)
@@ -118,7 +112,7 @@ namespace xcore
 		*statePtr = statePtr[M-N] ^ twist(statePtr[0], state.mState[0]);
 	}
 
-	u32			state_generate(xrndmt::state& state)
+	u32			state_generate(xrnd::xmt::state& state)
 	{
 		if (--state.mLeft == 0)
 			state_generate_new(state);
@@ -126,45 +120,18 @@ namespace xcore
 	}
 
 
-	xrndmt::xrndmt(x_iallocator* allocator)
-		: mAllocator(allocator)
+	xrnd::xmt::xmt()
 	{
 		state_reset(mState);
 	}
 
-	void		xrndmt::seed(u32 inSeed)
-	{
-		state_seed(mState, inSeed);
-	}
-
-	/**
-	 * @brief	Releases all memory and resets the generator to it's initial state
-	 */
-	void	xrndmt::reset(s32 inSeed)
+	void	xrnd::xmt::reset(s32 inSeed)
 	{
 		state_reset(mState);
 		state_seed(mState, inSeed);
 	}
 
-	/**
-	 * @brief	Releases all memory and resets the generator to it's initial state
-	 */
-	void	xrndmt::release()
-	{
-		mState.reset();
-
-		if (mAllocator!=NULL) 
-		{
-			this->~xrndmt(); 
-			mAllocator->deallocate(this); 
-			mAllocator = NULL;
-		}
-	}
-
-	/**
-	 * @brief	Generates a random number on [0,0xffffffff]-interval
-	 */
-	u32	xrndmt::generate()
+	u32	xrnd::xmt::generate()
 	{
 		return state_generate(mState);
 	}

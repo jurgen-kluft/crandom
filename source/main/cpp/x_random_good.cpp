@@ -1,14 +1,8 @@
-/**
-* @file x_random_good.cpp
-*
-* Core Random number generators, good
-*/
-
 #include "xbase/x_target.h"
 #include "xbase/x_memory_std.h"
 #include "xbase/x_allocator.h"
 
-#include "xrandom/x_random_good.h"
+#include "xrandom/x_random.h"
 
 namespace xcore
 {
@@ -30,22 +24,19 @@ namespace xcore
 		68, 82,102,227,156, 51, 37,249, 94
 	};
 
-	xrndgood::state::state()
+	xrnd::xgood::state::state()
 		: mIndex(0)
 	{
-
 	}
 
-	void state_reset(xrndgood::state& state, s32 inSeed)
-	{
-		// Create random table
+	void state_reset(xrnd::xgood::state& state, s32 inSeed)
+	{	// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
 			state.mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
-
 		state.mIndex = (u8)inSeed;														// Start index
 	}
 	
-	u32 state_generate(xrndgood::state& state)
+	u32 state_generate(xrnd::xgood::state& state)
 	{ 
 		u32 r1 = (state.mIndex+4*53) & 0xFF; 
 		u32 r2 = (state.mIndex+4) & 0xFF;
@@ -55,35 +46,14 @@ namespace xcore
 		return r; 
 	}
 
-
-	xrndgood::xrndgood(xalloc* alloc) 
-		: mAllocator(alloc)
+	void xrnd::xgood::reset(s32 seed = 0)
 	{
+		state_reset(mState, seed);
 	}
 
-	void		xrndgood::release()
+	u32  xrnd::xgood::generate()
 	{
-		if (mAllocator!=NULL) 
-		{
-			this->~xrndgood(); 
-			mAllocator->deallocate(this); 
-			mAllocator = NULL;
-		}
-	}
-
-
-	//
-	// Initialize random table with seed <inSeed>
-	//
-	void xrndgood::reset(s32 inSeed)
-	{
-		state_reset(mState, inSeed);
-	}
-	
-	u32 xrndgood::generate()
-	{ 
 		return state_generate(mState);
 	}
-
 
 }

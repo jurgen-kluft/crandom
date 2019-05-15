@@ -11,43 +11,15 @@
 
 namespace xcore
 {
-    // Forward declares
-    class xalloc;
-
-    /*
-        class xrndgood : public xrandom
-        {
-        public:
-            struct state
-            {
-                u8  mArray[256 + sizeof(u32)];
-                s32 mIndex;
-            };
-
-        private:
-            xalloc* mAllocator;
-            state   mState;
-
-        public:
-            xrndgood(xalloc* alloc = NULL);
-
-            ///@name Random functions
-            virtual void reset(s32 inSeed = 0); ///< Init with random seed
-            virtual u32  generate();
-
-            virtual void release();
-
-            XCORE_CLASS_PLACEMENT_NEW_DELETE
-        };
-    */
-
     class xrnd
     {
     public:
         struct xgood
         {
+            xgood();
             struct state
             {
+                state();
                 u8  mArray[256 + sizeof(u32)];
                 s32 mIndex;
             };
@@ -60,14 +32,21 @@ namespace xcore
 
         struct xquick
         {
+            xquick() : mSeed(1013904223) {}
             u32  mSeed;
-            void reset(s32 seed = 0);
-            u32  generate();
+            void reset(s32 seed = 0) { mSeed = inSeed; }
+            u32  generate()
+            {
+                u32 current = mSeed;
+                mSeed = mSeed*1664525 + 1013904223; 
+                return current;                
+            }
         };
         xquick quick;
 
         struct xsitmo
         {
+            xsitmo();
             struct state
             {
                 u64 _k[4];      // key
@@ -86,6 +65,7 @@ namespace xcore
         {
             struct state
             {
+                state();
                 u32   mStateData[N];
                 u32*  mState;
                 u32*  mNextState;
