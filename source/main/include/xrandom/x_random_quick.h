@@ -5,34 +5,20 @@
 #pragma once
 #endif
 
-#include "xbase/x_allocator.h"
-#include "xbase/x_random.h"
-
 namespace xcore
 {
-	// Forward declares
-	class xalloc;
+    class xrndquick
+    {
+    private:
+        u32 mSeed;
 
-	class xrndquick : public xrandom
-	{
-	private:
-		///@name Implementation
-		u32				mSeed;													///< Random seed
-		xalloc*			mAllocator;
+    public:
+        xrndquick();
 
-	public:
-		///@name Construction/Destruction
-							xrndquick(xalloc* alloc=NULL);
+        void reset(s32 inSeed = 0);
+        u32  generate();
+    };
 
-		///@name Random functions
-		virtual void		reset(s32 inSeed = 0);									///< Init with random seed
-		virtual u32			generate();
+} // namespace xcore
 
-		virtual void		release();
-
-		XCORE_CLASS_PLACEMENT_NEW_DELETE
-	};
-
-}
-
-#endif	// __XRANDOM_RANDOM_QUICK_H__
+#endif // __XRANDOM_RANDOM_QUICK_H__

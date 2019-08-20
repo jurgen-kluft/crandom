@@ -1,4 +1,3 @@
-
 #ifndef __XRANDOM_RANDOM_H__
 #define __XRANDOM_RANDOM_H__
 #include "xbase/x_target.h"
@@ -6,98 +5,60 @@
 #pragma once
 #endif
 
-#include "xbase/x_allocator.h"
-#include "xbase/x_random.h"
+#include "xrandom/x_random_good.h"
 
 namespace xcore
 {
-    // Forward declares
-    class xalloc;
+    template <class R> inline u32 randU32(R* rnd, u32 inBits)
+    {
+        ASSERT(inBits <= 32);
+        u32 r = rnd->generate();
+        return (r >> (32 - inBits));
+    }
 
-    /*
-        class xrndgood : public xrandom
+    template <class R> inline s32 randS32(R* rnd, u32 inBits)
+    {
+        ASSERT(inBits <= 31);
+        return (randU32(inBits + 1) - (1 << inBits));
+    }
+
+    template <class R> inline f32 randF32(R* rnd)
+    {
+        u32 r          = rnd->generate();
+        u32 fake_float = (r >> (32 - 23)) | 0x3f800000;
+        return ((*(f32*)&fake_float) - 1.0f);
+    }
+
+    template <class R> inline f32 randF32S(R* rnd) { return ((randF32(rnd) - 0.5f) * 2.0f); }
+
+    template <class R> inline xbool randBool(R* rnd) { return (randU32(rnd, 1) == 0); }
+
+    template <class R> void randBuffer(R* rnd, xbuffer& buffer)
+    {
+        for (u32 i = 0; i < buffer.size(); ++i)
         {
-        public:
-            struct state
-            {
-                u8  mArray[256 + sizeof(u32)];
-                s32 mIndex;
-            };
+            if ((i & 3) == 0)
+                rnd = rnd->generate();
 
-        private:
-            xalloc* mAllocator;
-            state   mState;
-
-        public:
-            xrndgood(xalloc* alloc = NULL);
-
-            ///@name Random functions
-            virtual void reset(s32 inSeed = 0); ///< Init with random seed
-            virtual u32  generate();
-
-            virtual void release();
-
-            XCORE_CLASS_PLACEMENT_NEW_DELETE
-        };
-    */
+            buffer[i] = (rnd & 0xff);
+            rnd       = rnd >> 8;
+        }
+    } // namespace xcore
 
     class xrnd
     {
+        xrndgood mrnd;
+
     public:
-        struct xgood
-        {
-            struct state
-            {
-                u8  mArray[256 + sizeof(u32)];
-                s32 mIndex;
-            };
-            state mState;
+        void reset(s32 seed = 0) { mrnd.reset(seed); }
+        u32  generate() { return mrnd.generate(); }
 
-            void reset(s32 seed = 0);
-            u32  generate();
-        };
-        xgood good;
-
-        struct xquick
-        {
-            u32  mSeed;
-            void reset(s32 seed = 0);
-            u32  generate();
-        };
-        xquick quick;
-
-        struct xsitmo
-        {
-            struct state
-            {
-                u64 _k[4];      // key
-                u64 _s[4];      // state (counter)
-                u64 _o[4];      // cipher output    4 * 64 bit = 256 bit output
-                u16 _o_counter; // output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
-            };
-            state mState;
-
-            void reset(s32 inSeed = 0); ///< Init with random seed
-            u32  generate();
-        };
-        xsitmo sitmo;
-
-        struct xmt
-        {
-            struct state
-            {
-                u32   mStateData[N];
-                u32*  mState;
-                u32*  mNextState;
-                s32   mLeft;
-                xbool mInitialized;
-            };
-            state mState;
-
-            void reset(s32 inSeed = 0); ///< Init with random seed
-            u32  generate();
-        };
-        xmt mt;
+        inline u32   randU32(u32 inBits) { return randU32<xrndgood>(&mrnd, inBits); }
+        inline s32   randS32(u32 inBits) { return randS32<xrndgood>(&mrnd, inBits); }
+        inline f32   randF32() { return randF32<xrndgood>(&mrnd, inBits); }
+        inline f32   randF32S() { return ((randF32<xrndgood>(&mrnd) - 0.5f) * 2.0f); }
+        inline xbool randBool() { return (randU32<xrndgood>(&mrnd, 1) == 0); }
+        inline void  randBuffer(xbuffer& buffer) { randBuffer<xrndgood>(&mrnd, buffer); }
     };
     static xrnd rnd;
 

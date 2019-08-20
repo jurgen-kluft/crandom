@@ -5,39 +5,24 @@
 #pragma once
 #endif
 
-#include "xbase/x_allocator.h"
-#include "xbase/x_random.h"
-
 namespace xcore
 {
-	// Forward declares
-	class xalloc;
+    class xrndgood
+    {
+    private:
+        struct state
+        {
+            u8  mArray[256 + sizeof(u32)];
+            s32 mIndex;
+        };
+        state mState;
 
-	class xrndgood : public xrandom
-	{
-	public:
-		struct state
-		{
-			u8		mArray[256+sizeof(u32)];
-			s32		mIndex;
-		};
+    public:
+        xrndgood();
 
-	private:
-		xalloc*				mAllocator;
-		state				mState;
+        void reset(s32 inSeed = 0);
+        u32  generate();
+    };
 
-	public:
-							xrndgood(xalloc* alloc=NULL);
-
-		///@name Random functions
-		virtual void		reset(s32 inSeed = 0);									///< Init with random seed
-		virtual u32			generate();
-
-		virtual void		release();
-
-		XCORE_CLASS_PLACEMENT_NEW_DELETE
-	};
-
-
-}
+} // namespace xcore
 #endif
