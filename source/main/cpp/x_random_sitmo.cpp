@@ -3,7 +3,6 @@
 
 namespace xcore
 {
-
     /**
      *	Sitmo random
      */
@@ -203,11 +202,10 @@ namespace xcore
     xrndsitmo::xrndsitmo()
         : mSeed(0xdeadbeef)
     {
-        state_seed(mState);
+        state_seed(mState, mSeed);
     }
 
     void xrndsitmo::reset(s32 inSeed) { state_seed(mState, mSeed); }
-
     u32 xrndsitmo::generate() { return state_generate(mState); }
 
-} // namespace xcore
+}

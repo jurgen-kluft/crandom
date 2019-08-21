@@ -30,7 +30,6 @@ namespace xcore
     }
 
     template <class R> inline f32 randF32S(R* rnd) { return ((randF32(rnd) - 0.5f) * 2.0f); }
-
     template <class R> inline xbool randBool(R* rnd) { return (randU32(rnd, 1) == 0); }
 
     template <class R> void randBuffer(R* rnd, xbuffer& buffer)
@@ -39,7 +38,6 @@ namespace xcore
         {
             if ((i & 3) == 0)
                 rnd = rnd->generate();
-
             buffer[i] = (rnd & 0xff);
             rnd       = rnd >> 8;
         }

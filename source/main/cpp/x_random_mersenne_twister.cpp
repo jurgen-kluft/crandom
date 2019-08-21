@@ -1,13 +1,7 @@
-/**
- * @file x_random_mersenne_twister.cpp
- *
- * Mersenne Twister random number generator
- */
-
 #include "xbase/x_target.h"
 #include "xbase/x_debug.h"
 
-#include "xrandom/x_random_mersenne_twister.h"
+#include "xrandom/x_random.h"
 
 namespace xcore
 {
@@ -126,20 +120,12 @@ namespace xcore
 
     xrndmt::xrndmt() { state_reset(mState); }
 
-    void xrndmt::seed(u32 inSeed) { state_seed(mState, inSeed); }
-
-    /**
-     * @brief	Releases all memory and resets the generator to it's initial state
-     */
     void xrndmt::reset(s32 inSeed)
     {
         state_reset(mState);
         state_seed(mState, inSeed);
     }
 
-    /**
-     * @brief	Generates a random number on [0,0xffffffff]-interval
-     */
     u32 xrndmt::generate() { return state_generate(mState); }
 
 } // namespace xcore
