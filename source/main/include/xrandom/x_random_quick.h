@@ -5,7 +5,6 @@
 #pragma once
 #endif
 
-#include "xbase/x_allocator.h"
 #include "xrandom/x_random.h"
 
 namespace xcore
@@ -20,10 +19,8 @@ namespace xcore
 		virtual void		reset(s32 inSeed = 0) { m_rnd.reset(seed); }
 		virtual u32			generate() { return m_rnd.generate(); }
 		virtual void		release() {}
+    };
 
-		XCORE_CLASS_PLACEMENT_NEW_DELETE
-	};
+} // namespace xcore
 
-}
-
-#endif	// __XRANDOM_RANDOM_QUICK_H__
+#endif // __XRANDOM_RANDOM_QUICK_H__
