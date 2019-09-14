@@ -6,14 +6,10 @@
 #endif
 
 // Includes
-#include "xbase/x_allocator.h"
-#include "xbase/x_random.h"
+#include "xrandom/x_random.h"
 
 namespace xcore
 {
-	// Forward declares
-	class xalloc;
-
 	/**
 	 * @group		xrandom
  	 * @desc		Mersenne Twister random number generator
@@ -21,30 +17,17 @@ namespace xcore
 	 *			Note that this means, by default, that there is negligible serial correlation between 
 	 *			successive values in the output sequence. 
 	 */
-	class xrndmt : public xrandom
+	class xmersenne : public xrandom
 	{
-	public:
-							xrndmt(xalloc* alloc=NULL);
-
-		virtual void		reset(s32 inSeed = 0);
-		virtual u32			generate();
-
-		virtual void		release();
-
-		struct state
-		{
-			u32				mStateData[N];
-			u32*			mState;
-			u32*			mNextState;
-			s32				mLeft;
-			xbool			mInitialized;
-		};
-
 	private:
-		xalloc*			mAllocator;
-		state			mState;
-	};
+		xrnd::xmt			m_rnd;
 
+	public:
+							xrndmt() {}
+		virtual void		reset(s32 inSeed = 0) { m_rnd.reset(seed); }
+		virtual u32			generate() { return m_rnd.generate(); }
+		virtual void		release() {}
+	};
 }
 
 #endif	///< __XRANDOM_MT_RANDOM_H__
