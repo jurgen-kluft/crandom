@@ -1,5 +1,6 @@
 #include "xbase/x_target.h"
 #include "xbase/x_debug.h"
+#include "xbase/x_buffer.h"
 
 #include "xrandom/x_random.h"
 
@@ -17,15 +18,7 @@ namespace xcore
     inline u32 mixBits(u32 u, u32 v) { return (u & UMASK) | (v & LMASK); }
     inline u32 twist(u32 u, u32 v) { return (mixBits(u, v) >> 1) ^ ((v & 1) ? MATRIX_A : 0); }
 
-    xrndmt::state::state()
-        : mState(NULL)
-        , mNextState(NULL)
-        , mLeft(0)
-        , mInitialized(false)
-    {
-    }
-
-    void state_reset(xrndmt::state& state)
+    void state_reset(xrnd::xrndmt& state)
     {
         state.mState       = NULL;
         state.mNextState   = NULL;
@@ -33,7 +26,16 @@ namespace xcore
         state.mInitialized = false;
     }
 
-    void state_seed(xrndmt::state& state, u32 inSeed)
+    xrnd::xrndmt::xrndmt()
+        : mState(NULL)
+        , mNextState(NULL)
+        , mLeft(0)
+        , mInitialized(false)
+    {
+		state_reset(*this);
+    }
+
+    void state_seed(xrnd::xrndmt& state, u32 inSeed)
     {
         if (state.mState == NULL)
             state.mState = state.mStateData;
@@ -48,9 +50,9 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_seed_from_array(xrndmt::state& state, u32 const* inSeedArray, s32 inLength)
+    void state_seed_from_array(xrnd::xrndmt& state, u32 const* inSeedArray, s32 inLength)
     {
-        state_seed(state);
+        state_seed(state, 0);
 
         s32 i = 1;
         s32 j = 0;
@@ -90,11 +92,11 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_generate_new(xrndmt::state& state)
+    void state_generate_new(xrnd::xrndmt& state)
     {
         // If Seed() has not been called, a default initial seed is used
         if (!state.mInitialized)
-            state_seed(state);
+            state_seed(state, 0);
 
         state.mLeft      = N;
         state.mNextState = state.mState;
@@ -111,21 +113,19 @@ namespace xcore
         *statePtr = statePtr[M - N] ^ twist(statePtr[0], state.mState[0]);
     }
 
-    u32 state_generate(xrndmt::state& state)
+    u32 state_generate(xrnd::xrndmt& state)
     {
         if (--state.mLeft == 0)
             state_generate_new(state);
         return *state.mNextState++;
     }
 
-    xrndmt::xrndmt() { state_reset(mState); }
-
-    void xrndmt::reset(s32 inSeed)
+    void xrnd::xrndmt::reset(s32 seed)
     {
-        state_reset(mState);
-        state_seed(mState, inSeed);
+        state_reset(*this);
+        state_seed(*this, seed);
     }
 
-    u32 xrndmt::generate() { return state_generate(mState); }
+    u32 xrnd::xrndmt::generate() { return state_generate(*this); }
 
 } // namespace xcore

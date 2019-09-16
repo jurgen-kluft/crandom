@@ -67,7 +67,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 
 		UNITTEST_TEST(xturbnoise_evaluate)
 		{
-			xturbnoise sxTBn;
+			xtnoise sxTBn;
 			f32 rf=0.3f,rf2=0.9f;
 			CHECK_EQUAL(sxTBn.evaluate(132.0000f),sxTBn.evaluate(132));
 			CHECK_EQUAL(sxTBn.evaluate(97),sxTBn.evaluate('a'));
@@ -86,14 +86,14 @@ UNITTEST_SUITE_BEGIN(perlin)
 		}
 		UNITTEST_TEST(xturbnoise_getFrequency)
 		{
-			xturbnoise sxTBn;
+			xtnoise sxTBn;
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 			sxTBn.evaluate(654131.0000f);
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 		}
 		UNITTEST_TEST(xturbnoise_setFrequency)
 		{
-			xturbnoise sxTBn;
+			xtnoise sxTBn;
 			sxTBn.setFrequency(1.2f);
 			CHECK_EQUAL(sxTBn.getFrequency(),1.2f);
 			//sxTBn.setFrequency(1.2);//warning

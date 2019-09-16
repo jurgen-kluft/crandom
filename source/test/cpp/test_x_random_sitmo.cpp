@@ -14,10 +14,9 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrng_sitmo sRng;
+			xrndsitmo sRnd;
 
 			u32 ru;
-			xrandom sRnd(&sRng);
 			ru=sRnd.randU32();
 			CHECK_NOT_EQUAL(ru,sRnd.randU32());
 			sRnd.reset(132465);
@@ -34,10 +33,9 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrng_sitmo sRng;
+			xrndsitmo sRnd;
 
 			u32 ru;
-			xrandom  sRnd(&sRng);
 			ru=sRnd.randU32();
 			CHECK_NOT_EQUAL(ru,sRnd.randU32());
 			ru=sRnd.randU32(10);
@@ -54,10 +52,9 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandSign)
 		{
-			xrng_sitmo sRng;
+			xrndsitmo sRnd;
 
 			s32 rs;
-			xrandom  sRnd(&sRng);
 			rs=sRnd.randS32();
 			CHECK_NOT_EQUAL(rs,sRnd.randS32());
 			rs=sRnd.randS32(10);
@@ -76,8 +73,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandF)
 		{
-			xrng_sitmo sRng;
-			xrandom  sRnd(&sRng);
+			xrndsitmo sRnd;
 
 			f32 rfloat;
 			rfloat=sRnd.randF32();
@@ -92,8 +88,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
-			xrng_sitmo sRng;
-			xrandom  sRnd(&sRng);
+			xrndsitmo sRnd;
 
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
@@ -112,8 +107,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_randBool)
 		{
-			xrng_sitmo sRng;
-			xrandom  sRnd(&sRng);
+			xrndsitmo sRnd;
 
 			u32 rbool=0;
 			u32 ru=0,ru2=0;

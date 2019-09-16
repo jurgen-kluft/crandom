@@ -1,8 +1,8 @@
 #include "xbase/x_target.h"
+#include "xbase/x_debug.h"
 
 #include "xrandom/x_random.h"
 #include "xrandom/x_perlin.h"
-#include "xrandom/x_random_good.h"
 
 namespace xcore
 {
@@ -45,27 +45,27 @@ namespace xcore
     {
         mRefCount = 0;
 
-        xrndgood rnd;
+        xrnd::xrndgood rnd;
         rnd.reset(0);
 
         s32 i;
         for (i = 0; i < B; i++)
         {
             mP[i]     = i;
-            mG1[i]    = randF32S<xrndgood>(&rnd);
-            mG2[i][0] = randF32<xrndgood>(&rnd);
-            mG2[i][1] = randF32<xrndgood>(&rnd);
-            mG3[i][0] = randF32<xrndgood>(&rnd);
-            mG3[i][1] = randF32<xrndgood>(&rnd);
-            mG3[i][2] = randF32<xrndgood>(&rnd);
+            mG1[i]    = xrnd::randF32S<xrnd::xrndgood>(&rnd);
+            mG2[i][0] = xrnd::randF32<xrnd::xrndgood>(&rnd);
+            mG2[i][1] = xrnd::randF32<xrnd::xrndgood>(&rnd);
+            mG3[i][0] = xrnd::randF32<xrnd::xrndgood>(&rnd);
+            mG3[i][1] = xrnd::randF32<xrnd::xrndgood>(&rnd);
+            mG3[i][2] = xrnd::randF32<xrnd::xrndgood>(&rnd);
         }
 
         // Reorder permutations
         while (--i)
         {
             s32 t                               = mP[i];
-            mP[i]                               = mP[randU32<xrndgood>(&rnd, B_BITS)];
-            mP[randU32<xrndgood>(&rnd, B_BITS)] = t;
+            mP[i]                               = mP[xrnd::randU32<xrnd::xrndgood>(&rnd, B_BITS)];
+            mP[xrnd::randU32<xrnd::xrndgood>(&rnd, B_BITS)] = t;
         }
 
         for (i = 0; i < B + 2; i++)
@@ -248,7 +248,7 @@ namespace xcore
     /**
      * Evaluate turbulence at <inPos>
      */
-    f32 xturbnoise::evaluate(f32 inPos)
+    f32 xtnoise::evaluate(f32 inPos)
     {
         f32 value;
         f32 freq   = mFrequency;

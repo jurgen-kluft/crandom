@@ -1,5 +1,4 @@
 #include "xbase/x_target.h"
-#include "xbase/x_memory_std.h"
 #include "xbase/x_allocator.h"
 
 #include "xrandom/x_random.h"
@@ -24,19 +23,19 @@ namespace xcore
 		68, 82,102,227,156, 51, 37,249, 94
 	};
 
-	xrnd::xgood::state::state()
+	xrnd::xrndgood::xrndgood()
 		: mIndex(0)
 	{
 	}
 
-	void state_reset(xrnd::xgood::state& state, s32 inSeed)
+	void state_reset(xrnd::xrndgood& state, s32 inSeed)
 	{	// Create random table
 		for (s32 i=0; i<static_cast<s32>(256+sizeof(u32)); i++)
 			state.mArray[i] = sChaos[(u8)(inSeed+i)];									// Create semi-random table
 		state.mIndex = (u8)inSeed;														// Start index
 	}
 	
-	u32 state_generate(xrnd::xgood::state& state)
+	u32 state_generate(xrnd::xrndgood& state)
 	{ 
 		u32 r1 = (state.mIndex+4*53) & 0xFF; 
 		u32 r2 = (state.mIndex+4) & 0xFF;
@@ -46,14 +45,14 @@ namespace xcore
 		return r; 
 	}
 
-	void xrnd::xgood::reset(s32 seed = 0)
+	void xrnd::xrndgood::reset(s32 seed)
 	{
-		state_reset(mState, seed);
+		state_reset(*this, seed);
 	}
 
-	u32  xrnd::xgood::generate()
+	u32  xrnd::xrndgood::generate()
 	{
-		return state_generate(mState);
+		return state_generate(*this);
 	}
 
 }
