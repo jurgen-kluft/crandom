@@ -2,7 +2,7 @@
 #include "xbase/x_allocator.h"
 #include "xbase/x_buffer.h"
 
-#include "xrandom/x_random.h"
+#include "random_t/x_random.h"
 
 
 namespace xcore
@@ -23,7 +23,7 @@ namespace xcore
 			return mSeed;
 		}
 
-		template <typename R> void randBuffer(R* rnd, xbuffer& buffer)
+		template <typename R> void randBuffer(R* rnd, buffer_t& buffer)
 		{
 			u32 r = 0;
 			for (u32 i = 0; i < buffer.size(); ++i)
@@ -40,7 +40,7 @@ namespace xcore
 			}
 		}
 
-        void  randBuffer(xbuffer& buffer)
+        void  randBuffer(buffer_t& buffer)
 		{
 			randBuffer<xrndgood>(&good, buffer);
 		}

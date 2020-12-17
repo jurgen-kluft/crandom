@@ -1,8 +1,8 @@
 #include "xbase/x_target.h"
 #include "xbase/x_debug.h"
 
-#include "xrandom/x_random.h"
-#include "xrandom/x_random_good.h"
+#include "random_t/x_random.h"
+#include "random_t/x_random_good.h"
 
 #include "xunittest/xunittest.h"
 
@@ -10,10 +10,10 @@ using namespace xcore;
 
 class xrand
 {
-	xrandom *m_rnd;
+	random_t *m_rnd;
 
 public:
-	xrand(xrandom *rnd) : m_rnd(rnd) { reset(); }
+	xrand(random_t *rnd) : m_rnd(rnd) { reset(); }
 
 	void reset(s32 inSeed = 0) { m_rnd->reset(inSeed); }
 	u32 generate() { return m_rnd->generate(); }
@@ -39,7 +39,7 @@ public:
 	}
 
 	inline f32 randF32S() { return ((randF32() - 0.5f) * 2.0f); }
-	inline xbool randBool() { return (randU32(1) == 0); }
+	inline bool randBool() { return (randU32(1) == 0); }
 };
 
 UNITTEST_SUITE_BEGIN(xrandom_good)

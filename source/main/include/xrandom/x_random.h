@@ -9,7 +9,7 @@
 
 namespace xcore
 {
-	class xbuffer;
+	class buffer_t;
 
 	namespace xrnd
 	{
@@ -34,7 +34,7 @@ namespace xcore
 			u32 *mState;
 			u32 *mNextState;
 			s32 mLeft;
-			xbool mInitialized;
+			bool mInitialized;
 
 			xrndmt();
 			void reset(s32 seed = 0);
@@ -91,7 +91,7 @@ namespace xcore
 		template <typename R>
 		inline f32 randF32S(R *rnd) { return ((randF32(rnd) - 0.5f) * 2.0f); }
 		template <typename R>
-		inline xbool randBool(R *rnd) { return (randU32(rnd, 1) == 0); }
+		inline bool randBool(R *rnd) { return (randU32(rnd, 1) == 0); }
 
 		inline static void reset(s32 seed = 0) { good.reset(seed); }
 		inline static u32 generate() { return good.generate(); }
@@ -99,8 +99,8 @@ namespace xcore
 		inline static s32 randS32(u32 inBits) { return randS32<xrndgood>(&good, inBits); }
 		inline static f32 randF32() { return randF32<xrndgood>(&good); }
 		inline static f32 randF32S() { return randF32S<xrndgood>(&good); }
-		inline static xbool randBool() { return (randU32<xrndgood>(&good, 1) == 0); }
-		inline static void randBuffer(xbuffer &buffer);
+		inline static bool randBool() { return (randU32<xrndgood>(&good, 1) == 0); }
+		inline static void randBuffer(buffer_t &buffer);
 	}; // namespace xrnd
 
 } // namespace xcore

@@ -8,7 +8,7 @@
 namespace xcore
 {
     /**
-     * @group		xrandom
+     * @group		random_t
      * @brief		Perlin noise
      */
     class xnoise
@@ -25,7 +25,7 @@ namespace xcore
     };
 
     /**
-     * @group		xrandom
+     * @group		random_t
      * @brief		Turbulence using Perlin noise
      *			Ken Perlin's turbulence function using Perlin noise
      */
@@ -51,7 +51,7 @@ namespace xcore
     };
 
     /**
-     * @group		xrandom
+     * @group		random_t
      * @brief		Persistence Noise
      *			Harmonic noise as used by http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
      *			Looks a lot like the other two...

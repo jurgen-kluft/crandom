@@ -7,18 +7,18 @@
 
 #include "xbase/x_debug.h"
 #include "xbase/x_random.h"
-#include "xrandom/x_random.h"
+#include "random_t/x_random.h"
 
 namespace xcore
 {
 	/**
-	 * @group		xrandom
+	 * @group		random_t
  	 * @desc		Mersenne Twister random number generator
 	 * @note		The period is 2^19937-1, and 623-dimensional equi-distribution property is assured.
 	 *			Note that this means, by default, that there is negligible serial correlation between 
 	 *			successive values in the output sequence. 
 	 */
-	class xrndmersenne : public xrandom
+	class xrndmersenne : public random_t
 	{
 	private:
 		xrnd::xrndmt		m_rnd;
@@ -47,7 +47,7 @@ namespace xcore
 		}
 
 		inline f32 randF32S() { return ((randF32() - 0.5f) * 2.0f); }
-		inline xbool randBool() { return (randU32(1) == 0); }
+		inline bool randBool() { return (randU32(1) == 0); }
 	};
 }
 

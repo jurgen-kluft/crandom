@@ -7,12 +7,12 @@
 
 #include "xbase/x_debug.h"
 #include "xbase/x_random.h"
-#include "xrandom/x_random.h"
+#include "random_t/x_random.h"
 
 namespace xcore
 {
 	// Sitmo random number generator (https://www.sitmo.com)
-	class xrndsitmo : public xrandom
+	class xrndsitmo : public random_t
 	{
 	private:
 		xrnd::xrndsitmo		m_rnd;
@@ -41,7 +41,7 @@ namespace xcore
 		}
 
 		inline f32 randF32S() { return ((randF32() - 0.5f) * 2.0f); }
-		inline xbool randBool() { return (randU32(1) == 0); }
+		inline bool randBool() { return (randU32(1) == 0); }
 
 	};
 
