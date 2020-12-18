@@ -1,7 +1,7 @@
 #include "xbase/x_target.h"
 #include "xbase/x_buffer.h"
 
-#include "random_t/x_random_sitmo.h"
+#include "xrandom/x_random_sitmo.h"
 
 namespace xcore
 {

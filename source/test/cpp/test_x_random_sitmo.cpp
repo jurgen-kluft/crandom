@@ -1,5 +1,5 @@
-#include "random_t/x_random.h"
-#include "random_t/x_random_sitmo.h"
+#include "xrandom/x_random.h"
+#include "xrandom/x_random_sitmo.h"
 
 #include "xunittest/xunittest.h"
 

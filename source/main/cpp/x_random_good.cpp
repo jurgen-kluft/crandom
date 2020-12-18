@@ -1,7 +1,7 @@
 #include "xbase/x_target.h"
 #include "xbase/x_allocator.h"
 
-#include "random_t/x_random.h"
+#include "xrandom/x_random.h"
 
 namespace xcore
 {

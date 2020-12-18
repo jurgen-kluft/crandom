@@ -2,7 +2,7 @@
 #include "xbase/x_allocator.h"
 #include "xbase/x_console.h"
 
-#include "random_t/x_random.h"
+#include "xrandom/x_random.h"
 
 #include "xunittest/xunittest.h"
 #include "xunittest/private/ut_ReportAssert.h"

@@ -1,8 +1,8 @@
 #include "xbase/x_target.h"
 #include "xbase/x_debug.h"
 
-#include "random_t/x_random.h"
-#include "random_t/x_random_good.h"
+#include "xrandom/x_random.h"
+#include "xrandom/x_random_good.h"
 
 #include "xunittest/xunittest.h"
 
