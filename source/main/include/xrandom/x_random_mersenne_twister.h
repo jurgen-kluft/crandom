@@ -21,7 +21,7 @@ namespace xcore
 	class xrndmersenne : public random_t
 	{
 	private:
-		xrnd::xrndmt		m_rnd;
+		xrnd::mt_t		m_rnd;
 
 	public:
 							xrndmersenne() {}

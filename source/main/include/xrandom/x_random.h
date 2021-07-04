@@ -13,18 +13,18 @@ namespace xcore
 
 	namespace xrnd
 	{
-		struct xrndgood
+		struct good_t
 		{
 			u8 mArray[256 + sizeof(u32)];
 			s32 mIndex;
 
-			xrndgood();
+			good_t();
 			void reset(s32 seed = 0);
 			u32 generate();
 		};
-		extern xrndgood good;
+		extern good_t good;
 
-		struct xrndmt
+		struct mt_t
 		{
 			enum
 			{
@@ -36,34 +36,34 @@ namespace xcore
 			s32 mLeft;
 			bool mInitialized;
 
-			xrndmt();
+			mt_t();
 			void reset(s32 seed = 0);
 			u32 generate();
 		};
-		extern xrndmt mersenne;
+		extern mt_t mersenne;
 
-		struct xrndquick
+		struct quick_t
 		{
 			u32 mSeed;
 
-			xrndquick();
+			quick_t();
 			void reset(s32 seed = 0);
 			u32 generate();
 		};
-		extern xrndquick quick;
+		extern quick_t quick;
 
-		struct xrndsitmo
+		struct sitmo_t
 		{
 			u64 _k[4];		// key
 			u64 _s[4];		// state (counter)
 			u64 _o[4];		// cipher output    4 * 64 bit = 256 bit output
 			u16 _o_counter; // output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
 
-			xrndsitmo();
+			sitmo_t();
 			void reset(s32 seed = 0);
 			u32 generate();
 		};
-		extern xrndsitmo sitmo;
+		extern sitmo_t sitmo;
 
 		template <typename R>
 		inline u32 randU32(R *rnd, u32 inBits)
@@ -95,11 +95,11 @@ namespace xcore
 
 		inline static void reset(s32 seed = 0) { good.reset(seed); }
 		inline static u32 generate() { return good.generate(); }
-		inline static u32 randU32(u32 inBits) { return randU32<xrndgood>(&good, inBits); }
-		inline static s32 randS32(u32 inBits) { return randS32<xrndgood>(&good, inBits); }
-		inline static f32 randF32() { return randF32<xrndgood>(&good); }
-		inline static f32 randF32S() { return randF32S<xrndgood>(&good); }
-		inline static bool randBool() { return (randU32<xrndgood>(&good, 1) == 0); }
+		inline static u32 randU32(u32 inBits) { return randU32<good_t>(&good, inBits); }
+		inline static s32 randS32(u32 inBits) { return randS32<good_t>(&good, inBits); }
+		inline static f32 randF32() { return randF32<good_t>(&good); }
+		inline static f32 randF32S() { return randF32S<good_t>(&good); }
+		inline static bool randBool() { return (randU32<good_t>(&good, 1) == 0); }
 		inline static void randBuffer(buffer_t &buffer);
 	}; // namespace xrnd
 

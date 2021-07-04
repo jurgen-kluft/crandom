@@ -22,19 +22,19 @@ namespace xcore
 		183, 121, 36, 114, 35, 146, 72, 128, 197, 166, 167, 133, 183, 215, 140, 144, 228, 171, 99,
 		68, 82, 102, 227, 156, 51, 37, 249, 94};
 
-	xrnd::xrndgood::xrndgood()
+	xrnd::good_t::good_t()
 		: mIndex(0)
 	{
 	}
 
-	void state_reset(xrnd::xrndgood &state, s32 inSeed)
+	void state_reset(xrnd::good_t &state, s32 inSeed)
 	{ // Create random table
 		for (s32 i = 0; i < static_cast<s32>(256 + sizeof(u32)); i++)
 			state.mArray[i] = sChaos[(u8)(inSeed + i)]; // Create semi-random table
 		state.mIndex = (u8)inSeed;						// Start index
 	}
 
-	u32 state_generate(xrnd::xrndgood &state)
+	u32 state_generate(xrnd::good_t &state)
 	{
 		u32 r1 = (state.mIndex + 4 * 53) & 0xFF;
 		u32 r2 = (state.mIndex + 4) & 0xFF;
@@ -44,12 +44,12 @@ namespace xcore
 		return r;
 	}
 
-	void xrnd::xrndgood::reset(s32 seed)
+	void xrnd::good_t::reset(s32 seed)
 	{
 		state_reset(*this, seed);
 	}
 
-	u32 xrnd::xrndgood::generate()
+	u32 xrnd::good_t::generate()
 	{
 		return state_generate(*this);
 	}

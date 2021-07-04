@@ -14,7 +14,7 @@ namespace xcore
 	class xrndquick : public random_t
 	{
 	private:
-		xrnd::xrndquick		m_rnd;
+		xrnd::quick_t		m_rnd;
 	public:
 							xrndquick() {}
 

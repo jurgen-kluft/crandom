@@ -18,7 +18,7 @@ namespace xcore
     inline u32 mixBits(u32 u, u32 v) { return (u & UMASK) | (v & LMASK); }
     inline u32 twist(u32 u, u32 v) { return (mixBits(u, v) >> 1) ^ ((v & 1) ? MATRIX_A : 0); }
 
-    void state_reset(xrnd::xrndmt& state)
+    void state_reset(xrnd::mt_t& state)
     {
         state.mState       = NULL;
         state.mNextState   = NULL;
@@ -26,7 +26,7 @@ namespace xcore
         state.mInitialized = false;
     }
 
-    xrnd::xrndmt::xrndmt()
+    xrnd::mt_t::mt_t()
         : mState(NULL)
         , mNextState(NULL)
         , mLeft(0)
@@ -35,7 +35,7 @@ namespace xcore
 		state_reset(*this);
     }
 
-    void state_seed(xrnd::xrndmt& state, u32 inSeed)
+    void state_seed(xrnd::mt_t& state, u32 inSeed)
     {
         if (state.mState == NULL)
             state.mState = state.mStateData;
@@ -50,7 +50,7 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_seed_from_array(xrnd::xrndmt& state, u32 const* inSeedArray, s32 inLength)
+    void state_seed_from_array(xrnd::mt_t& state, u32 const* inSeedArray, s32 inLength)
     {
         state_seed(state, 0);
 
@@ -92,7 +92,7 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_generate_new(xrnd::xrndmt& state)
+    void state_generate_new(xrnd::mt_t& state)
     {
         // If Seed() has not been called, a default initial seed is used
         if (!state.mInitialized)
@@ -113,19 +113,19 @@ namespace xcore
         *statePtr = statePtr[M - N] ^ twist(statePtr[0], state.mState[0]);
     }
 
-    u32 state_generate(xrnd::xrndmt& state)
+    u32 state_generate(xrnd::mt_t& state)
     {
         if (--state.mLeft == 0)
             state_generate_new(state);
         return *state.mNextState++;
     }
 
-    void xrnd::xrndmt::reset(s32 seed)
+    void xrnd::mt_t::reset(s32 seed)
     {
         state_reset(*this);
         state_seed(*this, seed);
     }
 
-    u32 xrnd::xrndmt::generate() { return state_generate(*this); }
+    u32 xrnd::mt_t::generate() { return state_generate(*this); }
 
 } // namespace xcore

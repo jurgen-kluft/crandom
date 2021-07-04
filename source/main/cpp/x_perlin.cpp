@@ -45,27 +45,27 @@ namespace xcore
     {
         mRefCount = 0;
 
-        xrnd::xrndgood rnd;
+        xrnd::good_t rnd;
         rnd.reset(0);
 
         s32 i;
         for (i = 0; i < B; i++)
         {
             mP[i]     = i;
-            mG1[i]    = xrnd::randF32S<xrnd::xrndgood>(&rnd);
-            mG2[i][0] = xrnd::randF32<xrnd::xrndgood>(&rnd);
-            mG2[i][1] = xrnd::randF32<xrnd::xrndgood>(&rnd);
-            mG3[i][0] = xrnd::randF32<xrnd::xrndgood>(&rnd);
-            mG3[i][1] = xrnd::randF32<xrnd::xrndgood>(&rnd);
-            mG3[i][2] = xrnd::randF32<xrnd::xrndgood>(&rnd);
+            mG1[i]    = xrnd::randF32S<xrnd::good_t>(&rnd);
+            mG2[i][0] = xrnd::randF32<xrnd::good_t>(&rnd);
+            mG2[i][1] = xrnd::randF32<xrnd::good_t>(&rnd);
+            mG3[i][0] = xrnd::randF32<xrnd::good_t>(&rnd);
+            mG3[i][1] = xrnd::randF32<xrnd::good_t>(&rnd);
+            mG3[i][2] = xrnd::randF32<xrnd::good_t>(&rnd);
         }
 
         // Reorder permutations
         while (--i)
         {
             s32 t                               = mP[i];
-            mP[i]                               = mP[xrnd::randU32<xrnd::xrndgood>(&rnd, B_BITS)];
-            mP[xrnd::randU32<xrnd::xrndgood>(&rnd, B_BITS)] = t;
+            mP[i]                               = mP[xrnd::randU32<xrnd::good_t>(&rnd, B_BITS)];
+            mP[xrnd::randU32<xrnd::good_t>(&rnd, B_BITS)] = t;
         }
 
         for (i = 0; i < B + 2; i++)

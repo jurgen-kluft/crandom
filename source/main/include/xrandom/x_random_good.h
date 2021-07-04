@@ -14,7 +14,7 @@ namespace xcore
 	class xrndgood : public random_t
 	{
 	private:
-		xrnd::xrndgood m_rnd;
+		xrnd::good_t m_rnd;
 
 	public:
 		xrndgood() {}

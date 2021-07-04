@@ -9,15 +9,15 @@ namespace xcore
 {
 	namespace xrnd
 	{
-		xrndgood	good;
-		xrndmt		mersenne;
-		xrndquick	quick;
-		xrndsitmo	sitmo;
+		good_t	good;
+		mt_t	mersenne;
+		quick_t	quick;
+		sitmo_t	sitmo;
 
-		xrndquick::xrndquick() : mSeed(0) {}
+		quick_t::quick_t() : mSeed(0) {}
 
-		void xrndquick::reset(s32 seed) { mSeed = seed; }
-		u32 xrndquick::generate()
+		void quick_t::reset(s32 seed) { mSeed = seed; }
+		u32 quick_t::generate()
 		{
 			mSeed = mSeed * 1664525 + 1013904223; 
 			return mSeed;
@@ -42,7 +42,7 @@ namespace xcore
 
         void  randBuffer(buffer_t& buffer)
 		{
-			randBuffer<xrndgood>(&good, buffer);
+			randBuffer<good_t>(&good, buffer);
 		}
 	}
 }

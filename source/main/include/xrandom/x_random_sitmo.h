@@ -15,7 +15,7 @@ namespace xcore
 	class xrndsitmo : public random_t
 	{
 	private:
-		xrnd::xrndsitmo		m_rnd;
+		xrnd::sitmo_t		m_rnd;
 	public:
 							xrndsitmo() {}
 
