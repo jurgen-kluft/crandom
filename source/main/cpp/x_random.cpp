@@ -16,7 +16,7 @@ namespace xcore
 
 		quick_t::quick_t() : mSeed(0) {}
 
-		void quick_t::reset(s32 seed) { mSeed = seed; }
+		void quick_t::reset(s64 seed) { mSeed = seed; }
 		u32 quick_t::generate()
 		{
 			mSeed = mSeed * 1664525 + 1013904223; 

@@ -19,7 +19,7 @@ namespace xcore
 			s32 mIndex;
 
 			good_t();
-			void reset(s32 seed = 0);
+			void reset(s64 seed = 0);
 			u32 generate();
 		};
 		extern good_t good;
@@ -37,7 +37,7 @@ namespace xcore
 			bool mInitialized;
 
 			mt_t();
-			void reset(s32 seed = 0);
+			void reset(s64 seed = 0);
 			u32 generate();
 		};
 		extern mt_t mersenne;
@@ -47,7 +47,7 @@ namespace xcore
 			u32 mSeed;
 
 			quick_t();
-			void reset(s32 seed = 0);
+			void reset(s64 seed = 0);
 			u32 generate();
 		};
 		extern quick_t quick;
@@ -60,7 +60,7 @@ namespace xcore
 			u16 _o_counter; // output chunk counter, the 256 random bits in _o are returned in eight 32 bit chunks
 
 			sitmo_t();
-			void reset(s32 seed = 0);
+			void reset(s64 seed = 0);
 			u32 generate();
 		};
 		extern sitmo_t sitmo;
@@ -93,7 +93,7 @@ namespace xcore
 		template <typename R>
 		inline bool randBool(R *rnd) { return (randU32(rnd, 1) == 0); }
 
-		inline static void reset(s32 seed = 0) { good.reset(seed); }
+		inline static void reset(s64 seed = 0) { good.reset(seed); }
 		inline static u32 generate() { return good.generate(); }
 		inline static u32 randU32(u32 inBits) { return randU32<good_t>(&good, inBits); }
 		inline static s32 randS32(u32 inBits) { return randS32<good_t>(&good, inBits); }

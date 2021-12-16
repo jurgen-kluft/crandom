@@ -120,14 +120,14 @@ namespace xcore
         state._o[3] = 0xee29ec846bd2e40b;
     }
 
-    void state_seed(xrnd::sitmo_t& state, u32 s)
+    void state_seed(xrnd::sitmo_t& state, s64 s)
     {
         for (unsigned short i = 0; i < 4; ++i)
         {
             state._k[i] = 0;
             state._s[i] = 0;
         }
-        state._k[0]      = s;
+        state._k[0]      = (u64)s;
         state._o_counter = 0;
         encrypt_counter(state);
     }
@@ -203,10 +203,10 @@ namespace xcore
 
     xrnd::sitmo_t::sitmo_t()
     {
-        state_seed(*this, 0xdeadbeef);
+        state_seed(*this, (s64)0xdeadbeefdeadbeef);
     }
 
-    void xrnd::sitmo_t::reset(s32 seed) { state_seed(*this, seed); }
+    void xrnd::sitmo_t::reset(s64 seed) { state_seed(*this, seed); }
     u32 xrnd::sitmo_t::generate() { return state_generate(*this); }
 
 }

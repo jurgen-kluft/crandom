@@ -19,7 +19,7 @@ namespace xcore
 	public:
 							xrndsitmo() {}
 
-		virtual void		reset(s32 seed = 0) { m_rnd.reset(seed); }
+		virtual void		reset(s64 seed = 0) { m_rnd.reset(seed); }
 		virtual u32			generate() { return m_rnd.generate(); }
 		
 		inline u32			randU32(u32 inBits = 32)

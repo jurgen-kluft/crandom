@@ -1,6 +1,7 @@
 #include "xbase/x_base.h"
 #include "xbase/x_allocator.h"
 #include "xbase/x_console.h"
+#include "xbase/x_context.h"
 
 #include "xrandom/x_random.h"
 
@@ -70,7 +71,6 @@ namespace xcore
 
 		virtual void v_release()
 		{
-			mAllocator->release();
 			mAllocator = NULL;
 		}
 	};
@@ -81,21 +81,24 @@ xcore::UnitTestAssertHandler gAssertHandler;
 
 bool gRunUnitTest(UnitTest::TestReporter &reporter)
 {
-	xbase::x_Init();
+	xbase::init();
 
 #ifdef TARGET_DEBUG
-	xcore::asserthandler_t::sRegisterHandler(&gAssertHandler);
+	xcore::context_t::set_assert_handler(&gAssertHandler);
 #endif
-
-	xcore::alloc_t *systemAllocator = xcore::alloc_t::get_system();
-	xcore::UnitTestAllocator unittestAllocator(systemAllocator);
-	UnitTest::SetAllocator(&unittestAllocator);
-
 	xcore::console->write("Configuration: ");
+	xcore::console->setColor(xcore::console_t::YELLOW);
 	xcore::console->writeLine(TARGET_FULL_DESCR_STR);
+	xcore::console->setColor(xcore::console_t::NORMAL);
+
+	xcore::alloc_t* systemAllocator = xcore::context_t::system_alloc();
+	xcore::UnitTestAllocator unittestAllocator( systemAllocator );
+	UnitTest::SetAllocator(&unittestAllocator);
 
 	xcore::TestAllocator testAllocator(systemAllocator);
 	gTestAllocator = &testAllocator;
+	xcore::context_t::set_system_alloc(&testAllocator);
+
 
 	int r = UNITTEST_SUITE_RUN(reporter, xRandomUnitTest);
 	if (UnitTest::GetNumAllocations() != 0)
@@ -107,7 +110,8 @@ bool gRunUnitTest(UnitTest::TestReporter &reporter)
 	gTestAllocator->release();
 
 	UnitTest::SetAllocator(NULL);
+	xcore::context_t::set_system_alloc(systemAllocator);
 
-	xbase::x_Exit();
-	return r == 0;
+	xbase::exit();
+	return r==0;
 }

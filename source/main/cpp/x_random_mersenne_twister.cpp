@@ -35,12 +35,12 @@ namespace xcore
 		state_reset(*this);
     }
 
-    void state_seed(xrnd::mt_t& state, u32 inSeed)
+    void state_seed(xrnd::mt_t& state, s64 inSeed)
     {
         if (state.mState == NULL)
             state.mState = state.mStateData;
 
-        state.mState[0] = inSeed & (u32)0xffffffff;
+        state.mState[0] = (u32)inSeed & (u32)0xffffffff;
         for (s32 j = 1; j < N; j++)
         {
             state.mState[j] = ((u32)1812433253 * (state.mState[j - 1] ^ (state.mState[j - 1] >> 30)) + j);
@@ -120,7 +120,7 @@ namespace xcore
         return *state.mNextState++;
     }
 
-    void xrnd::mt_t::reset(s32 seed)
+    void xrnd::mt_t::reset(s64 seed)
     {
         state_reset(*this);
         state_seed(*this, seed);

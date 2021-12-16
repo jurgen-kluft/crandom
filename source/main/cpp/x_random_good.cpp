@@ -44,7 +44,7 @@ namespace xcore
 		return r;
 	}
 
-	void xrnd::good_t::reset(s32 seed)
+	void xrnd::good_t::reset(s64 seed)
 	{
 		state_reset(*this, seed);
 	}
