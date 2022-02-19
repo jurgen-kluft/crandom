@@ -10,7 +10,6 @@ t2-output/
 !.gitignore
 !.clang-format
 !*.go
-!*.lua
 !*.cpp
 !*.hpp
 !*.c
