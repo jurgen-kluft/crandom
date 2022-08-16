@@ -4,7 +4,7 @@
 
 #include "xrandom/x_random.h"
 
-namespace xcore
+namespace ncore
 {
     enum EPeriodParameters
     {
@@ -18,26 +18,26 @@ namespace xcore
     inline u32 mixBits(u32 u, u32 v) { return (u & UMASK) | (v & LMASK); }
     inline u32 twist(u32 u, u32 v) { return (mixBits(u, v) >> 1) ^ ((v & 1) ? MATRIX_A : 0); }
 
-    void state_reset(xrnd::mt_t& state)
+    void state_reset(nrnd::mt_t& state)
     {
-        state.mState       = NULL;
-        state.mNextState   = NULL;
+        state.mState       = nullptr;
+        state.mNextState   = nullptr;
         state.mLeft        = 0;
         state.mInitialized = false;
     }
 
-    xrnd::mt_t::mt_t()
-        : mState(NULL)
-        , mNextState(NULL)
+    nrnd::mt_t::mt_t()
+        : mState(nullptr)
+        , mNextState(nullptr)
         , mLeft(0)
         , mInitialized(false)
     {
 		state_reset(*this);
     }
 
-    void state_seed(xrnd::mt_t& state, s64 inSeed)
+    void state_seed(nrnd::mt_t& state, s64 inSeed)
     {
-        if (state.mState == NULL)
+        if (state.mState == nullptr)
             state.mState = state.mStateData;
 
         state.mState[0] = (u32)inSeed & (u32)0xffffffff;
@@ -50,7 +50,7 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_seed_from_array(xrnd::mt_t& state, u32 const* inSeedArray, s32 inLength)
+    void state_seed_from_array(nrnd::mt_t& state, u32 const* inSeedArray, s32 inLength)
     {
         state_seed(state, 0);
 
@@ -92,7 +92,7 @@ namespace xcore
         state.mInitialized = true;
     }
 
-    void state_generate_new(xrnd::mt_t& state)
+    void state_generate_new(nrnd::mt_t& state)
     {
         // If Seed() has not been called, a default initial seed is used
         if (!state.mInitialized)
@@ -113,19 +113,19 @@ namespace xcore
         *statePtr = statePtr[M - N] ^ twist(statePtr[0], state.mState[0]);
     }
 
-    u32 state_generate(xrnd::mt_t& state)
+    u32 state_generate(nrnd::mt_t& state)
     {
         if (--state.mLeft == 0)
             state_generate_new(state);
         return *state.mNextState++;
     }
 
-    void xrnd::mt_t::reset(s64 seed)
+    void nrnd::mt_t::reset(s64 seed)
     {
         state_reset(*this);
         state_seed(*this, seed);
     }
 
-    u32 xrnd::mt_t::generate() { return state_generate(*this); }
+    u32 nrnd::mt_t::generate() { return state_generate(*this); }
 
-} // namespace xcore
+} // namespace ncore

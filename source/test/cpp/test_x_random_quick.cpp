@@ -3,7 +3,7 @@
 
 #include "xunittest/xunittest.h"
 
-using namespace xcore;
+using namespace ncore;
 
 UNITTEST_SUITE_BEGIN(xrandom_quick)
 {
@@ -14,7 +14,7 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrndquick sRnd;
+			rndquick sRnd;
 
 			u32 ru = sRnd.generate();
 			CHECK_NOT_EQUAL(ru,sRnd.generate());
@@ -33,7 +33,7 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrndquick sRnd;
+			rndquick sRnd;
 
 			u32 ru;
 			ru=sRnd.generate();

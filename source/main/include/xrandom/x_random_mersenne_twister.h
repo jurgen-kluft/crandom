@@ -1,5 +1,5 @@
-#ifndef __XRANDOM_MT_RANDOM_H__
-#define __XRANDOM_MT_RANDOM_H__
+#ifndef __CRANDOM_MT_RANDOM_H__
+#define __CRANDOM_MT_RANDOM_H__
 #include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
@@ -9,7 +9,7 @@
 #include "xbase/x_random.h"
 #include "xrandom/x_random.h"
 
-namespace xcore
+namespace ncore
 {
 	/**
 	 * @group		random_t
@@ -18,13 +18,13 @@ namespace xcore
 	 *			Note that this means, by default, that there is negligible serial correlation between 
 	 *			successive values in the output sequence. 
 	 */
-	class xrndmersenne : public random_t
+	class rndmersenne : public random_t
 	{
 	private:
-		xrnd::mt_t		m_rnd;
+		nrnd::mt_t		m_rnd;
 
 	public:
-							xrndmersenne() {}
+							rndmersenne() {}
 		virtual void		reset(s64 seed = 0) { m_rnd.reset(seed); }
 		virtual u32			generate() { return m_rnd.generate(); }
 
@@ -51,4 +51,4 @@ namespace xcore
 	};
 }
 
-#endif	///< __XRANDOM_MT_RANDOM_H__
+#endif	///< __CRANDOM_MT_RANDOM_H__

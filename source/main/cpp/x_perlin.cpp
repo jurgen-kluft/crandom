@@ -4,7 +4,7 @@
 #include "xrandom/x_random.h"
 #include "xrandom/x_perlin.h"
 
-namespace xcore
+namespace ncore
 {
     //---------------------------------------------------------------------------------------------------------------------
     //	Perlin noise
@@ -45,27 +45,27 @@ namespace xcore
     {
         mRefCount = 0;
 
-        xrnd::good_t rnd;
+        nrnd::good_t rnd;
         rnd.reset(0);
 
         s32 i;
         for (i = 0; i < B; i++)
         {
             mP[i]     = i;
-            mG1[i]    = xrnd::randF32S<xrnd::good_t>(&rnd);
-            mG2[i][0] = xrnd::randF32<xrnd::good_t>(&rnd);
-            mG2[i][1] = xrnd::randF32<xrnd::good_t>(&rnd);
-            mG3[i][0] = xrnd::randF32<xrnd::good_t>(&rnd);
-            mG3[i][1] = xrnd::randF32<xrnd::good_t>(&rnd);
-            mG3[i][2] = xrnd::randF32<xrnd::good_t>(&rnd);
+            mG1[i]    = nrnd::randF32S<nrnd::good_t>(&rnd);
+            mG2[i][0] = nrnd::randF32<nrnd::good_t>(&rnd);
+            mG2[i][1] = nrnd::randF32<nrnd::good_t>(&rnd);
+            mG3[i][0] = nrnd::randF32<nrnd::good_t>(&rnd);
+            mG3[i][1] = nrnd::randF32<nrnd::good_t>(&rnd);
+            mG3[i][2] = nrnd::randF32<nrnd::good_t>(&rnd);
         }
 
         // Reorder permutations
         while (--i)
         {
-            s32 t                               = mP[i];
-            mP[i]                               = mP[xrnd::randU32<xrnd::good_t>(&rnd, B_BITS)];
-            mP[xrnd::randU32<xrnd::good_t>(&rnd, B_BITS)] = t;
+            s32 t                                         = mP[i];
+            mP[i]                                         = mP[nrnd::randU32<nrnd::good_t>(&rnd, B_BITS)];
+            mP[nrnd::randU32<nrnd::good_t>(&rnd, B_BITS)] = t;
         }
 
         for (i = 0; i < B + 2; i++)
@@ -88,7 +88,7 @@ namespace xcore
      *
      */
     static PerlinNoiseTables sPT;
-    xnoise::xnoise()
+    noise::noise()
     {
         // Make sure we have perlin noise tables
         if (sPT.mRefCount == 0)
@@ -104,7 +104,7 @@ namespace xcore
      * Destructs the Perlin noise generator. If this is the last Perlin noise object
      * coming into existence, the shared Perlin noise lookup tables are destructed.
      */
-    xnoise::~xnoise() { sPT.mRefCount--; }
+    noise::~noise() { sPT.mRefCount--; }
 
 // Helpers
 #define SMOOTH_STEP(t) (t * t * (3.0f - 2.0f * t))
@@ -119,7 +119,7 @@ namespace xcore
     /**
      * Return noise on 1D line <inT>
      */
-    f32 xnoise::noise1D(f32 inT)
+    f32 noise::noise1D(f32 inT)
     {
         s32 bx0, bx1;
         f32 rx0, rx1, sx, t, u, v;
@@ -137,7 +137,7 @@ namespace xcore
     /**
      * Return noise in 2-space at <inVector>
      */
-    f32 xnoise::noise2D(f32 inX, f32 inY)
+    f32 noise::noise2D(f32 inX, f32 inY)
     {
         s32        bx0, bx1, by0, by1, b00, b10, b01, b11;
         f32        rx0, rx1, ry0, ry1, sx, sy, a, b, t, u, v;
@@ -180,7 +180,7 @@ namespace xcore
     /**
      * Return noise in 3-space at <inVector>
      */
-    f32 xnoise::noise3D(f32 inX, f32 inY, f32 inZ)
+    f32 noise::noise3D(f32 inX, f32 inY, f32 inZ)
     {
         s32        bx0, bx1, by0, by1, bz0, bz1, b00, b10, b01, b11;
         f32        rx0, rx1, ry0, ry1, rz0, rz1, sy, sz, a, b, c, d, t, u, v;
@@ -248,7 +248,7 @@ namespace xcore
     /**
      * Evaluate turbulence at <inPos>
      */
-    f32 xtnoise::evaluate(f32 inPos)
+    f32 tnoise::evaluate(f32 inPos)
     {
         f32 value;
         f32 freq   = mFrequency;
@@ -268,13 +268,13 @@ namespace xcore
     }
 
     //---------------------------------------------------------------------------------------------------------------------
-    //	xpnoise
+    //	pnoise
     //---------------------------------------------------------------------------------------------------------------------
 
     /**
      * Evaluate harmonic noise
      */
-    f32 xpnoise::evaluate(f32 inPos)
+    f32 pnoise::evaluate(f32 inPos)
     {
         f32 value     = 0.0f;
         f32 amplitude = 1.0f;
@@ -291,4 +291,4 @@ namespace xcore
         return value;
     }
 
-} // namespace xcore
+} // namespace ncore

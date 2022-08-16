@@ -1,22 +1,22 @@
-#ifndef __XRANDOM_PERLIN_H__
-#define __XRANDOM_PERLIN_H__
+#ifndef __CRANDOM_PERLIN_H__
+#define __CRANDOM_PERLIN_H__
 #include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
 #endif
 
-namespace xcore
+namespace ncore
 {
     /**
      * @group		random_t
      * @brief		Perlin noise
      */
-    class xnoise
+    class noise
     {
     public:
         ///@name Construction/Destruction
-        xnoise();
-        ~xnoise();
+        noise();
+        ~noise();
 
         ///@name Noise
         f32 noise1D(f32 inT);                   ///< Return noise on 1D line <inT>
@@ -29,11 +29,11 @@ namespace xcore
      * @brief		Turbulence using Perlin noise
      *			Ken Perlin's turbulence function using Perlin noise
      */
-    class xtnoise
+    class tnoise
     {
     public:
         ///@name Construction/Destruction
-        inline xtnoise()
+        inline tnoise()
             : mFrequency(1.0f)
         {
         }
@@ -47,7 +47,7 @@ namespace xcore
 
     private:
         f32    mFrequency;
-        xnoise mNoise;
+        noise mNoise;
     };
 
     /**
@@ -56,11 +56,11 @@ namespace xcore
      *			Harmonic noise as used by http://freespace.virgin.net/hugo.elias/models/m_perlin.htm
      *			Looks a lot like the other two...
      */
-    class xpnoise
+    class pnoise
     {
     public:
         ///@name Construction/Destruction
-        xpnoise()
+        pnoise()
             : mPersistence(1.0f)
             , mOctaves(1)
         {
@@ -78,8 +78,8 @@ namespace xcore
     private:
         f32    mPersistence;
         s32    mOctaves;
-        xnoise mNoise;
+        noise mNoise;
     };
 
-} // namespace xcore
-#endif ///< __XRANDOM_PERLIN_H__
+} // namespace ncore
+#endif ///< __CRANDOM_PERLIN_H__

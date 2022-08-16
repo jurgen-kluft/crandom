@@ -1,5 +1,5 @@
-#ifndef __XRANDOM_RANDOM_GOOD_H__
-#define __XRANDOM_RANDOM_GOOD_H__
+#ifndef __CRANDOM_RANDOM_GOOD_H__
+#define __CRANDOM_RANDOM_GOOD_H__
 #include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
@@ -9,15 +9,15 @@
 #include "xbase/x_random.h"
 #include "xrandom/x_random.h"
 
-namespace xcore
+namespace ncore
 {
-	class xrndgood : public random_t
+	class rndgood : public random_t
 	{
 	private:
-		xrnd::good_t m_rnd;
+		nrnd::good_t m_rnd;
 
 	public:
-		xrndgood() {}
+		rndgood() {}
 
 		virtual void reset(s64 seed = 0) { m_rnd.reset(seed); }
 		virtual u32 generate() { return m_rnd.generate(); }
@@ -43,5 +43,5 @@ namespace xcore
 		inline f32 randF32S() { return ((randF32() - 0.5f) * 2.0f); }
 		inline bool randBool() { return (randU32(1) == 0); }
 	};
-} // namespace xcore
+} // namespace ncore
 #endif

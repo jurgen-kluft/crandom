@@ -1,5 +1,5 @@
-#ifndef __XRANDOM_RANDOM_API_H__
-#define __XRANDOM_RANDOM_API_H__
+#ifndef __CRANDOM_RANDOM_API_H__
+#define __CRANDOM_RANDOM_API_H__
 #include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
@@ -7,11 +7,11 @@
 
 #include "xbase/x_debug.h"
 
-namespace xcore
+namespace ncore
 {
 	class buffer_t;
 
-	namespace xrnd
+	namespace nrnd
 	{
 		struct good_t
 		{
@@ -101,7 +101,7 @@ namespace xcore
 		inline static f32 randF32S() { return randF32S<good_t>(&good); }
 		inline static bool randBool() { return (randU32<good_t>(&good, 1) == 0); }
 		inline static void randBuffer(buffer_t &buffer);
-	}; // namespace xrnd
+	}; // namespace nrnd
 
-} // namespace xcore
+} // namespace ncore
 #endif

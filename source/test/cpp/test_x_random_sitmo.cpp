@@ -3,7 +3,7 @@
 
 #include "xunittest/xunittest.h"
 
-using namespace xcore;
+using namespace ncore;
 
 UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 {
@@ -14,7 +14,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			u32 ru;
 			ru=sRnd.randU32();
@@ -33,7 +33,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			u32 ru;
 			ru=sRnd.randU32();
@@ -52,7 +52,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandSign)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			s32 rs;
 			rs=sRnd.randS32();
@@ -73,7 +73,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandF)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			f32 rfloat;
 			rfloat=sRnd.randF32();
@@ -88,7 +88,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
@@ -107,7 +107,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 		}
 		UNITTEST_TEST(xrnd_randBool)
 		{
-			xrndsitmo sRnd;
+			rndsitmo sRnd;
 
 			u32 rbool=0;
 			u32 ru=0,ru2=0;

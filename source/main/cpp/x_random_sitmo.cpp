@@ -3,7 +3,7 @@
 
 #include "xrandom/x_random_sitmo.h"
 
-namespace xcore
+namespace ncore
 {
     /**
      *	Sitmo random
@@ -28,7 +28,7 @@ namespace xcore
     x1 ^= x0;                                        \
     z1 ^= z0;
 
-    void encrypt_counter(xrnd::sitmo_t& state)
+    void encrypt_counter(nrnd::sitmo_t& state)
     {
         u64 b[4];
         u64 k[5];
@@ -69,7 +69,7 @@ namespace xcore
         state._o[3] += 5;
     }
 
-    void inc_counter(xrnd::sitmo_t& state)
+    void inc_counter(nrnd::sitmo_t& state)
     {
         ++state._s[0];
         if (state._s[0] != 0)
@@ -83,7 +83,7 @@ namespace xcore
         ++state._s[3];
     }
 
-    void inc_counter(xrnd::sitmo_t& state, u64 z)
+    void inc_counter(nrnd::sitmo_t& state, u64 z)
     {
         // check if we will overflow the first 64 bit int
         if (z > 0xFFFFFFFFFFFFFFFF - state._s[0])
@@ -105,7 +105,7 @@ namespace xcore
     // Seeding
     // -------------------------------------------------
 
-    void state_seed(xrnd::sitmo_t& state)
+    void state_seed(nrnd::sitmo_t& state)
     {
         for (unsigned short i = 0; i < 4; ++i)
         {
@@ -120,7 +120,7 @@ namespace xcore
         state._o[3] = 0xee29ec846bd2e40b;
     }
 
-    void state_seed(xrnd::sitmo_t& state, s64 s)
+    void state_seed(nrnd::sitmo_t& state, s64 s)
     {
         for (unsigned short i = 0; i < 4; ++i)
         {
@@ -133,7 +133,7 @@ namespace xcore
     }
 
     // Advances e�s state ei to ei+1 = TA(ei) and returns GA(ei).
-    u32 state_generate(xrnd::sitmo_t& state)
+    u32 state_generate(nrnd::sitmo_t& state)
     {
         // can we return a value from the current block?
         if (state._o_counter < 8)
@@ -158,7 +158,7 @@ namespace xcore
     // -------------------------------------------------
 
     // Advances e�s state ei to ei+z by any means equivalent to z consecutive calls e().
-    void discard(xrnd::sitmo_t& state, u64 z)
+    void discard(nrnd::sitmo_t& state, u64 z)
     {
         // check if we stay in the current block
         if (z < 8 - state._o_counter)
@@ -178,7 +178,7 @@ namespace xcore
     }
 
     // Extra function to set the key
-    void set_key(xrnd::sitmo_t& state, u64 k0 = 0, u64 k1 = 0, u64 k2 = 0, u64 k3 = 0)
+    void set_key(nrnd::sitmo_t& state, u64 k0 = 0, u64 k1 = 0, u64 k2 = 0, u64 k3 = 0)
     {
         state._k[0] = k0;
         state._k[1] = k1;
@@ -188,7 +188,7 @@ namespace xcore
     }
 
     // set the counter
-    void set_counter(xrnd::sitmo_t& state, u64 s0 = 0, u64 s1 = 0, u64 s2 = 0, u64 s3 = 0, unsigned short o_counter = 0)
+    void set_counter(nrnd::sitmo_t& state, u64 s0 = 0, u64 s1 = 0, u64 s2 = 0, u64 s3 = 0, unsigned short o_counter = 0)
     {
         state._s[0]      = s0;
         state._s[1]      = s1;
@@ -201,12 +201,12 @@ namespace xcore
 #undef MIXK
 #undef MIX2
 
-    xrnd::sitmo_t::sitmo_t()
+    nrnd::sitmo_t::sitmo_t()
     {
         state_seed(*this, (s64)0xdeadbeefdeadbeef);
     }
 
-    void xrnd::sitmo_t::reset(s64 seed) { state_seed(*this, seed); }
-    u32 xrnd::sitmo_t::generate() { return state_generate(*this); }
+    void nrnd::sitmo_t::reset(s64 seed) { state_seed(*this, seed); }
+    u32 nrnd::sitmo_t::generate() { return state_generate(*this); }
 
 }

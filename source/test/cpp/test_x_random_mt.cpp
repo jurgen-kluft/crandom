@@ -3,7 +3,7 @@
 
 #include "xunittest/xunittest.h"
 
-using namespace xcore;
+using namespace ncore;
 
 UNITTEST_SUITE_BEGIN(xrandom_mt)
 {
@@ -14,7 +14,7 @@ UNITTEST_SUITE_BEGIN(xrandom_mt)
 
 		UNITTEST_TEST(seed1)
         {
-			xrndmersenne sMtRnd;
+			rndmersenne sMtRnd;
 			sMtRnd.reset();
 			CHECK_NOT_EQUAL(sMtRnd.generate(),sMtRnd.generate());
 			sMtRnd.reset(12345679);

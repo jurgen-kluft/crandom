@@ -2,59 +2,59 @@
 
 #include "xunittest/xunittest.h"
 
-using namespace xcore;
+using namespace ncore;
 
 UNITTEST_SUITE_BEGIN(perlin)
 {
-    UNITTEST_FIXTURE(xnoise)
+    UNITTEST_FIXTURE(noise)
     {
         UNITTEST_FIXTURE_SETUP() {}
         UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xnoise_noise1D)
+		UNITTEST_TEST(noise_noise1D)
 		{
-			xnoise sxnoise;
+			noise snoise;
 			f32 rfT=0.1f;
-			f32 rf=sxnoise.noise1D(rfT);
+			f32 rf=snoise.noise1D(rfT);
 			for(s32 i=1;i<50;i++)
 			{
-				f32 rf2=sxnoise.noise1D((f32)i+rfT);
-				f32 rf3=sxnoise.noise1D((f32)i+rfT);
+				f32 rf2=snoise.noise1D((f32)i+rfT);
+				f32 rf3=snoise.noise1D((f32)i+rfT);
 				CHECK_EQUAL(rf2,rf3);
 				CHECK_NOT_EQUAL(rf2,0);
 				CHECK_EQUAL((rf2>-1.0)&&(rf2<1.0),true);
 				if((s32)rf2%2!=0)CHECK_EQUAL(rf2==((rf2/2)*2),true);
 			}
 		}
-		UNITTEST_TEST(xnoise_noise2D)
+		UNITTEST_TEST(noise_noise2D)
 		{
-			xnoise sxnoise;
+			noise snoise;
 			f32 rfX=0.7f,rfY=1.2f;
-			f32 rf=sxnoise.noise2D(rfX,rfY);
-			CHECK_EQUAL(rf,sxnoise.noise2D(rfX,rfY));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise2D(rfX,rfY+1.0f));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise2D(rfX+2.0f,rfY));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise2D(rfX+2.0f,rfY+1.0f));
+			f32 rf=snoise.noise2D(rfX,rfY);
+			CHECK_EQUAL(rf,snoise.noise2D(rfX,rfY));
+			CHECK_NOT_EQUAL(rf,snoise.noise2D(rfX,rfY+1.0f));
+			CHECK_NOT_EQUAL(rf,snoise.noise2D(rfX+2.0f,rfY));
+			CHECK_NOT_EQUAL(rf,snoise.noise2D(rfX+2.0f,rfY+1.0f));
 			for(s32 i=1;i<50;i++)
 			{
-				f32 rf2=sxnoise.noise2D((f32)i+rfX,(f32)i+rfY);
+				f32 rf2=snoise.noise2D((f32)i+rfX,(f32)i+rfY);
 				CHECK_EQUAL((rf2>-1.0)&&(rf2<1.0),true);
 				if((s32)rf2%2!=0)CHECK_EQUAL(rf2==((rf2/2)*2),true);
 			}
 		}
-		UNITTEST_TEST(xnoise_noise3D)
+		UNITTEST_TEST(noise_noise3D)
 		{
-			xnoise sxnoise;
+			noise snoise;
 			f32 rfX=0.2f,rfY=0.4f,rfZ=0.8f;
-			f32 rf=sxnoise.noise3D(rfX,rfY,rfZ);
-			CHECK_EQUAL(rf,sxnoise.noise3D(rfX,rfY,rfZ));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise3D(rfX,rfY+1.0f,rfZ));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise3D(rfX+2.0f,rfY,rfZ));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise3D(rfX,rfY,rfZ+3.0f));
-			CHECK_NOT_EQUAL(rf,sxnoise.noise3D(rfX+2.0f,rfY+1.0f,rfZ+3.0f));
+			f32 rf=snoise.noise3D(rfX,rfY,rfZ);
+			CHECK_EQUAL(rf,snoise.noise3D(rfX,rfY,rfZ));
+			CHECK_NOT_EQUAL(rf,snoise.noise3D(rfX,rfY+1.0f,rfZ));
+			CHECK_NOT_EQUAL(rf,snoise.noise3D(rfX+2.0f,rfY,rfZ));
+			CHECK_NOT_EQUAL(rf,snoise.noise3D(rfX,rfY,rfZ+3.0f));
+			CHECK_NOT_EQUAL(rf,snoise.noise3D(rfX+2.0f,rfY+1.0f,rfZ+3.0f));
 			for(s32 i=1;i<50;i++)
 			{
-				f32 rf2=sxnoise.noise3D((f32)i+rfX,(f32)i+rfY,(f32)i+rfZ);
+				f32 rf2=snoise.noise3D((f32)i+rfX,(f32)i+rfY,(f32)i+rfZ);
 				CHECK_EQUAL((rf2>-1.0)&&(rf2<1.0),true);
 				if((s32)rf2%2!=0)CHECK_EQUAL(rf2==((rf2/2)*2),true);
 			}
@@ -67,7 +67,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 
 		UNITTEST_TEST(xturbnoise_evaluate)
 		{
-			xtnoise sxTBn;
+			tnoise sxTBn;
 			f32 rf=0.3f,rf2=0.9f;
 			CHECK_EQUAL(sxTBn.evaluate(132.0000f),sxTBn.evaluate(132));
 			CHECK_EQUAL(sxTBn.evaluate(97),sxTBn.evaluate('a'));
@@ -86,14 +86,14 @@ UNITTEST_SUITE_BEGIN(perlin)
 		}
 		UNITTEST_TEST(xturbnoise_getFrequency)
 		{
-			xtnoise sxTBn;
+			tnoise sxTBn;
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 			sxTBn.evaluate(654131.0000f);
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 		}
 		UNITTEST_TEST(xturbnoise_setFrequency)
 		{
-			xtnoise sxTBn;
+			tnoise sxTBn;
 			sxTBn.setFrequency(1.2f);
 			CHECK_EQUAL(sxTBn.getFrequency(),1.2f);
 			//sxTBn.setFrequency(1.2);//warning
@@ -105,14 +105,14 @@ UNITTEST_SUITE_BEGIN(perlin)
 			CHECK_EQUAL(sxTBn.getFrequency(),-132.0f);
 		}
 	}
-	UNITTEST_FIXTURE(xpnoise)
+	UNITTEST_FIXTURE(pnoise)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xpnoise_evaluate)
+		UNITTEST_TEST(pnoise_evaluate)
 		{
-			xpnoise sxpn;
+			pnoise sxpn;
 			f32 rf=0.3f,rf2=0.9f;
 			CHECK_EQUAL(sxpn.evaluate(132.0000f),sxpn.evaluate(132));
 			CHECK_EQUAL(sxpn.evaluate(97),sxpn.evaluate('a'));
@@ -129,23 +129,23 @@ UNITTEST_SUITE_BEGIN(perlin)
 				CHECK_EQUAL((rf3<1)&&(rf3>-1),true);
 			}
 		}
-		UNITTEST_TEST(xpnoise_getPersistence)
+		UNITTEST_TEST(pnoise_getPersistence)
 		{
-			xpnoise sxpn;
+			pnoise sxpn;
 			CHECK_EQUAL(sxpn.getPersistence(),1.0f);
 			sxpn.evaluate(97);
 			CHECK_EQUAL(sxpn.getPersistence(),1.0f);
 		}
-		UNITTEST_TEST(xpnoise_getOctaves)
+		UNITTEST_TEST(pnoise_getOctaves)
 		{
-			xpnoise sxpn;
+			pnoise sxpn;
 			CHECK_EQUAL(sxpn.getOctaves(),1);
 			sxpn.evaluate(97);
 			CHECK_EQUAL(sxpn.getOctaves(),1);
 		}
-		UNITTEST_TEST(xpnoise_setPersistence)
+		UNITTEST_TEST(pnoise_setPersistence)
 		{
-			xpnoise sxpn;
+			pnoise sxpn;
 			sxpn.setPersistence(1.2f);
 			CHECK_EQUAL(sxpn.getPersistence(),1.2f);
 			//sxpn.setPersistence(1.2);//warning
@@ -156,9 +156,9 @@ UNITTEST_SUITE_BEGIN(perlin)
 			sxpn.setPersistence(-132.0f);
 			CHECK_EQUAL(sxpn.getPersistence(),-132.0f);
 		}
-		UNITTEST_TEST(xpnoise_setOctaves)
+		UNITTEST_TEST(pnoise_setOctaves)
 		{
-			xpnoise sxpn;
+			pnoise sxpn;
 			//sxpn.setOctaves(1.2f);//warning
 			sxpn.setOctaves(12);
 			CHECK_EQUAL(sxpn.getOctaves(),12);

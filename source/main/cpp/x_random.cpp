@@ -5,9 +5,9 @@
 #include "xrandom/x_random.h"
 
 
-namespace xcore
+namespace ncore
 {
-	namespace xrnd
+	namespace nrnd
 	{
 		good_t	good;
 		mt_t	mersenne;

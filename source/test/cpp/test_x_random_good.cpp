@@ -6,7 +6,7 @@
 
 #include "xunittest/xunittest.h"
 
-using namespace xcore;
+using namespace ncore;
 
 class xrand
 {
@@ -51,7 +51,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_Init)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			u32 ru = sRnd.randU32();
@@ -71,7 +71,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_Rand)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			u32 ru = sRnd.randU32();
@@ -100,7 +100,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_RandSign)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			s32 rs = sRnd.randS32();
@@ -128,7 +128,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 
 		UNITTEST_TEST(xrnd_RandF)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			f32 rfloat;
@@ -145,7 +145,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_RandFSign)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			f32 rfloat;
@@ -168,7 +168,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 		}
 		UNITTEST_TEST(xrnd_randBool)
 		{
-			xrndgood sGoodRnd;
+			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
 
 			u32 rbool = 0;

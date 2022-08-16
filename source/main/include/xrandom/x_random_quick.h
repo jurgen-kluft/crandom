@@ -1,5 +1,5 @@
-#ifndef __XRANDOM_RANDOM_QUICK_H__
-#define __XRANDOM_RANDOM_QUICK_H__
+#ifndef __CRANDOM_RANDOM_QUICK_H__
+#define __CRANDOM_RANDOM_QUICK_H__
 #include "xbase/x_target.h"
 #ifdef USE_PRAGMA_ONCE
 #pragma once
@@ -9,14 +9,14 @@
 #include "xbase/x_random.h"
 #include "xrandom/x_random.h"
 
-namespace xcore
+namespace ncore
 {
-	class xrndquick : public random_t
+	class rndquick : public random_t
 	{
 	private:
-		xrnd::quick_t		m_rnd;
+		nrnd::quick_t		m_rnd;
 	public:
-							xrndquick() {}
+							rndquick() {}
 
 		virtual void		reset(s64 seed = 0) { m_rnd.reset(seed); }
 		virtual u32			generate() { return m_rnd.generate(); }
@@ -44,6 +44,6 @@ namespace xcore
 
     };
 
-} // namespace xcore
+} // namespace ncore
 
-#endif // __XRANDOM_RANDOM_QUICK_H__
+#endif // __CRANDOM_RANDOM_QUICK_H__
