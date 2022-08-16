@@ -1,10 +1,10 @@
-#include "xbase/x_target.h"
-#include "xbase/x_debug.h"
+#include "cbase/c_target.h"
+#include "cbase/c_debug.h"
 
-#include "xrandom/x_random.h"
-#include "xrandom/x_random_good.h"
+#include "crandom/c_random.h"
+#include "crandom/c_random_good.h"
 
-#include "xunittest/xunittest.h"
+#include "cunittest/xunittest.h"
 
 using namespace ncore;
 

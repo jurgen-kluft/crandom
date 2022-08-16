@@ -1,7 +1,7 @@
-#include "xrandom/x_random.h"
-#include "xrandom/x_random_quick.h"
+#include "crandom/c_random.h"
+#include "crandom/c_random_quick.h"
 
-#include "xunittest/xunittest.h"
+#include "cunittest/xunittest.h"
 
 using namespace ncore;
 
