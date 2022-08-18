@@ -1,6 +1,6 @@
 #include "crandom/c_perlin.h"
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 
 using namespace ncore;
 

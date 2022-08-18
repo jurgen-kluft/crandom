@@ -5,7 +5,7 @@
 
 #include "crandom/c_random.h"
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 #include "cunittest/private/ut_ReportAssert.h"
 
 using namespace ncore;
@@ -55,7 +55,7 @@ namespace ncore
 	public:
 		TestAllocator(alloc_t *allocator) : mAllocator(allocator) {}
 
-		virtual const char *name() const { return "xbase unittest test heap allocator"; }
+		virtual const char *name() const { return "cbase unittest test heap allocator"; }
 
 		virtual void *v_allocate(u32 size, u32 alignment)
 		{
@@ -81,7 +81,7 @@ ncore::UnitTestAssertHandler gAssertHandler;
 
 bool gRunUnitTest(UnitTest::TestReporter &reporter)
 {
-	xbase::init();
+	cbase::init();
 
 #ifdef TARGET_DEBUG
 	ncore::context_t::set_assert_handler(&gAssertHandler);
@@ -103,7 +103,7 @@ bool gRunUnitTest(UnitTest::TestReporter &reporter)
 	int r = UNITTEST_SUITE_RUN(reporter, xRandomUnitTest);
 	if (UnitTest::GetNumAllocations() != 0)
 	{
-		reporter.reportFailure(__FILE__, __LINE__, "xunittest", "memory leaks detected!");
+		reporter.reportFailure(__FILE__, __LINE__, "cunittest", "memory leaks detected!");
 		r = -1;
 	}
 
@@ -112,6 +112,6 @@ bool gRunUnitTest(UnitTest::TestReporter &reporter)
 	UnitTest::SetAllocator(nullptr);
 	ncore::context_t::set_system_alloc(systemAllocator);
 
-	xbase::exit();
+	cbase::exit();
 	return r==0;
 }

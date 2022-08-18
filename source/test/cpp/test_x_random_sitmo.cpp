@@ -1,7 +1,7 @@
 #include "crandom/c_random.h"
 #include "crandom/c_random_sitmo.h"
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 
 using namespace ncore;
 

@@ -1,33 +1,34 @@
-package xrandom
+package crandom
 
 import (
+	cbase "github.com/jurgen-kluft/cbase/package"
 	"github.com/jurgen-kluft/ccode/denv"
-	"github.com/jurgen-kluft/xbase/package"
-	"github.com/jurgen-kluft/xentry/package"
+	centry "github.com/jurgen-kluft/centry/package"
+	cunittest "github.com/jurgen-kluft/cunittest/package"
 )
 
-// GetPackage returns the package object of 'xrandom'
+// GetPackage returns the package object of 'crandom'
 func GetPackage() *denv.Package {
 	// Dependencies
-	xunittestpkg := xunittest.GetPackage()
-	xentrypkg := xentry.GetPackage()
-	xbasepkg := xbase.GetPackage()
+	cunittestpkg := cunittest.GetPackage()
+	centrypkg := centry.GetPackage()
+	cbasepkg := cbase.GetPackage()
 
-	// The main (xrandom) package
-	mainpkg := denv.NewPackage("xrandom")
-	mainpkg.AddPackage(xunittestpkg)
-	mainpkg.AddPackage(xentrypkg)
-	mainpkg.AddPackage(xbasepkg)
+	// The main (crandom) package
+	mainpkg := denv.NewPackage("crandom")
+	mainpkg.AddPackage(cunittestpkg)
+	mainpkg.AddPackage(cbasepkgg)
+	mainpkg.AddPackage(cbasepkg)
 
-	// 'xrandom' library
-	mainlib := denv.SetupDefaultCppLibProject("xrandom", "github.com\\jurgen-kluft\\xrandom")
-	mainlib.Dependencies = append(mainlib.Dependencies, xbasepkg.GetMainLib())
+	// 'crandom' library
+	mainlib := denv.SetupDefaultCppLibProject("crandom", "github.com\\jurgen-kluft\\crandom")
+	mainlib.Dependencies = append(mainlib.Dependencies, cbasepkg.GetMainLib())
 
-	// 'xrandom' unittest project
-	maintest := denv.SetupDefaultCppTestProject("xrandom_test", "github.com\\jurgen-kluft\\xrandom")
-	maintest.Dependencies = append(maintest.Dependencies, xunittestpkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, xentrypkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, xbasepkg.GetMainLib())
+	// 'crandom' unittest project
+	maintest := denv.SetupDefaultCppTestProject("crandom_test", "github.com\\jurgen-kluft\\crandom")
+	maintest.Dependencies = append(maintest.Dependencies, cunittestpkg.GetMainLib())
+	maintest.Dependencies = append(maintest.Dependencies, cbasepkgg.GetMainLib())
+	maintest.Dependencies = append(maintest.Dependencies, cbasepkg.GetMainLib())
 	maintest.Dependencies = append(maintest.Dependencies, mainlib)
 
 	mainpkg.AddMainLib(mainlib)

@@ -4,7 +4,7 @@
 #include "crandom/c_random.h"
 #include "crandom/c_random_good.h"
 
-#include "cunittest/xunittest.h"
+#include "cunittest/cunittest.h"
 
 using namespace ncore;
 
