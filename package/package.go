@@ -17,7 +17,7 @@ func GetPackage() *denv.Package {
 	// The main (crandom) package
 	mainpkg := denv.NewPackage("crandom")
 	mainpkg.AddPackage(cunittestpkg)
-	mainpkg.AddPackage(cbasepkgg)
+	mainpkg.AddPackage(centrypkg)
 	mainpkg.AddPackage(cbasepkg)
 
 	// 'crandom' library
@@ -27,7 +27,7 @@ func GetPackage() *denv.Package {
 	// 'crandom' unittest project
 	maintest := denv.SetupDefaultCppTestProject("crandom_test", "github.com\\jurgen-kluft\\crandom")
 	maintest.Dependencies = append(maintest.Dependencies, cunittestpkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, cbasepkgg.GetMainLib())
+	maintest.Dependencies = append(maintest.Dependencies, centrypkg.GetMainLib())
 	maintest.Dependencies = append(maintest.Dependencies, cbasepkg.GetMainLib())
 	maintest.Dependencies = append(maintest.Dependencies, mainlib)
 
