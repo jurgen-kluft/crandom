@@ -5,9 +5,6 @@
 
 namespace ncore
 {
-    /**
-     *	Sitmo random
-     */
     // Double mixing function
 #define MIX2(x0, x1, rx, z0, z1, rz)     \
     x0 += x1;                            \
@@ -132,7 +129,7 @@ namespace ncore
         encrypt_counter(state);
     }
 
-    // Advances e�s state ei to ei+1 = TA(ei) and returns GA(ei).
+    // Advances state ei to ei+1 = TA(ei) and returns GA(ei).
     u32 state_generate(nrnd::sitmo_t& state)
     {
         // can we return a value from the current block?
@@ -157,7 +154,7 @@ namespace ncore
     // misc
     // -------------------------------------------------
 
-    // Advances e�s state ei to ei+z by any means equivalent to z consecutive calls e().
+    // Advances state ei to ei+z by any means equivalent to z consecutive calls e().
     void discard(nrnd::sitmo_t& state, u64 z)
     {
         // check if we stay in the current block
