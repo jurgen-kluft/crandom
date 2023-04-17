@@ -5,7 +5,7 @@
 
 using namespace ncore;
 
-UNITTEST_SUITE_BEGIN(xrandom_mt)
+UNITTEST_SUITE_BEGIN(random_mt)
 {
 	UNITTEST_FIXTURE(main)
 	{

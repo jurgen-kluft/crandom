@@ -42,14 +42,14 @@ public:
 	inline bool randBool() { return (randU32(1) == 0); }
 };
 
-UNITTEST_SUITE_BEGIN(xrandom_good)
+UNITTEST_SUITE_BEGIN(random_good)
 {
 	UNITTEST_FIXTURE(main)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xrnd_Init)
+		UNITTEST_TEST(Init)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
@@ -69,7 +69,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			ru = sRnd.randU32();
 			CHECK_NOT_EQUAL(ru, sRnd.randU32());
 		}
-		UNITTEST_TEST(xrnd_Rand)
+		UNITTEST_TEST(Rand)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
@@ -98,7 +98,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			}
 		}
 
-		UNITTEST_TEST(xrnd_RandSign)
+		UNITTEST_TEST(RandSign)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
@@ -126,7 +126,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			CHECK_EQUAL(zzz == 1 && zzz2 == 1, true);
 		}
 
-		UNITTEST_TEST(xrnd_RandF)
+		UNITTEST_TEST(RandF)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
@@ -143,7 +143,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 					CHECK_EQUAL(rfloat / 3 * 3, rfloat);
 			}
 		}
-		UNITTEST_TEST(xrnd_RandFSign)
+		UNITTEST_TEST(RandFSign)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);
@@ -166,7 +166,7 @@ UNITTEST_SUITE_BEGIN(xrandom_good)
 			}
 			CHECK_EQUAL(zzz == 1 && zzz2 == 1, true);
 		}
-		UNITTEST_TEST(xrnd_randBool)
+		UNITTEST_TEST(RandBool)
 		{
 			rndgood sGoodRnd;
 			xrand sRnd(&sGoodRnd);

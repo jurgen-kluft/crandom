@@ -5,14 +5,14 @@
 
 using namespace ncore;
 
-UNITTEST_SUITE_BEGIN(xrandom_quick)
+UNITTEST_SUITE_BEGIN(random_quick)
 {
     UNITTEST_FIXTURE(main)
     {
         UNITTEST_FIXTURE_SETUP() {}
         UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xrnd_Init)
+		UNITTEST_TEST(Init)
 		{
 			rndquick sRnd;
 
@@ -31,7 +31,7 @@ UNITTEST_SUITE_BEGIN(xrandom_quick)
 			CHECK_NOT_EQUAL(ru,sRnd.generate());
 		}
 
-		UNITTEST_TEST(xrnd_Rand)
+		UNITTEST_TEST(Rand)
 		{
 			rndquick sRnd;
 

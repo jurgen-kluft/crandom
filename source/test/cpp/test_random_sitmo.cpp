@@ -5,14 +5,14 @@
 
 using namespace ncore;
 
-UNITTEST_SUITE_BEGIN(xrandom_sitmo)
+UNITTEST_SUITE_BEGIN(random_sitmo)
 {
     UNITTEST_FIXTURE(main)
     {
         UNITTEST_FIXTURE_SETUP() {}
         UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xrnd_Init)
+		UNITTEST_TEST(Init)
 		{
 			rndsitmo sRnd;
 
@@ -31,7 +31,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 			ru=sRnd.randU32();
 			CHECK_NOT_EQUAL(ru,sRnd.randU32());
 		}
-		UNITTEST_TEST(xrnd_Rand)
+		UNITTEST_TEST(Rand)
 		{
 			rndsitmo sRnd;
 
@@ -50,7 +50,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 				if(ru%3!=0) CHECK_NOT_EQUAL(ru/3*3,ru);
 			}
 		}
-		UNITTEST_TEST(xrnd_RandSign)
+		UNITTEST_TEST(RandSign)
 		{
 			rndsitmo sRnd;
 
@@ -71,7 +71,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 			}
 			CHECK_EQUAL(zzz==1&&zzz2==1,true);
 		}
-		UNITTEST_TEST(xrnd_RandF)
+		UNITTEST_TEST(RandF)
 		{
 			rndsitmo sRnd;
 
@@ -86,7 +86,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 				if((s32)rfloat%3!=0) CHECK_EQUAL(rfloat/3*3,rfloat);
 			}
 		}
-		UNITTEST_TEST(xrnd_RandFSign)
+		UNITTEST_TEST(RandFSign)
 		{
 			rndsitmo sRnd;
 
@@ -105,7 +105,7 @@ UNITTEST_SUITE_BEGIN(xrandom_sitmo)
 			}
 			CHECK_EQUAL(zzz==1&&zzz2==1,true);
 		}
-		UNITTEST_TEST(xrnd_randBool)
+		UNITTEST_TEST(randBool)
 		{
 			rndsitmo sRnd;
 

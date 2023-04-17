@@ -8,10 +8,10 @@
 #include "cunittest/cunittest.h"
 
 UNITTEST_SUITE_LIST(cUnitTest);
-UNITTEST_SUITE_DECLARE(cUnitTest, xrandom_quick);
-UNITTEST_SUITE_DECLARE(cUnitTest, xrandom_good);
-UNITTEST_SUITE_DECLARE(cUnitTest, xrandom_mt);
-UNITTEST_SUITE_DECLARE(cUnitTest, xrandom_sitmo);
+UNITTEST_SUITE_DECLARE(cUnitTest, random_quick);
+UNITTEST_SUITE_DECLARE(cUnitTest, random_good);
+UNITTEST_SUITE_DECLARE(cUnitTest, random_mt);
+UNITTEST_SUITE_DECLARE(cUnitTest, random_sitmo);
 UNITTEST_SUITE_DECLARE(cUnitTest, perlin);
 
 namespace ncore
