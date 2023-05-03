@@ -3,7 +3,6 @@ package crandom
 import (
 	cbase "github.com/jurgen-kluft/cbase/package"
 	"github.com/jurgen-kluft/ccode/denv"
-	centry "github.com/jurgen-kluft/centry/package"
 	cunittest "github.com/jurgen-kluft/cunittest/package"
 )
 
@@ -11,13 +10,11 @@ import (
 func GetPackage() *denv.Package {
 	// Dependencies
 	cunittestpkg := cunittest.GetPackage()
-	centrypkg := centry.GetPackage()
 	cbasepkg := cbase.GetPackage()
 
 	// The main (crandom) package
 	mainpkg := denv.NewPackage("crandom")
 	mainpkg.AddPackage(cunittestpkg)
-	mainpkg.AddPackage(centrypkg)
 	mainpkg.AddPackage(cbasepkg)
 
 	// 'crandom' library
@@ -27,7 +24,6 @@ func GetPackage() *denv.Package {
 	// 'crandom' unittest project
 	maintest := denv.SetupDefaultCppTestProject("crandom_test", "github.com\\jurgen-kluft\\crandom")
 	maintest.Dependencies = append(maintest.Dependencies, cunittestpkg.GetMainLib())
-	maintest.Dependencies = append(maintest.Dependencies, centrypkg.GetMainLib())
 	maintest.Dependencies = append(maintest.Dependencies, cbasepkg.GetMainLib())
 	maintest.Dependencies = append(maintest.Dependencies, mainlib)
 
