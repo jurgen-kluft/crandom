@@ -9,8 +9,6 @@
 
 namespace ncore
 {
-	class buffer_t;
-
 	namespace nrnd
 	{
 		struct good_t
@@ -44,7 +42,7 @@ namespace ncore
 
 		struct quick_t
 		{
-			u32 mSeed;
+            s64 mSeed;
 
 			quick_t();
 			void reset(s64 seed = 0);
@@ -100,7 +98,7 @@ namespace ncore
 		inline static f32 randF32() { return randF32<good_t>(&good); }
 		inline static f32 randF32S() { return randF32S<good_t>(&good); }
 		inline static bool randBool() { return (randU32<good_t>(&good, 1) == 0); }
-		inline static void randBuffer(buffer_t &buffer);
+
 	}; // namespace nrnd
 
 } // namespace ncore
