@@ -99,6 +99,20 @@ namespace ncore
 		inline static f32 randF32S() { return randF32S<good_t>(&good); }
 		inline static bool randBool() { return (randU32<good_t>(&good, 1) == 0); }
 
+		inline static void randBuffer(u8* buffer, s32 size)
+		{
+			u32 r;
+			for (s32 i = 0; i < size; ++i)
+			{
+				if (i & 3)
+					r = (r >> 8);
+				else
+					r = good.generate();
+
+				buffer[i] = r;
+			}
+		}
+
 	}; // namespace nrnd
 
 } // namespace ncore
