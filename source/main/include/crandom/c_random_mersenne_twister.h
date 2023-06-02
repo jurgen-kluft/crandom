@@ -25,8 +25,9 @@ namespace ncore
 
 	public:
 							rndmersenne() {}
-		virtual void		reset(s64 seed = 0) { m_rnd.reset(seed); }
-		virtual u32			generate() { return m_rnd.generate(); }
+
+        virtual void        reset(s64 seed = 0) final { m_rnd.reset(seed); }
+		virtual u32			generate() final { return m_rnd.generate(); }
 
 		inline u32			randU32(u32 inBits = 32)
 		{
