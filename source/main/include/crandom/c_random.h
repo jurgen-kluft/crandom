@@ -18,7 +18,7 @@ namespace ncore
 
 			good_t();
 			void reset(s64 seed = 0);
-			u32 generate();
+			void generate(u8* outData, u32 numBytes);
 		};
 		extern good_t good;
 
@@ -36,17 +36,17 @@ namespace ncore
 
 			mt_t();
 			void reset(s64 seed = 0);
-			u32 generate();
+			void generate(u8* outData, u32 numBytes);
 		};
 		extern mt_t mersenne;
 
 		struct quick_t
 		{
-            s64 mSeed;
+            s64 mS[2];
 
 			quick_t();
 			void reset(s64 seed = 0);
-			u32 generate();
+			void generate(u8* outData, u32 numBytes);
 		};
 		extern quick_t quick;
 
@@ -59,59 +59,10 @@ namespace ncore
 
 			sitmo_t();
 			void reset(s64 seed = 0);
-			u32 generate();
+			void generate(u8* outData, u32 numBytes);
 		};
 		extern sitmo_t sitmo;
 
-		template <typename R>
-		inline u32 randU32(R *rnd, u32 inBits)
-		{
-			ASSERT(inBits <= 32);
-			u32 r = rnd->generate();
-			return (r >> (32 - inBits));
-		}
-
-		template <typename R>
-		inline s32 randS32(R *rnd, u32 inBits)
-		{
-			ASSERT(inBits <= 31);
-			return (randU32(rnd, inBits + 1) - (1 << inBits));
-		}
-
-		template <typename R>
-		inline f32 randF32(R *rnd)
-		{
-			u32 r = rnd->generate();
-			u32 fake_float = (r >> (32 - 23)) | 0x3f800000;
-			return ((*(f32 *)&fake_float) - 1.0f);
-		}
-
-		template <typename R>
-		inline f32 randF32S(R *rnd) { return ((randF32(rnd) - 0.5f) * 2.0f); }
-		template <typename R>
-		inline bool randBool(R *rnd) { return (randU32(rnd, 1) == 0); }
-
-		inline static void reset(s64 seed = 0) { good.reset(seed); }
-		inline static u32 generate() { return good.generate(); }
-		inline static u32 randU32(u32 inBits) { return randU32<good_t>(&good, inBits); }
-		inline static s32 randS32(u32 inBits) { return randS32<good_t>(&good, inBits); }
-		inline static f32 randF32() { return randF32<good_t>(&good); }
-		inline static f32 randF32S() { return randF32S<good_t>(&good); }
-		inline static bool randBool() { return (randU32<good_t>(&good, 1) == 0); }
-
-		inline static void randBuffer(u8* buffer, s32 size)
-		{
-			u32 r;
-			for (s32 i = 0; i < size; ++i)
-			{
-				if (i & 3)
-					r = (r >> 8);
-				else
-					r = good.generate();
-
-				buffer[i] = r;
-			}
-		}
 
 	}; // namespace nrnd
 

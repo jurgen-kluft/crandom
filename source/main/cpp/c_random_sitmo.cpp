@@ -65,7 +65,7 @@ namespace ncore
         state._o[3] += 5;
     }
 
-    void inc_counter(nrnd::sitmo_t& state)
+    static inline void inc_counter(nrnd::sitmo_t& state)
     {
         ++state._s[0];
         if (state._s[0] != 0)
@@ -79,7 +79,7 @@ namespace ncore
         ++state._s[3];
     }
 
-    void inc_counter(nrnd::sitmo_t& state, u64 z)
+    static inline void inc_counter(nrnd::sitmo_t& state, u64 z)
     {
         // check if we will overflow the first 64 bit int
         if (z > 0xFFFFFFFFFFFFFFFF - state._s[0])
@@ -101,7 +101,7 @@ namespace ncore
     // Seeding
     // -------------------------------------------------
 
-    void state_seed(nrnd::sitmo_t& state)
+    static inline void state_seed(nrnd::sitmo_t& state)
     {
         for (unsigned short i = 0; i < 4; ++i)
         {
@@ -116,7 +116,7 @@ namespace ncore
         state._o[3] = 0xee29ec846bd2e40b;
     }
 
-    void state_seed(nrnd::sitmo_t& state, s64 s)
+    static inline void state_seed(nrnd::sitmo_t& state, s64 s)
     {
         for (unsigned short i = 0; i < 4; ++i)
         {
@@ -129,24 +129,41 @@ namespace ncore
     }
 
     // Advances state ei to ei+1 = TA(ei) and returns GA(ei).
-    u32 state_generate(nrnd::sitmo_t& state)
+    void state_generate(nrnd::sitmo_t& state, u8* outData, u32 numBytes)
     {
-        // can we return a value from the current block?
-        if (state._o_counter < 8)
+        u32 i = 0;
+        while (i < numBytes)
         {
-            unsigned short _o_index = state._o_counter >> 1;
-            state._o_counter++;
-            if (state._o_counter & 1)
-                return state._o[_o_index] & 0xFFFFFFFF;
-            else
-                return state._o[_o_index] >> 32;
-        }
+            u32 r;
 
-        // generate a new block and return the first 32 bits
-        inc_counter(state);
-        encrypt_counter(state);
-        state._o_counter = 1;                   // the next call
-        return (s32)(state._o[0] & 0xFFFFFFFF); // this call
+            // can we return a value from the current block?
+            if (state._o_counter < 8)
+            {
+                unsigned short _o_index = state._o_counter >> 1;
+                state._o_counter++;
+                if (state._o_counter & 1)
+                    r = state._o[_o_index] & 0xFFFFFFFF;
+                else
+                    r = state._o[_o_index] >> 32;
+            }
+            else
+            {
+
+                // generate a new block and return the first 32 bits
+                inc_counter(state);
+                encrypt_counter(state);
+                state._o_counter = 1;                        // the next call
+                r                = state._o[0] & 0xFFFFFFFF; // this call
+            }
+
+            // copy the random bytes to the output buffer
+            u8 const* rp = (u8 const*)&r;
+            u32       j  = 0;
+            while (j < 4 && i < numBytes)
+            {
+                outData[i++] = rp[j++];
+            }
+        }
     }
 
     // -------------------------------------------------
@@ -197,12 +214,9 @@ namespace ncore
 #undef MIXK
 #undef MIX2
 
-    nrnd::sitmo_t::sitmo_t()
-    {
-        state_seed(*this, (s64)0xdeadbeefdeadbeef);
-    }
+    nrnd::sitmo_t::sitmo_t() { state_seed(*this, (s64)0xdeadbeefdeadbeef); }
 
     void nrnd::sitmo_t::reset(s64 seed) { state_seed(*this, seed); }
-    u32 nrnd::sitmo_t::generate() { return state_generate(*this); }
+    void nrnd::sitmo_t::generate(u8* outData, u32 numBytes) { return state_generate(*this, outData, numBytes); }
 
-}
+} // namespace ncore

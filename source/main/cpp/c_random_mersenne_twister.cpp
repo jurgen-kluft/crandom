@@ -1,6 +1,5 @@
 #include "ccore/c_target.h"
 #include "ccore/c_debug.h"
-
 #include "crandom/c_random.h"
 
 namespace ncore
@@ -31,7 +30,7 @@ namespace ncore
         , mLeft(0)
         , mInitialized(false)
     {
-		state_reset(*this);
+        state_reset(*this);
     }
 
     void state_seed(nrnd::mt_t& state, s64 inSeed)
@@ -112,11 +111,22 @@ namespace ncore
         *statePtr = statePtr[M - N] ^ twist(statePtr[0], state.mState[0]);
     }
 
-    u32 state_generate(nrnd::mt_t& state)
+    void state_generate(nrnd::mt_t& state, u8* outData, u32 numBytes)
     {
-        if (--state.mLeft == 0)
-            state_generate_new(state);
-        return *state.mNextState++;
+        u32 i = 0;
+        while (i < numBytes)
+        {
+            if (--state.mLeft == 0)
+                state_generate_new(state);
+            u32 r = *state.mNextState++;
+
+            u32 j = 0;
+            u8 const* rp = (u8*)&r;
+            while (j < 4 && i < numBytes)
+            {
+                outData[i++] = rp[j++];
+            }
+        }
     }
 
     void nrnd::mt_t::reset(s64 seed)
@@ -125,6 +135,6 @@ namespace ncore
         state_seed(*this, seed);
     }
 
-    u32 nrnd::mt_t::generate() { return state_generate(*this); }
+    void nrnd::mt_t::generate(u8* outData, u32 numBytes) { return state_generate(*this, outData, numBytes); }
 
 } // namespace ncore
