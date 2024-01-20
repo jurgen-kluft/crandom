@@ -28,6 +28,9 @@ namespace ncore
 
         virtual void reset(s64 seed = 0) final { m_rnd.reset(seed); }
         virtual void generate(u8* outData, u32 numBytes) final { m_rnd.generate(outData, numBytes); }
+
+        inline u32 generate_u32() { u32 val; m_rnd.generate((u8*)&val, 4); return val; }
+        inline u64 generate_u64() { u64 val; m_rnd.generate((u8*)&val, 8); return val; }
     };
 } // namespace ncore
 

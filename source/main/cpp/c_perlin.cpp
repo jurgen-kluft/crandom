@@ -52,20 +52,20 @@ namespace ncore
         for (i = 0; i < B; i++)
         {
             mP[i]     = i;
-            mG1[i]    = nrnd::randF32S<nrnd::good_t>(&rnd);
-            mG2[i][0] = nrnd::randF32<nrnd::good_t>(&rnd);
-            mG2[i][1] = nrnd::randF32<nrnd::good_t>(&rnd);
-            mG3[i][0] = nrnd::randF32<nrnd::good_t>(&rnd);
-            mG3[i][1] = nrnd::randF32<nrnd::good_t>(&rnd);
-            mG3[i][2] = nrnd::randF32<nrnd::good_t>(&rnd);
+            mG1[i]    = nrnd::random_f32S<nrnd::good_t>(&rnd);
+            mG2[i][0] = nrnd::random_f32<nrnd::good_t>(&rnd);
+            mG2[i][1] = nrnd::random_f32<nrnd::good_t>(&rnd);
+            mG3[i][0] = nrnd::random_f32<nrnd::good_t>(&rnd);
+            mG3[i][1] = nrnd::random_f32<nrnd::good_t>(&rnd);
+            mG3[i][2] = nrnd::random_f32<nrnd::good_t>(&rnd);
         }
 
         // Reorder permutations
         while (--i)
         {
             s32 t                                         = mP[i];
-            mP[i]                                         = mP[nrnd::randU32<nrnd::good_t>(&rnd, B_BITS)];
-            mP[nrnd::randU32<nrnd::good_t>(&rnd, B_BITS)] = t;
+            mP[i]                                         = mP[nrnd::random_u32<nrnd::good_t>(&rnd, B_BITS)];
+            mP[nrnd::random_u32<nrnd::good_t>(&rnd, B_BITS)] = t;
         }
 
         for (i = 0; i < B + 2; i++)

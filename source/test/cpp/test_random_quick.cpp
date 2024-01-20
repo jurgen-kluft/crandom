@@ -16,19 +16,19 @@ UNITTEST_SUITE_BEGIN(random_quick)
 		{
 			rndquick sRnd;
 
-			u32 ru = sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
+			u32 ru = random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
 			sRnd.reset(132465);
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
 			sRnd.reset(-1325);
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
 			sRnd.reset('a');
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
 		}
 
 		UNITTEST_TEST(Rand)
@@ -36,16 +36,16 @@ UNITTEST_SUITE_BEGIN(random_quick)
 			rndquick sRnd;
 
 			u32 ru;
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
-			ru=sRnd.generate();
-			CHECK_NOT_EQUAL(ru,sRnd.generate());
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
+			ru=random_u32(&sRnd);
+			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
 
 			for(s32 i=0;i<50;i++)
 			{
-				ru=sRnd.generate();
+				ru=random_u32(&sRnd);
 				CHECK_EQUAL((ru>=0),true);
 				if(ru%3!=0) CHECK_NOT_EQUAL(ru/3*3,ru);
 			}
