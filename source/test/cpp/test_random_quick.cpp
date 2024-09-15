@@ -15,6 +15,7 @@ UNITTEST_SUITE_BEGIN(random_quick)
 		UNITTEST_TEST(Init)
 		{
 			rndquick sRnd;
+            sRnd.reset();
 
 			u32 ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru,random_u32(&sRnd));
@@ -34,6 +35,7 @@ UNITTEST_SUITE_BEGIN(random_quick)
 		UNITTEST_TEST(Rand)
 		{
 			rndquick sRnd;
+            sRnd.reset();
 
 			u32 ru;
 			ru=random_u32(&sRnd);
@@ -50,7 +52,23 @@ UNITTEST_SUITE_BEGIN(random_quick)
 				if(ru%3!=0) CHECK_NOT_EQUAL(ru/3*3,ru);
 			}
 		}
+
+		UNITTEST_TEST(RandBool)
+		{
+			rndquick sRnd;
+            sRnd.reset();
+
+			u32 rbool = 0;
+			u32 trueCount = 0, falseCount = 0;
+			for (s32 i = 0; i < 50; i++)
+			{
+				rbool = random_bool(&sRnd);
+				CHECK_EQUAL(rbool != 1 && rbool != 0, false);
+				trueCount += rbool ? 1 : 0;
+				falseCount += rbool ? 0 : 1;
+			}
+			CHECK_TRUE(trueCount > 0 && falseCount > 0);
+		}
 	}
-	
 }
 UNITTEST_SUITE_END

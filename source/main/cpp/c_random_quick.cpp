@@ -37,9 +37,9 @@ namespace ncore
         state.mS1 = s1;
     }
 
-    nrnd::quick_t::quick_t() 
-    : mS0(0)
-    , mS1(0)
+    nrnd::quick_t::quick_t()
+        : mS0(0)
+        , mS1(0)
     {
     }
 

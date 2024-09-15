@@ -11,7 +11,7 @@ UNITTEST_SUITE_BEGIN(perlin)
         UNITTEST_FIXTURE_SETUP() {}
         UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(noise_noise1D)
+		UNITTEST_TEST(noise1D)
 		{
 			noise snoise;
 			f32 rfT=0.1f;
@@ -26,7 +26,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 				if((s32)rf2%2!=0)CHECK_EQUAL(rf2==((rf2/2)*2),true);
 			}
 		}
-		UNITTEST_TEST(noise_noise2D)
+		UNITTEST_TEST(noise2D)
 		{
 			noise snoise;
 			f32 rfX=0.7f,rfY=1.2f;
@@ -42,7 +42,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 				if((s32)rf2%2!=0)CHECK_EQUAL(rf2==((rf2/2)*2),true);
 			}
 		}
-		UNITTEST_TEST(noise_noise3D)
+		UNITTEST_TEST(noise3D)
 		{
 			noise snoise;
 			f32 rfX=0.2f,rfY=0.4f,rfZ=0.8f;
@@ -60,12 +60,13 @@ UNITTEST_SUITE_BEGIN(perlin)
 			}
 		}
 	}
-	UNITTEST_FIXTURE(xturbnoise)
+
+	UNITTEST_FIXTURE(turbnoise)
 	{
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(xturbnoise_evaluate)
+		UNITTEST_TEST(evaluate)
 		{
 			tnoise sxTBn;
 			f32 rf=0.3f,rf2=0.9f;
@@ -84,14 +85,14 @@ UNITTEST_SUITE_BEGIN(perlin)
 				CHECK_EQUAL((rf3<1)&&(rf3>-1),true);
 			}
 		}
-		UNITTEST_TEST(xturbnoise_getFrequency)
+		UNITTEST_TEST(getFrequency)
 		{
 			tnoise sxTBn;
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 			sxTBn.evaluate(654131.0000f);
 			CHECK_EQUAL(sxTBn.getFrequency(),1.0f);
 		}
-		UNITTEST_TEST(xturbnoise_setFrequency)
+		UNITTEST_TEST(setFrequency)
 		{
 			tnoise sxTBn;
 			sxTBn.setFrequency(1.2f);
@@ -110,7 +111,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 		UNITTEST_FIXTURE_SETUP() {}
 		UNITTEST_FIXTURE_TEARDOWN() {}
 
-		UNITTEST_TEST(pnoise_evaluate)
+		UNITTEST_TEST(evaluate)
 		{
 			pnoise sxpn;
 			f32 rf=0.3f,rf2=0.9f;
@@ -129,21 +130,21 @@ UNITTEST_SUITE_BEGIN(perlin)
 				CHECK_EQUAL((rf3<1)&&(rf3>-1),true);
 			}
 		}
-		UNITTEST_TEST(pnoise_getPersistence)
+		UNITTEST_TEST(getPersistence)
 		{
 			pnoise sxpn;
 			CHECK_EQUAL(sxpn.getPersistence(),1.0f);
 			sxpn.evaluate(97);
 			CHECK_EQUAL(sxpn.getPersistence(),1.0f);
 		}
-		UNITTEST_TEST(pnoise_getOctaves)
+		UNITTEST_TEST(getOctaves)
 		{
 			pnoise sxpn;
 			CHECK_EQUAL(sxpn.getOctaves(),1);
 			sxpn.evaluate(97);
 			CHECK_EQUAL(sxpn.getOctaves(),1);
 		}
-		UNITTEST_TEST(pnoise_setPersistence)
+		UNITTEST_TEST(setPersistence)
 		{
 			pnoise sxpn;
 			sxpn.setPersistence(1.2f);
@@ -156,7 +157,7 @@ UNITTEST_SUITE_BEGIN(perlin)
 			sxpn.setPersistence(-132.0f);
 			CHECK_EQUAL(sxpn.getPersistence(),-132.0f);
 		}
-		UNITTEST_TEST(pnoise_setOctaves)
+		UNITTEST_TEST(setOctaves)
 		{
 			pnoise sxpn;
 			//sxpn.setOctaves(1.2f);//warning

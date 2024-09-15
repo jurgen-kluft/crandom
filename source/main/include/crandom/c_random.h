@@ -29,10 +29,7 @@ namespace ncore
                 N = 624
             };
             u32  mStateData[N];
-            u32* mState;
-            u32* mNextState;
-            s32  mLeft;
-            bool mInitialized;
+            s32  mIndex;
 
             mt_t();
             void reset(s64 seed = 0);

@@ -4,137 +4,82 @@
 
 namespace ncore
 {
-    enum EPeriodParameters
+    namespace nmersenne
     {
-        N        = 624,
-        M        = 397,
-        MATRIX_A = 0x9908b0df, ///< Constant vector a
-        UMASK    = 0x80000000, ///< Most significant w-r bits
-        LMASK    = 0x7fffffff  ///< Least significant r bits
-    };
+        enum EPeriodParameters
+        {
+            N                = 624,        // State vector length
+            M                = 397,        // State vector M
+            MATRIX_A         = 0x9908b0df, // Constant vector a
+            UMASK            = 0x80000000, // Most significant w-r bits
+            LMASK            = 0x7fffffff, // Least significant r bits
+            TEMPERING_MASK_B = 0x9d2c5680,
+            TEMPERING_MASK_C = 0xefc60000,
+        };
 
-    inline u32 mixBits(u32 u, u32 v) { return (u & UMASK) | (v & LMASK); }
-    inline u32 twist(u32 u, u32 v) { return (mixBits(u, v) >> 1) ^ ((v & 1) ? MATRIX_A : 0); }
+        void state_seed(nrnd::mt_t& state, s64 inSeed)
+        {
+            state.mStateData[0] = (u32)inSeed & (u32)0xffffffff;
+            for (state.mIndex = 1; state.mIndex < N; state.mIndex++)
+            {
+                state.mStateData[state.mIndex] = ((u32)1812433253 * (state.mStateData[state.mIndex - 1] ^ (state.mStateData[state.mIndex - 1] >> 30)) + state.mIndex);
+                state.mStateData[state.mIndex] &= (u32)0xffffffff;
+            }
+        }
 
-    void state_reset(nrnd::mt_t& state)
-    {
-        state.mState       = nullptr;
-        state.mNextState   = nullptr;
-        state.mLeft        = 0;
-        state.mInitialized = false;
-    }
+        void state_generate(nrnd::mt_t& state, u8* outData, u32 numBytes)
+        {
+            u32 i = 0;
+            while (i < numBytes)
+            {
+                u32 y;
+                if (state.mIndex >= N || state.mIndex < 0)
+                {
+                    /* generate N words at a time */
+                    s32 kk;
+                    if (state.mIndex >= N + 1 || state.mIndex < 0)
+                    {
+                        state_seed(state, 4357);
+                    }
+                    for (kk = 0; kk < N - M; kk++)
+                    {
+                        y                    = (state.mStateData[kk] & UMASK) | (state.mStateData[kk + 1] & LMASK);
+                        state.mStateData[kk] = state.mStateData[kk + M] ^ (y >> 1) ^ ((y & 0x1) ? MATRIX_A : 0x0);
+                    }
+                    for (; kk < N - 1; kk++)
+                    {
+                        y                    = (state.mStateData[kk] & UMASK) | (state.mStateData[kk + 1] & LMASK);
+                        state.mStateData[kk] = state.mStateData[kk + (M - N)] ^ (y >> 1) ^ ((y & 0x1) ? MATRIX_A : 0x0);
+                    }
+                    y                       = (state.mStateData[N - 1] & UMASK) | (state.mStateData[0] & LMASK);
+                    state.mStateData[N - 1] = state.mStateData[M - 1] ^ (y >> 1) ^ ((y & 0x1) ? MATRIX_A : 0x0);
+                    state.mIndex            = 0;
+                }
+                y = state.mStateData[state.mIndex++];
+                y ^= (y >> 11);
+                y ^= (y << 7) & TEMPERING_MASK_B;
+                y ^= (y << 15) & TEMPERING_MASK_C;
+                y ^= (y >> 18);
+
+                u32       j  = 0;
+                u8 const* rp = (u8*)&y;
+                while (j < 4 && i < numBytes)
+                {
+                    outData[i++] = rp[j++];
+                }
+            }
+        }
+    } // namespace nmersenne
 
     nrnd::mt_t::mt_t()
-        : mState(nullptr)
-        , mNextState(nullptr)
-        , mLeft(0)
-        , mInitialized(false)
+        : mIndex(-1)
     {
-        state_reset(*this);
+        const s64 seed = 5489;
+        nmersenne::state_seed(*this, seed);
     }
 
-    void state_seed(nrnd::mt_t& state, s64 inSeed)
-    {
-        if (state.mState == nullptr)
-            state.mState = state.mStateData;
+    void nrnd::mt_t::reset(s64 seed) { nmersenne::state_seed(*this, seed); }
 
-        state.mState[0] = (u32)inSeed & (u32)0xffffffff;
-        for (s32 j = 1; j < N; j++)
-        {
-            state.mState[j] = ((u32)1812433253 * (state.mState[j - 1] ^ (state.mState[j - 1] >> 30)) + j);
-            state.mState[j] &= (u32)0xffffffff;
-        }
-        state.mLeft        = 1;
-        state.mInitialized = true;
-    }
-
-    void state_seed_from_array(nrnd::mt_t& state, u32 const* inSeedArray, s32 inLength)
-    {
-        state_seed(state, 0);
-
-        s32 i = 1;
-        s32 j = 0;
-
-        s32 k = (N > inLength) ? N : inLength;
-
-        for (; k; k--)
-        {
-            state.mState[i] = (state.mState[i] ^ ((state.mState[i - 1] ^ (state.mState[i - 1] >> 30)) * (u32)1664525)) + inSeedArray[j] + j;
-            state.mState[i] &= (u32)0xffffffff;
-
-            i++;
-            j++;
-            if (i >= N)
-            {
-                state.mState[0] = state.mState[N - 1];
-                i               = 1;
-            }
-            if (j >= inLength)
-                j = 0;
-        }
-        for (k = N - 1; k; k--)
-        {
-            state.mState[i] = (state.mState[i] ^ ((state.mState[i - 1] ^ (state.mState[i - 1] >> 30)) * (u32)1566083941)) - i;
-            state.mState[i] &= (u32)0xffffffff;
-
-            i++;
-            if (i >= N)
-            {
-                state.mState[0] = state.mState[N - 1];
-                i               = 1;
-            }
-        }
-
-        state.mState[0]    = 0x80000000; // MSB is 1; assuring non-zero initial array
-        state.mLeft        = 1;
-        state.mInitialized = true;
-    }
-
-    void state_generate_new(nrnd::mt_t& state)
-    {
-        // If Seed() has not been called, a default initial seed is used
-        if (!state.mInitialized)
-            state_seed(state, 0);
-
-        state.mLeft      = N;
-        state.mNextState = state.mState;
-
-        u32* statePtr = state.mState;
-
-        s32 j;
-        for (j = N - M + 1; --j; statePtr++)
-            *statePtr = statePtr[M] ^ twist(statePtr[0], statePtr[1]);
-
-        for (j = M; --j; statePtr++)
-            *statePtr = statePtr[M - N] ^ twist(statePtr[0], statePtr[1]);
-
-        *statePtr = statePtr[M - N] ^ twist(statePtr[0], state.mState[0]);
-    }
-
-    void state_generate(nrnd::mt_t& state, u8* outData, u32 numBytes)
-    {
-        u32 i = 0;
-        while (i < numBytes)
-        {
-            if (--state.mLeft == 0)
-                state_generate_new(state);
-            u32 r = *state.mNextState++;
-
-            u32 j = 0;
-            u8 const* rp = (u8*)&r;
-            while (j < 4 && i < numBytes)
-            {
-                outData[i++] = rp[j++];
-            }
-        }
-    }
-
-    void nrnd::mt_t::reset(s64 seed)
-    {
-        state_reset(*this);
-        state_seed(*this, seed);
-    }
-
-    void nrnd::mt_t::generate(u8* outData, u32 numBytes) { return state_generate(*this, outData, numBytes); }
+    void nrnd::mt_t::generate(u8* outData, u32 numBytes) { return nmersenne::state_generate(*this, outData, numBytes); }
 
 } // namespace ncore

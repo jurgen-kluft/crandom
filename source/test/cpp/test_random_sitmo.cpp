@@ -15,6 +15,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(Init)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			u32 ru;
 			ru=random_u32(&sRnd);
@@ -34,6 +35,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(Rand)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			u32 ru;
 			ru=random_u32(&sRnd);
@@ -53,6 +55,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(RandSign)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			s32 rs;
 			rs=random_s32(&sRnd);
@@ -74,6 +77,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(RandF)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			f32 rfloat;
 			rfloat=random_f32(&sRnd);
@@ -89,6 +93,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(RandFSign)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			f32 rfloat;
 			u32 zzz=0,zzz2=0;
@@ -108,6 +113,7 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 		UNITTEST_TEST(randBool)
 		{
 			rndsitmo sRnd;
+            sRnd.reset();
 
 			u32 rbool=0;
 			u32 ru=0,ru2=0;
@@ -121,6 +127,6 @@ UNITTEST_SUITE_BEGIN(random_sitmo)
 			CHECK_EQUAL(ru==1&&ru2==1,true);
 		}
 	}
-	
+
 }
 UNITTEST_SUITE_END

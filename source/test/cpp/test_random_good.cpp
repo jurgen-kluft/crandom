@@ -19,6 +19,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 		UNITTEST_TEST(Init)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			u32 ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
@@ -38,6 +39,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 		UNITTEST_TEST(Rand)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			u32 ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
@@ -66,6 +68,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 		UNITTEST_TEST(RandSign)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			s32 rs = random_s32(&sRnd);
 			CHECK_NOT_EQUAL(rs, random_s32(&sRnd));
@@ -93,6 +96,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 		UNITTEST_TEST(RandF)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			f32 rfloat;
 			rfloat = random_f32(&sRnd);
@@ -109,6 +113,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 		UNITTEST_TEST(RandFSign)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			f32 rfloat;
 			u32 zzz = 0, zzz2 = 0;
@@ -128,22 +133,22 @@ UNITTEST_SUITE_BEGIN(random_good)
 			}
 			CHECK_EQUAL(zzz == 1 && zzz2 == 1, true);
 		}
+
 		UNITTEST_TEST(RandBool)
 		{
 			rndgood sRnd;
+            sRnd.reset();
 
 			u32 rbool = 0;
-			u32 ru = 0, ru2 = 0;
+			u32 trueCount = 0, falseCount = 0;
 			for (s32 i = 0; i < 50; i++)
 			{
 				rbool = random_bool(&sRnd);
-				if (rbool == 1)
-					ru = 1;
-				else
-					ru2 = 1;
 				CHECK_EQUAL(rbool != 1 && rbool != 0, false);
+				trueCount += rbool ? 1 : 0;
+				falseCount += rbool ? 0 : 1;
 			}
-			CHECK_EQUAL(ru == 1 && ru2 == 1, true);
+			CHECK_TRUE(trueCount > 0 && falseCount > 0);
 		}
 	}
 }
