@@ -29,13 +29,13 @@ UNITTEST_SUITE_BEGIN(random_good)
 			sRnd.reset(-1325);
 			ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
-			//sRnd.Init(1.0f);//warning
 			ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
 			sRnd.reset('a');
 			ru = random_u32(&sRnd);
 			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
 		}
+
 		UNITTEST_TEST(Rand)
 		{
 			rndgood sRnd;
