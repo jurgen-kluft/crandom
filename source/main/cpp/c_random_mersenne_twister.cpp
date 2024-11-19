@@ -82,4 +82,18 @@ namespace ncore
 
     void nrnd::mt_t::generate(u8* outData, u32 numBytes) { return nmersenne::state_generate(*this, outData, numBytes); }
 
+    u32 nrnd::mt_t::rand32()
+    {
+        u32 r;
+        nmersenne::state_generate(*this, (u8*)&r, sizeof(r));
+        return r;
+    }
+
+    u64 nrnd::mt_t::rand64()
+    {
+        u64 r;
+        nmersenne::state_generate(*this, (u8*)&r, sizeof(r));
+        return r;
+    }
+
 } // namespace ncore

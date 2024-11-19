@@ -12,34 +12,34 @@ UNITTEST_SUITE_BEGIN(random_mt)
         UNITTEST_FIXTURE_SETUP() {}
         UNITTEST_FIXTURE_TEARDOWN() {}
 
-        UNITTEST_TEST(generate_u32)
+        UNITTEST_TEST(rand32)
         {
             rndmersenne sRnd;
             sRnd.reset();
 
-            CHECK_NOT_EQUAL(sRnd.generate_u32(), sRnd.generate_u32());
+            CHECK_NOT_EQUAL(sRnd.rand32(), sRnd.rand32());
             sRnd.reset(12345679);
-            CHECK_NOT_EQUAL(sRnd.generate_u32(), sRnd.generate_u32());
+            CHECK_NOT_EQUAL(sRnd.rand32(), sRnd.rand32());
             sRnd.reset(-132);
-            CHECK_NOT_EQUAL(sRnd.generate_u32(), sRnd.generate_u32());
-            CHECK_NOT_EQUAL(sRnd.generate_u32(), sRnd.generate_u32());
+            CHECK_NOT_EQUAL(sRnd.rand32(), sRnd.rand32());
+            CHECK_NOT_EQUAL(sRnd.rand32(), sRnd.rand32());
             sRnd.reset('x');
-            CHECK_NOT_EQUAL(sRnd.generate_u32(), sRnd.generate_u32());
+            CHECK_NOT_EQUAL(sRnd.rand32(), sRnd.rand32());
         }
 
-        UNITTEST_TEST(generate_u64)
+        UNITTEST_TEST(rand64)
         {
             rndmersenne sRnd;
             sRnd.reset();
 
-            CHECK_NOT_EQUAL(sRnd.generate_u64(), sRnd.generate_u64());
+            CHECK_NOT_EQUAL(sRnd.rand64(), sRnd.rand64());
             sRnd.reset(12345679);
-            CHECK_NOT_EQUAL(sRnd.generate_u64(), sRnd.generate_u64());
+            CHECK_NOT_EQUAL(sRnd.rand64(), sRnd.rand64());
             sRnd.reset(-132);
-            CHECK_NOT_EQUAL(sRnd.generate_u64(), sRnd.generate_u64());
-            CHECK_NOT_EQUAL(sRnd.generate_u64(), sRnd.generate_u64());
+            CHECK_NOT_EQUAL(sRnd.rand64(), sRnd.rand64());
+            CHECK_NOT_EQUAL(sRnd.rand64(), sRnd.rand64());
             sRnd.reset('x');
-            CHECK_NOT_EQUAL(sRnd.generate_u64(), sRnd.generate_u64());
+            CHECK_NOT_EQUAL(sRnd.rand64(), sRnd.rand64());
         }
 
         UNITTEST_TEST(RandBool)
@@ -51,7 +51,7 @@ UNITTEST_SUITE_BEGIN(random_mt)
             u32 trueCount = 0, falseCount = 0;
             for (s32 i = 0; i < 50; i++)
             {
-                rbool = random_bool(&sRnd);
+                rbool = g_random_bool(&sRnd);
                 CHECK_EQUAL(rbool != 1 && rbool != 0, false);
                 trueCount += rbool ? 1 : 0;
                 falseCount += rbool ? 0 : 1;

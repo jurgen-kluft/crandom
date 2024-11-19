@@ -19,6 +19,8 @@ namespace ncore
             good_t();
             void reset(s64 seed = 0);
             void generate(u8* outData, u32 numBytes);
+            u32  rand32();
+            u64  rand64();
         };
         extern good_t good;
 
@@ -34,6 +36,8 @@ namespace ncore
             mt_t();
             void reset(s64 seed = 0);
             void generate(u8* outData, u32 numBytes);
+            u32  rand32();
+            u64  rand64();
         };
         extern mt_t mersenne;
 
@@ -45,6 +49,8 @@ namespace ncore
             quick_t();
             void reset(s64 seed = 0);
             void generate(u8* outData, u32 numBytes);
+            u32  rand32();
+            u64  rand64();
         };
         extern quick_t quick;
 
@@ -58,39 +64,10 @@ namespace ncore
             sitmo_t();
             void reset(s64 seed = 0);
             void generate(u8* outData, u32 numBytes);
+            u32  rand32();
+            u64  rand64();
         };
         extern sitmo_t sitmo;
-
-        template <class T> inline bool random_bool(T* inRandom)
-        {
-            u8 val;
-            inRandom->generate(&val, 1);
-            return val == 0;
-        }
-
-        template <class T> inline u32 random_u32(T* inRandom, u32 inBits = 32)
-        {
-            ASSERT(inBits <= 32);
-            u32 val;
-            u8* pval = (u8*)&val;
-            inRandom->generate(pval, 4);
-            return (val >> (32 - inBits));
-        }
-
-        template <class T> inline s32 random_s32(T* inRandom, u32 inBits = 31)
-        {
-            ASSERT(inBits <= 31);
-            return (random_u32(inRandom, inBits + 1) - (1 << inBits));
-        }
-
-        template <class T> inline f32 random_f32(T* inRandom)
-        {
-            u32 r          = random_u32(inRandom);
-            u32 fake_float = (r >> (32 - 23)) | 0x3f800000;
-            return ((*(f32*)&fake_float) - 1.0f);
-        }
-
-        template <class T> inline f32 random_f32S(T* inRandom) { return ((random_f32(inRandom) - 0.5f) * 2.0f); }
 
     }; // namespace nrnd
 

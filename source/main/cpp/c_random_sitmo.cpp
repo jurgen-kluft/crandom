@@ -221,5 +221,17 @@ namespace ncore
     nrnd::sitmo_t::sitmo_t() { nsitmo::state_seed(*this, (s64)0xdeadbeefdeadbeef); }
     void nrnd::sitmo_t::reset(s64 seed) { nsitmo::state_seed(*this, seed); }
     void nrnd::sitmo_t::generate(u8* outData, u32 numBytes) { return nsitmo::state_generate(*this, outData, numBytes); }
+    u32  nrnd::sitmo_t::rand32()
+    {
+        u32 r;
+        nsitmo::state_generate(*this, (u8*)&r, sizeof(u32));
+        return r;
+    }
+    u64  nrnd::sitmo_t::rand64()
+    {
+        u64 r;
+        nsitmo::state_generate(*this, (u8*)&r, sizeof(u64));
+        return r;
+    }
 
 } // namespace ncore

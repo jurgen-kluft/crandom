@@ -21,19 +21,19 @@ UNITTEST_SUITE_BEGIN(random_good)
 			rndgood sRnd;
             sRnd.reset();
 
-			u32 ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
+			u32 ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
 			sRnd.reset(132465);
-			ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
+            ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
 			sRnd.reset(-1325);
-			ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
-			ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
+            ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
+            ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
 			sRnd.reset('a');
-			ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
+            ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
 		}
 
 		UNITTEST_TEST(Rand)
@@ -41,17 +41,17 @@ UNITTEST_SUITE_BEGIN(random_good)
 			rndgood sRnd;
             sRnd.reset();
 
-			u32 ru = random_u32(&sRnd);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd));
-			ru = random_u32(&sRnd,10);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd, 10));
-			ru = random_u32(&sRnd,31);
-			CHECK_NOT_EQUAL(ru, random_u32(&sRnd, 31));
+			u32 ru = g_random_u32(&sRnd);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd));
+            ru = g_random_u32(&sRnd, 10);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd, 10));
+            ru = g_random_u32(&sRnd, 31);
+            CHECK_NOT_EQUAL(ru, g_random_u32(&sRnd, 31));
 
 			u32 history[50];
 			for (s32 i = 0; i < 50; i++)
 			{
-				ru = random_u32(&sRnd);
+                ru = g_random_u32(&sRnd);
 				for (s32 j = 0; j < i; ++j)
 				{
 					CHECK_NOT_EQUAL(ru, history[j]);
@@ -70,17 +70,17 @@ UNITTEST_SUITE_BEGIN(random_good)
 			rndgood sRnd;
             sRnd.reset();
 
-			s32 rs = random_s32(&sRnd);
-			CHECK_NOT_EQUAL(rs, random_s32(&sRnd));
-			rs = random_s32(&sRnd, 10);
-			CHECK_NOT_EQUAL(rs, random_s32(&sRnd, 10));
-			rs = random_u32(&sRnd, 31);
-			CHECK_NOT_EQUAL(rs, random_s32(&sRnd, 31));
+			s32 rs = g_random_s32(&sRnd);
+			CHECK_NOT_EQUAL(rs, g_random_s32(&sRnd));
+			rs = g_random_s32(&sRnd, 10);
+			CHECK_NOT_EQUAL(rs, g_random_s32(&sRnd, 10));
+			rs = g_random_u32(&sRnd, 31);
+			CHECK_NOT_EQUAL(rs, g_random_s32(&sRnd, 31));
 
 			u32 zzz = 0, zzz2 = 0;
 			for (s32 i = 0; i < 50; i++)
 			{
-				rs = random_u32(&sRnd);
+				rs = g_random_u32(&sRnd);
 
 				if (rs > 0)
 					zzz = 1;
@@ -99,11 +99,11 @@ UNITTEST_SUITE_BEGIN(random_good)
             sRnd.reset();
 
 			f32 rfloat;
-			rfloat = random_f32(&sRnd);
-			CHECK_NOT_EQUAL(rfloat, random_f32(&sRnd));
+			rfloat = g_random_f32(&sRnd);
+			CHECK_NOT_EQUAL(rfloat, g_random_f32(&sRnd));
 			for (s32 i = 0; i < 50; i++)
 			{
-				rfloat = random_f32(&sRnd);
+				rfloat = g_random_f32(&sRnd);
 				CHECK_EQUAL(rfloat >= 0.0, true);
 				CHECK_EQUAL(rfloat <= 1.0, true);
 				if ((s32)rfloat % 3 != 0)
@@ -117,11 +117,11 @@ UNITTEST_SUITE_BEGIN(random_good)
 
 			f32 rfloat;
 			u32 zzz = 0, zzz2 = 0;
-			rfloat = random_f32S(&sRnd);
-			CHECK_NOT_EQUAL(rfloat, random_f32S(&sRnd));
+			rfloat = g_random_f32S(&sRnd);
+			CHECK_NOT_EQUAL(rfloat, g_random_f32S(&sRnd));
 			for (s32 i = 0; i < 50; i++)
 			{
-				rfloat = random_f32S(&sRnd);
+				rfloat = g_random_f32S(&sRnd);
 				CHECK_EQUAL(rfloat >= -1.0, true);
 				CHECK_EQUAL(rfloat <= 1.0, true);
 				if (rfloat > 0.0)
@@ -143,7 +143,7 @@ UNITTEST_SUITE_BEGIN(random_good)
 			u32 trueCount = 0, falseCount = 0;
 			for (s32 i = 0; i < 50; i++)
 			{
-				rbool = random_bool(&sRnd);
+				rbool = g_random_bool(&sRnd);
 				CHECK_EQUAL(rbool != 1 && rbool != 0, false);
 				trueCount += rbool ? 1 : 0;
 				falseCount += rbool ? 0 : 1;

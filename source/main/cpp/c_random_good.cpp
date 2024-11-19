@@ -16,11 +16,38 @@ namespace ncore
     {
     }
 
-    void state_reset(nrnd::good_t& state, s32 inSeed)
+    void state_reset(nrnd::good_t& state, s64 inSeed)
     { // Create random table
         for (s32 i = 0; i < static_cast<s32>(256 + sizeof(u32)); i++)
             state.mArray[i] = sChaos[(u8)(inSeed + i)]; // Create semi-random table
         state.mIndex = (u8)inSeed;                      // Start index
+    }
+
+    u32 state_gen_u32(nrnd::good_t& state)
+    {
+        u32 r1 = (state.mIndex + 4 * 53) & 0xFF;
+        u32 r2 = (state.mIndex + 4) & 0xFF;
+        u32 r  = *((u32*)(state.mArray + r1));
+        *((u32*)(state.mArray + r2)) ^= r;
+        state.mIndex = r2;
+        return r;
+    }
+
+    u64 state_gen_u64(nrnd::good_t& state)
+    {
+        u32 ra1 = (state.mIndex + 4 * 53) & 0xFF;
+        u32 ra2 = (state.mIndex + 4) & 0xFF;
+        u32 ra = *((u32*)(state.mArray + ra1));
+        *((u32*)(state.mArray + ra2)) ^= ra;
+        state.mIndex = ra2;
+
+        u32 rb1 = (state.mIndex + 4 * 53) & 0xFF;
+        u32 rb2 = (state.mIndex + 4) & 0xFF;
+        u32 rb = *((u32*)(state.mArray + rb1));
+        *((u32*)(state.mArray + rb2)) ^= rb;
+        state.mIndex = rb2;
+
+        return ((u64)ra << 32) | rb;
     }
 
     void state_generate(nrnd::good_t& state, u8* outData, u32 numBytes)
@@ -55,19 +82,21 @@ namespace ncore
                 *((u32*)(state.mArray + r2)) ^= r;
                 state.mIndex = r2;
 
-				u8 const* rp = (u8 const*)&r;
-				u32 j        = 0;
-				while (j < 4 && i < numBytes)
-				{
-					outData[i] = rp[j];
-					i++;
-					j++;
-				}
+                u8 const* rp = (u8 const*)&r;
+                u32       j  = 0;
+                while (j < 4 && i < numBytes)
+                {
+                    outData[i] = rp[j];
+                    i++;
+                    j++;
+                }
             }
         }
     }
 
     void nrnd::good_t::reset(s64 seed) { state_reset(*this, seed); }
     void nrnd::good_t::generate(u8* outData, u32 numBytes) { return state_generate(*this, outData, numBytes); }
+    u32  nrnd::good_t::rand32() { return state_gen_u32(*this); }
+    u64  nrnd::good_t::rand64() { return state_gen_u64(*this); }
 
 } // namespace ncore

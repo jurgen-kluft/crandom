@@ -45,5 +45,17 @@ namespace ncore
 
     void nrnd::quick_t::reset(s64 seed) { state_reset(*this, seed); }
     void nrnd::quick_t::generate(u8* outData, u32 numBytes) { state_generate(*this, outData, numBytes); }
+    u32  nrnd::quick_t::rand32()
+    {
+        u32 r;
+        generate((u8*)&r, sizeof(r));
+        return r;        
+    }
+    u64  nrnd::quick_t::rand64()
+    {
+        u64 r;
+        generate((u8*)&r, sizeof(r));
+        return r;
+    }
 
 } // namespace ncore

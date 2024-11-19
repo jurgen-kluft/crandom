@@ -2,6 +2,7 @@
 #include "ccore/c_debug.h"
 
 #include "crandom/c_random.h"
+#include "crandom/c_random_good.h"
 #include "crandom/c_perlin.h"
 
 namespace ncore
@@ -45,27 +46,27 @@ namespace ncore
     {
         mRefCount = 0;
 
-        nrnd::good_t rnd;
+        rndgood rnd;
         rnd.reset(0);
 
         s32 i;
         for (i = 0; i < B; i++)
         {
             mP[i]     = i;
-            mG1[i]    = nrnd::random_f32S<nrnd::good_t>(&rnd);
-            mG2[i][0] = nrnd::random_f32<nrnd::good_t>(&rnd);
-            mG2[i][1] = nrnd::random_f32<nrnd::good_t>(&rnd);
-            mG3[i][0] = nrnd::random_f32<nrnd::good_t>(&rnd);
-            mG3[i][1] = nrnd::random_f32<nrnd::good_t>(&rnd);
-            mG3[i][2] = nrnd::random_f32<nrnd::good_t>(&rnd);
+            mG1[i]    = g_random_f32S(&rnd);
+            mG2[i][0] = g_random_f32(&rnd);
+            mG2[i][1] = g_random_f32(&rnd);
+            mG3[i][0] = g_random_f32(&rnd);
+            mG3[i][1] = g_random_f32(&rnd);
+            mG3[i][2] = g_random_f32(&rnd);
         }
 
         // Reorder permutations
         while (--i)
         {
             s32 t                                         = mP[i];
-            mP[i]                                         = mP[nrnd::random_u32<nrnd::good_t>(&rnd, B_BITS)];
-            mP[nrnd::random_u32<nrnd::good_t>(&rnd, B_BITS)] = t;
+            mP[i]                                         = mP[g_random_u32(&rnd, B_BITS)];
+            mP[g_random_u32(&rnd, B_BITS)] = t;
         }
 
         for (i = 0; i < B + 2; i++)
